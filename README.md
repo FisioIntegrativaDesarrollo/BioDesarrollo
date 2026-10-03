@@ -5,19 +5,6 @@ Modelo didáctico e interactivo de las primeras siete divisiones de la segmentac
 El proyecto es una página HTML autocontenida (sin dependencias ni conexión a internet) y una hoja de cálculo con el resumen y el conteo celular.
 
 
-## Cómo usarlo
-
-1. Descarga o clona el repositorio.
-2. Abre `segmentacion_erizo_de_mar.html` en cualquier navegador moderno.
-3. Navega por los estadios con los botones (1, 2, 4, 8, 16, 32, 64 y 128 células), con las flechas, o con el botón **Reproducir** para ver la secuencia automática.
-4. También puedes hacer clic en una fila de la tabla o en una barra del gráfico para saltar a ese estadio.
-
-```bash
-git clone <URL-de-tu-repositorio>
-cd <carpeta>
-# abre el archivo en el navegador
-```
-
 ## Qué muestra el modelo
 
 La segmentación es **holoblástica radial**: el huevo se divide por completo y las divisiones siguen planos simétricos respecto al eje animal-vegetal. Las primeras siete divisiones son estereotípicas, es decir, siguen el mismo patrón en todos los individuos de la especie.
@@ -32,7 +19,7 @@ La segmentación es **holoblástica radial**: el huevo se divide por completo y 
 | 6.ª | 64 | Animal: meridional. Vegetal: ecuatorial | Se alternan los planos |
 | 7.ª | 128 | Animal: ecuatorial. Vegetal: meridional | El patrón se invierte; blástula de 128 células |
 
-Después de la 7.ª segmentación las divisiones pierden su regularidad estereotípica.
+Después de la 7.ª segmentación, las divisiones pierden su regularidad estereotípica.
 
 ## Contenido didáctico
 
