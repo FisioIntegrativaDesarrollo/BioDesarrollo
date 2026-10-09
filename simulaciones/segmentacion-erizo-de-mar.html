@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Segmentación holoblástica radial en el erizo de mar</title>
+<style>
+:root{--bg:#fafaf8;--fg:#1f1f1d;--mut:#5f5e5a;--card:#fff;--line:#8a8880;--bd:#d9d7cf;--ac:#185FA5;--acbg:#E6F1FB;--hi:#FAEEDA;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1c1a;--fg:#ececE8;--mut:#b4b2a9;--card:#262624;--line:#9a988f;--bd:#3d3d3a;--ac:#85B7EB;--acbg:#0C447C;--hi:#412402}}
+:root[data-theme="dark"]{--bg:#1c1c1a;--fg:#ececE8;--mut:#b4b2a9;--card:#262624;--line:#9a988f;--bd:#3d3d3a;--ac:#85B7EB;--acbg:#0C447C;--hi:#412402}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:20px 16px 32px}
+h1{font-size:22px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--mut);font-size:14px;margin:0 0 16px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px}
+button{font:inherit;font-size:13px;padding:6px 11px;background:transparent;color:var(--fg);border:1px solid var(--bd);border-radius:8px;cursor:pointer}
+button:hover{background:var(--card)}
+button.on{background:var(--acbg);color:var(--ac);border-color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.card h2{font-size:14px;font-weight:500;margin:0 0 6px;color:var(--mut)}
+svg{display:block;width:100%;height:auto}
+svg text{fill:var(--mut);font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 10px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 12px}
+.st small{display:block;color:var(--mut);font-size:12px}
+.st b{font-size:22px;font-weight:500}
+#t{font-size:16px;font-weight:500;margin:0 0 2px}
+#x{color:var(--mut);font-size:14px;margin:0 0 14px}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin:0 0 14px}
+.leg i{display:inline-block;width:10px;height:10px;margin-right:5px;border:1px solid var(--line)}
+.tw{overflow-x:auto;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:620px}
+th{text-align:left;font-weight:500;padding:8px 10px;border-bottom:1px solid var(--bd);color:var(--mut)}
+td{padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tr.cur td{background:var(--hi)}
+tr{cursor:pointer}
+.chart{display:flex;align-items:flex-end;gap:6px;height:90px;margin-top:6px}
+.chart div{flex:1;background:var(--bd);border-radius:4px 4px 0 0;position:relative;min-height:3px}
+.chart div.cur{background:var(--ac)}
+.chart span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:11px;color:var(--mut)}
+.pop{transform-box:fill-box;transform-origin:center;animation:pop .45s ease-out}
+@keyframes pop{from{opacity:.35;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
+.qo{display:block;width:100%;text-align:left;margin:6px 0;font-size:14px}
+.qo.ok{border-color:#1D9E75;background:rgba(29,158,117,.18)}
+.qo.no{border-color:#E24B4A;background:rgba(226,75,74,.18)}
+#qf{font-size:14px;color:var(--mut);margin:8px 0;min-height:20px}
+.pal{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:0 0 14px;font-size:13px;color:var(--mut)}
+.pal label{display:flex;align-items:center;gap:6px}
+.pal input{width:34px;height:26px;padding:0;border:1px solid var(--bd);border-radius:6px;background:transparent;cursor:pointer}
+.note{color:var(--mut);font-size:12px;margin-top:10px}
+#fig .th{font-size:13px;font-weight:500;fill:var(--fg)}
+#fig .ts{font-size:12px;fill:var(--mut)}
+#fig .leader{stroke:var(--mut);stroke-width:.6;stroke-dasharray:3 3}
+#fig .arr{stroke:var(--mut);stroke-width:1.5;fill:none}
+</style>
+</head>
+<body>
+<main>
+<h1>Segmentación holoblástica radial en el erizo de mar</h1>
+<p class="sub">Modelo integrado: vista lateral, vista desde el polo animal, conteo celular y resumen de cada división.</p>
+<div class="bar" id="bar"></div>
+<div class="pal"><label>Polo animal <input type="color" id="ca" value="#85B7EB"></label><label>Polo vegetal <input type="color" id="cv" value="#F0997B"></label><label>Micrómeras <input type="color" id="cm" value="#AFA9EC"></label><button id="cr">Restablecer colores</button></div>
+<div class="grid">
+  <div class="card"><h2>Vista lateral (polo animal arriba)</h2>
+    <svg viewBox="0 0 300 330" role="img" aria-label="Vista lateral del embrión">
+      <text x="150" y="12" text-anchor="middle">Polo animal</text>
+      <text x="150" y="326" text-anchor="middle">Polo vegetal</text>
+      <defs><clipPath id="cp"><circle cx="150" cy="170" r="125"/></clipPath></defs>
+      <g id="lat" clip-path="url(#cp)"></g>
+      <circle cx="150" cy="170" r="125" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+    </svg></div>
+  <div class="card"><h2>Vista desde el polo animal</h2>
+    <svg viewBox="0 0 300 300" role="img" aria-label="Embrión visto desde el polo animal"><g id="pol"></g></svg></div>
+  <div class="card"><h2>Vista desde el polo vegetal</h2>
+    <svg viewBox="0 0 300 300" role="img" aria-label="Embrión visto desde el polo vegetal"><g id="veg"></g></svg></div>
+</div>
+<div class="stats">
+  <div class="st"><small>División</small><b id="d">0</b></div>
+  <div class="st"><small>Células totales</small><b id="n">1</b></div>
+  <div class="st"><small>Visibles desde arriba</small><b id="v">1</b></div>
+</div>
+<p id="t"></p><p id="x"></p>
+<div class="leg">
+  <span><i data-c="#85B7EB" style="background:#85B7EB"></i>Animal (an1)</span>
+  <span><i data-c="#B5D4F4" style="background:#B5D4F4"></i>Animal (an2)</span>
+  <span><i data-c="#F0997B" style="background:#F0997B"></i>Vegetal</span>
+  <span><i data-c="#F5C4B3" style="background:#F5C4B3"></i>Vegetal (2.º piso)</span>
+  <span><i data-c="#AFA9EC" style="background:#AFA9EC"></i>Micrómeras</span>
+</div>
+<div class="card" style="margin-bottom:14px"><h2>Crecimiento del número de células (2ⁿ)</h2><div class="chart" id="ch"></div><div style="height:18px"></div></div>
+<div class="card" style="margin-bottom:14px"><h2>Diagrama de las divisiones (estilo figura 8-7, hasta 128 células)</h2>
+<svg id="fig" viewBox="0 0 900 540" role="img" aria-label="Fila superior: planos de las tres primeras divisiones. Fila inferior: hileras de células en los estadios de 8, 16, 32, 64 y 128 células.">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g id="art"></g></svg></div>
+<div class="tw"><table><thead><tr><th>Segmentación</th><th>Células</th><th>Plano / tipo</th><th>Qué ocurre</th></tr></thead><tbody id="tb"></tbody></table></div>
+<div class="card" id="qz" style="margin-top:14px"></div>
+<p class="note">Esquema idealizado: las capas se dibujan con altura regular y el reparto celular en 64 y 128 células es aproximado. Después de la 7.ª segmentación las divisiones dejan de ser estereotípicas.</p>
+</main>
+<script>
+var DA='#85B7EB',DV='#F0997B',DM='#AFA9EC',PAL={a:DA,v:DV,m:DM};
+function mix(h,tc,t){var n=parseInt(h.slice(1),16),T=tc==='w'?255:0,f=function(x){return Math.round(x+(T-x)*t)};return '#'+((1<<24)+(f(n>>16)<<16)+(f((n>>8)&255)<<8)+f(n&255)).toString(16).slice(1).toUpperCase()}
+function cmap(){var m={};
+ if(PAL.a!==DA){m['#85B7EB']=PAL.a;m['#B5D4F4']=mix(PAL.a,'w',.45);m['#378ADD']=mix(PAL.a,'k',.3);m['#E6F1FB']=mix(PAL.a,'w',.75)}
+ if(PAL.v!==DV){m['#F0997B']=PAL.v;m['#FAC775']=PAL.v;m['#F5C4B3']=mix(PAL.v,'w',.45)}
+ if(PAL.m!==DM){m['#AFA9EC']=PAL.m;m['#E24B4A']=PAL.m}
+ return m}
+function recolor(s){var m=cmap();return s.replace(/#[0-9A-Fa-f]{6}/g,function(h){return m[h.toUpperCase()]||h})}
+var A='#85B7EB',B='#B5D4F4',V='#F0997B',W='#F5C4B3',M='#AFA9EC';
+var S=[
+{l:'1',n:1,t:'Cigoto',p:'—',x:'Huevo fecundado, una sola célula. Eje animal-vegetal definido.',b:[[-1,1,1,B]],r:[[-1,0,1,B]]},
+{l:'2',n:2,t:'1.ª segmentación',p:'Meridional',x:'El plano pasa por ambos polos y separa dos blastómeras iguales.',b:[[-1,1,2,B]],r:[[-1,0,2,B]]},
+{l:'4',n:4,t:'2.ª segmentación',p:'Meridional, perpendicular a la 1.ª',x:'También pasa por los polos. Cuatro blastómeras iguales; desde arriba se ve una cruz.',b:[[-1,1,4,B]],r:[[-1,0,4,B]]},
+{l:'8',n:8,t:'3.ª segmentación',p:'Ecuatorial',x:'Separa los hemisferios animal (4 células) y vegetal (4 células).',b:[[-1,0,4,A],[0,1,4,V]],r:[[-1,0,4,A]]},
+{l:'16',n:16,t:'4.ª segmentación',p:'Asimétrica',x:'Piso animal: división meridional igual, 8 mesómeras. Piso vegetal: división ecuatorial desigual, 4 macrómeras y 4 micrómeras en el polo vegetal.',b:[[-1,0,8,A],[0,0.55,4,V],[0.55,1,4,M]],r:[[-1,0,8,A]]},
+{l:'32',n:32,t:'5.ª segmentación',p:'Animal: ecuatorial. Vegetal: meridional',x:'Mesómeras: capas an1 y an2 de 8 células. Macrómeras: anillo de 8 células bajo an2. Las micrómeras se dividen un poco más tarde.',b:[[-1,-0.5,8,A],[-0.5,0,8,B],[0,0.5,8,V],[0.5,1,8,M]],r:[[-1,-0.5,8,A],[-0.5,0,8,B]]},
+{l:'64',n:64,t:'6.ª segmentación',p:'Animal: meridional. Vegetal: ecuatorial',x:'Alternancia de planos: las células animales se dividen meridionalmente y las vegetales ecuatorialmente.',b:[[-1,-0.5,16,A],[-0.5,0,16,B],[0,0.25,16,V],[0.25,0.5,16,W],[0.5,1,8,M]],r:[[-1,-0.5,16,A],[-0.5,0,16,B]]},
+{l:'128',n:128,t:'7.ª segmentación',p:'Animal: ecuatorial. Vegetal: meridional',x:'El patrón se invierte. Blástula de 128 células; desde aquí se pierde la regularidad estereotípica.',b:[[-1,-0.75,16,A],[-0.75,-0.5,16,B],[-0.5,-0.25,16,A],[-0.25,0,16,B],[0,0.25,32,V],[0.25,0.5,32,W],[0.5,1,8,M]],r:[[-1,-0.75,16,A],[-0.75,-0.5,16,B],[-0.5,-0.25,16,A],[-0.25,0,16,B]]}
+];
+var cur=0,timer=null,cx=150,cy=170,R=125,C=150,RP=135,LN='var(--line)';
+function lat(f){return cy+f*R}
+function rad(f){return RP*Math.sqrt(1-f*f)}
+function pt(r,a){return (C+r*Math.cos(a)).toFixed(1)+' '+(C+r*Math.sin(a)).toFixed(1)}
+function $(i){return document.getElementById(i)}
+function drawLat(s){
+ var g='';
+ s.b.forEach(function(b){
+  var y1=lat(b[0]),y2=lat(b[1]);
+  g+='<rect x="0" y="'+y1+'" width="300" height="'+(y2-y1)+'" fill="'+b[3]+'" stroke="'+LN+'"/>';
+  var m=(b[0]+b[1])/2,rr=R*Math.sqrt(1-m*m),n=b[2];
+  if(n>=2)for(var k=0;k<=n/2;k++){var x=cx+rr*Math.sin(-Math.PI/2+k*2*Math.PI/n);
+   g+='<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" stroke="'+LN+'"/>';}
+ });
+ $('lat').innerHTML=recolor(g);
+}
+function rings(list){
+ var g='',vis=0;
+ list.forEach(function(b){
+  var r1=rad(b[0]),r2=rad(b[1]),n=b[2];vis+=n;
+  if(n===1){g+='<circle cx="'+C+'" cy="'+C+'" r="'+r2+'" fill="'+b[3]+'" stroke="'+LN+'"/>';return}
+  var off=(n===4||n===2)?Math.PI/4:0;
+  for(var k=0;k<n;k++){
+   var a1=off+k*2*Math.PI/n,a2=off+(k+1)*2*Math.PI/n,lg=(a2-a1>Math.PI)?1:0,d;
+   if(r1<0.5)d='M '+C+' '+C+' L '+pt(r2,a1)+' A '+r2+' '+r2+' 0 '+lg+' 1 '+pt(r2,a2)+' Z';
+   else d='M '+pt(r1,a1)+' L '+pt(r2,a1)+' A '+r2+' '+r2+' 0 '+lg+' 1 '+pt(r2,a2)+' L '+pt(r1,a2)+' A '+r1+' '+r1+' 0 '+lg+' 0 '+pt(r1,a1)+' Z';
+   g+='<path d="'+d+'" fill="'+b[3]+'" stroke="'+LN+'"/>';
+  }
+ });
+ return {g:g+'<circle cx="'+C+'" cy="'+C+'" r="2.5" fill="'+LN+'"/>',vis:vis};
+}
+function drawPol(s){var o=rings(s.r);$('pol').innerHTML=recolor(o.g);return o.vis}
+function drawVeg(s){
+ var l=s.b.map(function(b){return b[0]<0&&b[1]>0?[-1,0,b[2],b[3]]:[-b[1],-b[0],b[2],b[3]]}).filter(function(b){return b[1]<=0});
+ $('veg').innerHTML=recolor(rings(l).g);
+}
+function pop(){['lat','pol','veg'].forEach(function(id){var g=$(id);g.classList.remove('pop');void g.getBoundingClientRect();g.classList.add('pop')})}
+function draw(){
+ var s=S[cur];
+ drawLat(s);
+ $('v').textContent=drawPol(s);
+ drawVeg(s);pop();
+ $('d').textContent=cur;
+ $('n').textContent=s.n;
+ $('t').textContent=s.t;
+ $('x').textContent=s.x;
+ var i,bs=document.querySelectorAll('#bar .st1'),rs=document.querySelectorAll('#tb tr'),cs=document.querySelectorAll('#ch div');
+ for(i=0;i<bs.length;i++)bs[i].className='st1'+(i===cur?' on':'');
+ for(i=0;i<rs.length;i++)rs[i].className=i===cur?'cur':'';
+ for(i=0;i<cs.length;i++)cs[i].className=i===cur?'cur':'';
+}
+function go(i){cur=Math.max(0,Math.min(S.length-1,i));draw()}
+function stop(){if(timer){clearInterval(timer);timer=null;$('pl').textContent='Reproducir'}}
+(function init(){
+ var h='<button id="pv" aria-label="Anterior">&larr;</button>';
+ S.forEach(function(s,i){h+='<button class="st1" data-i="'+i+'">'+s.l+' cél.</button>'});
+ h+='<button id="nx" aria-label="Siguiente">&rarr;</button><button id="pl">Reproducir</button>';
+ $('bar').innerHTML=h;
+ $('bar').addEventListener('click',function(e){
+  var t=e.target,i=t.getAttribute('data-i');
+  if(i!==null){stop();go(+i)}
+ });
+ $('pv').onclick=function(){stop();go(cur-1)};
+ $('nx').onclick=function(){stop();go(cur+1)};
+ $('pl').onclick=function(){
+  if(timer){stop();return}
+  if(cur>=S.length-1)go(0);
+  $('pl').textContent='Pausar';
+  timer=setInterval(function(){if(cur>=S.length-1){stop();return}go(cur+1)},1600);
+ };
+ var tb='',ch='',mx=128;
+ S.forEach(function(s,i){
+  tb+='<tr data-i="'+i+'"><td>'+(i===0?'Cigoto':s.t.split(':')[0])+'</td><td>'+s.n+'</td><td>'+s.p+'</td><td>'+s.x+'</td></tr>';
+  ch+='<div style="height:'+Math.max(3,Math.round(s.n/mx*100))+'%"><span>'+s.n+'</span></div>';
+ });
+ $('tb').innerHTML=tb;$('ch').innerHTML=ch;
+ $('tb').addEventListener('click',function(e){var r=e.target.closest('tr');if(r){stop();go(+r.getAttribute('data-i'))}});
+ $('ch').addEventListener('click',function(e){var d=e.target.closest('div');if(d){var k=Array.prototype.indexOf.call($('ch').children,d);stop();go(k)}});
+ draw();
+})();
+(function(){
+var BL='#85B7EB',LB='#B5D4F4',DB='#378ADD',YE='#FAC775',CO='#F5C4B3',RD='#E24B4A',PA='#E6F1FB',OL='#2C2C2A',NS='';
+function cell(cx,cy,rx,ry,top,bot,sp){
+ var o='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+bot+'"/>';
+ if(top!==bot){var yb=cy+sp*ry,w=rx*Math.sqrt(1-sp*sp);
+  o+='<path d="M'+(cx-w)+' '+yb+' A'+rx+' '+ry+' 0 '+(sp>0?1:0)+' 1 '+(cx+w)+' '+yb+' Z" fill="'+top+'"/>';}
+ return o+'<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="none" stroke="'+OL+'" stroke-width="1"/>';
+}
+function row(n,x0,dx,cy,rx,ry,top,bot,sp){var o='';for(var i=0;i<n;i++)o+=cell(x0+i*dx,cy,rx,ry,top,bot,sp);return o}
+function plane(p,o){return '<polygon points="'+p+'" fill="'+LB+'" fill-opacity="'+o+'" stroke="'+DB+'" stroke-width="0.8"/>'}
+function tx(x,y,c,t,a){return '<text class="'+c+'" x="'+x+'" y="'+y+'" text-anchor="'+(a||'middle')+'" dominant-baseline="central">'+t+'</text>'}
+function ld(x1,y1,x2,y2){return '<line class="leader" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>'}
+function ar(x1,y,x2){return '<line class="arr" x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" marker-end="url(#arrow)"/>'}
+var t='',b='';
+t+=tx(110,16,'th','Polo animal');
+t+=cell(110,125,62,62,BL,YE,0);
+t+='<path d="M52 125Q110 108 168 125M52 125L168 125M52 125Q110 142 168 125" fill="none" stroke="#D4537E" stroke-width="1"/><circle cx="52" cy="125" r="3.5" fill="#fff" stroke="#D4537E"/><circle cx="168" cy="125" r="3.5" fill="#fff" stroke="#D4537E"/>';
+t+=plane('88,30 150,42 150,208 88,196',0.45)+tx(110,226,'th','Polo vegetal')+tx(110,252,'ts','1.ª división: meridional')+ar(185,125,215);
+t+=cell(266,125,38,62,BL,YE,0)+cell(344,125,38,62,BL,YE,0)+plane('228,36 380,24 380,214 228,200',0.28)+tx(305,252,'ts','2.ª división: meridional')+ar(398,125,428);
+t+=cell(482,108,32,54,BL,YE,0.05)+cell(578,108,32,54,BL,YE,0.05)+cell(512,128,34,58,BL,YE,0)+cell(548,128,34,58,BL,YE,0)+plane('448,128 626,128 650,108 472,108',0.55)+tx(548,252,'ts','3.ª división: ecuatorial');
+b+='<line x1="40" y1="276" x2="860" y2="276" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4 4"/>';
+b+=tx(80,298,'ts','Mitad animal')+row(2,58,44,340,24,24,BL,BL,0)+row(2,58,44,386,24,24,BL,YE,-0.5)+tx(80,432,'ts','Mitad vegetal')+tx(80,478,'th','8 células')+tx(80,496,'ts','3.ª división')+ar(118,380,148);
+b+=row(4,168,30,326,17,15,LB,LB,0)+row(3,184,30,348,19,17,BL,BL,0)+row(3,176,36,384,22,24,BL,YE,-0.55)+cell(204,417,8,7,RD,RD,0)+cell(222,418,8,7,RD,RD,0);
+b+=tx(212,296,'th','Mesómeras')+ld(212,304,212,326)+tx(242,448,'th','Macrómeras')+ld(232,440,222,402)+tx(160,448,'th','Micrómeras')+ld(176,440,200,422)+tx(212,478,'th','16 células')+tx(212,496,'ts','4.ª división')+ar(272,380,302);
+b+=row(4,322,26,322,13,12,LB,LB,0)+row(4,322,26,344,14,13,DB,DB,0)+row(4,322,26,370,15,15,BL,YE,-0.6)+row(3,335,26,396,14,14,YE,YE,0)+cell(348,418,7,6,RD,RD,0)+cell(364,418,7,6,RD,RD,0);
+b+=tx(398,322,'th','an₁','start')+ld(396,322,384,322)+tx(398,344,'th','an₂','start')+ld(396,344,384,344)+tx(354,478,'th','32 células')+tx(354,496,'ts','5.ª división')+ar(430,380,460);
+b+=row(5,490,24,306,11,10,PA,PA,0)+row(5,490,24,326,12,11,LB,LB,0)+row(5,490,24,347,12,12,BL,BL,0)+row(5,490,24,370,12,12,BL,YE,-0.5)+row(4,502,24,393,12,12,YE,YE,0)+row(3,514,24,416,11,11,CO,CO,0)+cell(526,436,7,6,RD,RD,0)+cell(542,436,7,6,RD,RD,0);
+b+=tx(626,326,'th','an₁','start')+ld(624,326,604,326)+tx(626,350,'th','an₂','start')+ld(624,350,604,350)+tx(626,386,'th','veg₁','start')+ld(624,386,602,386)+tx(626,412,'th','veg₂','start')+ld(624,412,596,412)+tx(540,478,'th','64 células')+tx(540,496,'ts','6.ª división')+ar(668,380,716);
+var e=[[300,PA,PA,0],[317,LB,LB,0],[334,BL,BL,0],[351,DB,DB,0],[370,BL,YE,-0.5],[390,YE,YE,0],[408,CO,CO,0]];
+e.forEach(function(r){b+=row(r[0]===408?5:6,r[0]===408?753:744,18,r[0],8.5,r[0]>=370?10:8.5,r[1],r[2],r[3])});
+b+=cell(782,428,6,5,RD,RD,0)+cell(796,428,6,5,RD,RD,0);
+b+=tx(870,310,'th','an₁','start')+ld(868,310,834,310)+tx(870,343,'th','an₂','start')+ld(868,343,834,343)+tx(870,370,'th','veg₁','start')+ld(868,370,834,370)+tx(870,408,'th','veg₂','start')+ld(868,408,834,408);
+b+=tx(790,478,'th','128 células')+tx(790,496,'ts','7.ª división');
+window.figRaw='<g transform="translate(125,0)">'+t+'</g>'+b;
+window.renderFig=function(){document.getElementById('art').innerHTML=recolor(window.figRaw)};
+renderFig();
+})();
+</script>
+<script>
+(function(){
+ function apply(){
+  var l=document.querySelectorAll('.leg i'),m=cmap();
+  for(var i=0;i<l.length;i++){var c=l[i].getAttribute('data-c');l[i].style.background=m[c.toUpperCase()]||c}
+  draw();renderFig();
+ }
+ function bind(id,k){document.getElementById(id).addEventListener('input',function(e){PAL[k]=e.target.value.toUpperCase();apply()})}
+ bind('ca','a');bind('cv','v');bind('cm','m');
+ document.getElementById('cr').onclick=function(){
+  PAL={a:DA,v:DV,m:DM};
+  document.getElementById('ca').value=DA;document.getElementById('cv').value=DV;document.getElementById('cm').value=DM;apply();
+ };
+})();
+</script>
+<script>
+(function(){
+var Q=[
+['¿Qué significa que la segmentación sea holoblástica?',['El huevo se divide por completo','Solo se divide un disco en el polo animal','Las divisiones ocurren solo en la superficie'],0,'Los planos de división atraviesan todo el huevo.'],
+['¿Cómo son la 1.ª y la 2.ª segmentación?',['Ecuatoriales y paralelas','Meridionales y perpendiculares entre sí','Una meridional y otra ecuatorial'],1,'Ambas pasan por los polos y se cortan perpendicularmente: 4 blastómeras iguales.'],
+['¿Qué separa la 3.ª segmentación?',['Micrómeras de macrómeras','Lado derecho de izquierdo','Hemisferios animal y vegetal'],2,'Es ecuatorial: 4 células animales y 4 vegetales.'],
+['¿Qué tiene de especial la 4.ª segmentación?',['Es igual en ambos hemisferios','Es asimétrica: el piso vegetal se divide de forma desigual','Solo se dividen las células animales'],1,'El piso animal da 8 mesómeras; el vegetal, 4 macrómeras y 4 micrómeras.'],
+['¿Cuántas células hay tras la 4.ª segmentación?',['8','16','32'],1,'8 mesómeras + 4 macrómeras + 4 micrómeras = 16.'],
+['En la 5.ª segmentación, ¿qué hacen las mesómeras?',['Se dividen meridionalmente en un anillo de 8','Se dividen ecuatorialmente y forman an₁ y an₂','No se dividen'],1,'La división ecuatorial las apila en dos capas, an₁ y an₂.'],
+['¿Qué patrón siguen la 6.ª y la 7.ª segmentación?',['Alternan los planos; en la 7.ª se invierte lo de la 6.ª','Repiten el mismo plano en ambos hemisferios','Son aleatorias'],0,'6.ª: animales meridional, vegetales ecuatorial. 7.ª: al revés.'],
+['¿Qué ocurre después de las 128 células?',['Siguen igual de regulares','Pierden su regularidad estereotípica','Se detienen'],1,'Las primeras siete divisiones son estereotípicas; después deja de ser tan regular.']
+];
+var i=0,sc=0,done=false,box=document.getElementById('qz');
+function show(){
+ if(i>=Q.length){box.innerHTML='<h2>Quiz de repaso</h2><p style="font-size:18px;margin:6px 0">Puntaje: '+sc+' de '+Q.length+'</p><button id="qr">Reintentar</button>';
+  document.getElementById('qr').onclick=function(){i=0;sc=0;show()};return}
+ done=false;var q=Q[i],h='<h2>Quiz de repaso · pregunta '+(i+1)+' de '+Q.length+'</h2><p style="margin:0 0 6px;font-weight:500">'+q[0]+'</p>';
+ q[1].forEach(function(o,k){h+='<button class="qo" data-k="'+k+'">'+o+'</button>'});
+ box.innerHTML=h+'<div id="qf"></div><button id="qn" style="display:none">'+(i===Q.length-1?'Ver puntaje':'Siguiente')+'</button>';
+}
+box.addEventListener('click',function(e){
+ var t=e.target;
+ if(t.id==='qn'){i++;show();return}
+ if(!t.classList.contains('qo')||done)return;
+ done=true;var k=+t.getAttribute('data-k'),q=Q[i],bs=box.querySelectorAll('.qo');
+ bs[q[2]].classList.add('ok');
+ if(k===q[2]){sc++;document.getElementById('qf').textContent='Correcto. '+q[3]}
+ else{t.classList.add('no');document.getElementById('qf').textContent='No exactamente. '+q[3]}
+ document.getElementById('qn').style.display='inline-block';
+});
+show();
+})();
+</script>
+</body>
+</html>

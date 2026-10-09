@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Embriología comparada de vertebrados</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef3f4;--surface:#fff;--ink:#14272e;--muted:#566a72;--line:#cfdadd;--accent:#0b7a75;--accent-soft:#d5ece9;--yolk:#f2c14e;--cell:#7fc4bd;--cell-line:#0b5f5b;--ecto:#3d7fd1;--meso:#d1495b;--endo:#e08a1e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a1e;--surface:#16262c;--ink:#e6f0f1;--muted:#9bb0b5;--line:#2a3f46;--accent:#4fd1c5;--accent-soft:#1b3a3c;--yolk:#d9a93c;--cell:#2f8f88;--cell-line:#9be5dd;--ecto:#6fa8f0;--meso:#ef7a8a;--endo:#f0a84a}}
+:root[data-theme="dark"]{--bg:#0e1a1e;--surface:#16262c;--ink:#e6f0f1;--muted:#9bb0b5;--line:#2a3f46;--accent:#4fd1c5;--accent-soft:#1b3a3c;--yolk:#d9a93c;--cell:#2f8f88;--cell-line:#9be5dd;--ecto:#6fa8f0;--meso:#ef7a8a;--endo:#f0a84a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Source Sans 3",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 18px 56px}
+h1{font:600 clamp(1.7rem,4.5vw,2.6rem)/1.15 "Fraunces",Georgia,serif;margin:0 0 8px;max-width:20ch}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 24px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tabs button{font:inherit;font-weight:600;padding:9px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tabs button[aria-selected="true"]{color:#06201e}}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hero{display:grid;grid-template-columns:200px 1fr;gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px;align-items:center}
+.hero svg{width:100%;height:auto}
+.hero h2{margin:0 0 4px;font:600 1.4rem "Fraunces",Georgia,serif}
+.hero p{margin:0;color:var(--muted)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tags span{background:var(--accent-soft);padding:3px 12px;border-radius:999px;font-size:.88rem}
+ol.stages{list-style:none;margin:0 0 36px;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.leg{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 12px;font-weight:600}.leg i{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:7px;vertical-align:-2px}
+#q{font:inherit;padding:9px 14px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);width:100%;max-width:340px;margin:0 0 12px}
+#q:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#defs{min-width:640px}#defs tbody th{width:170px}#defs td:nth-child(2){width:120px;color:var(--muted)}
+.models{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0 36px}
+.models>div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.models svg{width:100%;height:auto;display:block;margin-bottom:8px}
+.models h3{margin:0 0 4px;font-size:1rem}
+.models p{margin:0;font-size:.93rem;color:var(--muted)}
+#gal{min-width:820px}#gal td{text-align:center}#gal svg{width:140px;height:auto}
+ol.stages li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;border-top:4px solid var(--accent)}
+ol.stages h3{margin:0 0 6px;font-size:1rem}
+ol.stages p{margin:0;font-size:.93rem;color:var(--muted)}
+h2.sec{font:600 1.4rem "Fraunces",Georgia,serif;margin:0 0 4px}
+.note{color:var(--muted);margin:0 0 12px;font-size:.93rem}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:.92rem}
+th,td{padding:10px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{background:var(--accent-soft)}
+tbody th{font-weight:600;width:130px}
+.hl{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.keys{margin:32px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.keys li{padding-left:16px;border-left:4px solid var(--accent)}
+@media (max-width:860px){ol.stages{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.hero svg{max-width:200px}}
+@media (max-width:760px){.models{grid-template-columns:1fr}}
+@media (max-width:520px){ol.stages{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Del cigoto a las tres capas germinales</h1>
+<p class="lead">Elige un grupo de vertebrados para ver cómo cambian la fecundación, la segmentación, la mórula, la blástula y la gástrula. La tabla de abajo los compara a todos.</p>
+
+<div class="tabs" role="tablist" id="tabs"></div>
+<section class="hero" id="hero" aria-live="polite"></section>
+<ol class="stages" id="stages"></ol>
+
+<h2 class="sec">Modelos de mórula, blástula y gástrula</h2>
+<p class="note">Cortes esquemáticos del grupo elegido. En mórula y blástula, verde: células y amarillo pálido: vitelo; en la gástrula, cada capa germinal tiene su color.</p>
+<p class="leg"><span><i style="background:var(--ecto)"></i>Ectodermo</span><span><i style="background:var(--meso)"></i>Mesodermo</span><span><i style="background:var(--endo)"></i>Endodermo</span></p>
+<div class="models" id="models"></div>
+
+<h2 class="sec">Galería comparativa de modelos</h2>
+<p class="note">Las tres etapas de los cinco grupos, lado a lado.</p>
+<div class="scroll" style="margin-bottom:36px"><table id="gal"></table></div>
+
+<h2 class="sec">Comparación entre grupos</h2>
+<p class="note">La columna del grupo elegido aparece resaltada.</p>
+<div class="scroll"><table id="tbl"></table></div>
+
+<h2 class="sec" style="margin-top:36px">Definiciones</h2>
+<p class="note">Escribe para filtrar por término, etapa o definición.</p>
+<input id="q" type="search" placeholder="Buscar, por ejemplo: blastocele" aria-label="Buscar en las definiciones">
+<div class="scroll"><table id="defs"><thead><tr><th>Término</th><th>Etapa</th><th>Definición</th></tr></thead><tbody></tbody></table></div>
+
+<ul class="keys">
+<li><strong>El vitelo manda.</strong> A más vitelo, más restringida la segmentación: oligolecito → holoblástica; mesolecito → holoblástica desigual; telolecito → meroblástica discoidal.</li>
+<li><strong>Los amniotas comparten la línea primitiva</strong> (reptiles, aves, mamíferos); peces y anfibios gastrulan por movimientos celulares masivos.</li>
+<li><strong>Solo los mamíferos forman blastocisto</strong> con trofoblasto, ligado a la implantación y la placenta.</li>
+<li><strong>Todos forman ectodermo, mesodermo y endodermo.</strong></li>
+</ul>
+</div>
+
+<script>
+const G=[
+{id:"peces",n:"Peces",pat:"disc",yolk:.85,seg:"Meroblástica discoidal",egg:"Telolecito",
+fec:"Externa en la mayoría de los teleósteos; interna en condrictios y algunos vivíparos. Monospermia: el espermatozoide entra por el micropilo. La reacción cortical forma el blastodisco.",
+sg:"Solo se divide el blastodisco del polo animal. Rápida y sincrónica; los surcos no atraviesan el vitelo.",
+mo:"Masa de células apiladas sobre el vitelo.",
+bl:"El blastodermo se asienta sobre el sincitio vitelino (periblasto); el blastocele queda entre ambos.",
+ga:"Epibolia, involución y convergencia-extensión. Se forma el escudo embrionario."},
+{id:"anfibios",n:"Anfibios",pat:"unequal",yolk:.5,seg:"Holoblástica desigual",egg:"Mesolecito",
+fec:"Externa en anuros; interna en urodelos (espermatóforo) y cecilias. Monospermia en anuros. La rotación cortical forma la media luna gris, que define el eje dorsoventral.",
+sg:"Se divide todo el huevo. El 3.er surco es latitudinal y desplazado al polo animal: micrómeros arriba, macrómeros abajo.",
+mo:"Esfera sólida de 16 a 64 células.",
+bl:"Celoblástula con blastocele excéntrico en el hemisferio animal.",
+ga:"Invaginación del blastoporo (labio dorsal), involución y epibolia; se forma el arquenterón. El labio dorsal actúa como organizador de Spemann."},
+{id:"reptiles",n:"Reptiles",pat:"disc",yolk:.9,seg:"Meroblástica discoidal",egg:"Telolecito con cáscara",
+fec:"Interna. Polispermia fisiológica: un solo pronúcleo masculino se fusiona y los demás degeneran.",
+sg:"Solo se divide el blastodisco, a ritmo moderado, sobre una gran masa de vitelo.",
+mo:"Masa celular sobre el vitelo.",
+bl:"Blastodermo con cavidad subgerminal.",
+ga:"Las células ingresan por el blastoporo o la línea primitiva y forman las tres capas."},
+{id:"aves",n:"Aves",pat:"disc",yolk:.92,seg:"Meroblástica discoidal",egg:"Telolecito con cáscara",
+fec:"Interna, en el infundíbulo del oviducto. Polispermia fisiológica, como en reptiles.",
+sg:"Discoidal y de ritmo moderado; el blastodisco queda como un pequeño disco sobre el vitelo.",
+mo:"Masa celular sobre el vitelo.",
+bl:"Blastodermo con cavidad subgerminal; se distinguen el área pelúcida y la opaca.",
+ga:"Línea primitiva, surco y nodo de Hensen. Epiblasto e hipoblasto dan paso a las tres capas."},
+{id:"mamiferos",n:"Mamíferos",pat:"rot",yolk:.05,seg:"Holoblástica rotacional",egg:"Oligolecito",
+fec:"Interna, en la ampolla de la trompa uterina. Requiere capacitación, reacción acrosómica y reacción cortical. Monospermia: el espermatozoide atraviesa la zona pelúcida.",
+sg:"Se divide todo el huevo, lenta (12–24 h) y asincrónica. Los blastómeros son de tamaño similar y se compactan a las 8 células.",
+mo:"Esfera compacta de unas 16 células, con uniones estrechas.",
+bl:"Blastocisto: trofoblasto, masa celular interna y blastocele.",
+ga:"Disco bilaminar, línea primitiva y nodo; se forma el disco trilaminar."}
+];
+const ROWS=[["Fecundación","fec"],["Huevo","egg"],["Segmentación","seg"],["Detalle","sg"],["Mórula","mo"],["Blástula","bl"],["Gástrula","ga"]];
+const ST=[["Fecundación","fec"],["Segmentación","sg"]];
+const $=s=>document.getElementById(s);
+
+const Y="var(--yolk)",K="var(--cell)",L="var(--cell-line)",S="var(--surface)",A="var(--accent)";
+const ce=(x,y,r,f=K)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" stroke="${L}" stroke-width="1.5"/>`;
+const tx=(x,y,t,a="middle")=>`<text x="${x}" y="${y}" font-size="9" text-anchor="${a}" fill="var(--ink)">${t}</text>`;
+const lay=(y,x0,n,dx,r)=>Array.from({length:n},(_,i)=>ce(x0+i*dx,y,r)).join("");
+const arc=(cx,cy,r,a0,a1,n)=>Array.from({length:n},(_,i)=>{const a=(a0+(a1-a0)*i/(n-1))*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)]});
+const yolk=`<ellipse cx="100" cy="115" rx="85" ry="40" fill="${Y}" opacity=".5" stroke="${L}" stroke-width="1.5"/>`;
+const ball=`<circle cx="100" cy="72" r="62" fill="${Y}" opacity=".35" stroke="${L}" stroke-width="1.5"/>`;
+const xs=Array.from({length:11},(_,i)=>30+14*i);
+function layers(label,extra){
+  const epi=xs.map((x,i)=>ce(x,i==5?66:(i==4||i==6)?60:56,6.5,"var(--ecto)")).join("");
+  const hyp=xs.map(x=>ce(x,100,5,"var(--endo)")).join("");
+  const meso=[62,76,88,112,124,138].map(x=>ce(x,82,5,"var(--meso)")).join("");
+  return (extra||"")+epi+hyp+meso+`<path d="M100 72V80" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 2"/>`+
+   tx(2,58,"ecto","start")+tx(2,85,"meso","start")+tx(2,103,"endo","start")+label;
+}
+const SV={
+mo:{
+ peces:()=>yolk+lay(68,65,6,14,7)+lay(55,72,5,14,7)+lay(42,80,4,14,7),
+ anfibios:()=>ball+[[80,38],[100,38],[120,38],[70,52],[90,52],[110,52],[130,52],[76,66],[96,66],[116,66]].map(p=>ce(p[0],p[1],7)).join("")+[[72,88],[100,88],[128,88],[86,110],[114,110]].map(p=>ce(p[0],p[1],13,Y)).join(""),
+ reptiles:()=>yolk+lay(72,45,8,15,7)+lay(59,52,7,15,7),
+ aves:()=>yolk+lay(72,32,10,15,6.5)+lay(60,40,9,15,6.5),
+ mamiferos:()=>`<circle cx="100" cy="72" r="64" fill="none" stroke="${L}" stroke-width="2" stroke-dasharray="4 3"/>`+arc(100,72,34,0,308,7).map(p=>ce(p[0],p[1],15)).join("")+arc(100,72,9,0,240,3).map(p=>ce(p[0],p[1],13)).join("")+tx(100,143,"zona pelúcida")
+},
+bl:{
+ peces:()=>yolk+`<path d="M55 80Q100 8 145 80Z" fill="${K}" stroke="${L}" stroke-width="1.5"/><ellipse cx="100" cy="73" rx="34" ry="6" fill="${S}"/><path d="M15 115A85 40 0 0 1 185 115" fill="none" stroke="${L}" stroke-width="3"/>`+tx(100,30,"blastodermo")+tx(100,142,"periblasto sobre el vitelo"),
+ anfibios:()=>ball+`<ellipse cx="100" cy="42" rx="34" ry="14" fill="${S}" stroke="${L}"/>`+arc(100,72,55,-160,-20,11).map(p=>ce(p[0],p[1],6)).join("")+[[70,98],[100,102],[130,98],[85,120],[115,120]].map(p=>ce(p[0],p[1],13,Y)).join("")+tx(100,45,"blastocele"),
+ reptiles:()=>yolk+`<ellipse cx="100" cy="73" rx="55" ry="4" fill="${S}"/><path d="M25 80Q100 48 175 80L175 87Q100 56 25 87Z" fill="${K}" stroke="${L}" stroke-width="1.5"/>`+tx(100,38,"blastodermo")+tx(100,142,"cavidad subgerminal bajo la capa"),
+ aves:()=>yolk+`<ellipse cx="100" cy="73" rx="55" ry="4" fill="${S}"/><path d="M25 80Q100 48 175 80L175 87Q100 56 25 87Z" fill="${K}" stroke="${L}" stroke-width="1.5"/><path d="M62 70Q100 52 138 70L138 74Q100 58 62 74Z" fill="${S}" opacity=".7"/>`+tx(100,38,"área pelúcida (centro)")+tx(100,142,"área opaca (borde)"),
+ mamiferos:()=>`<circle cx="100" cy="72" r="64" fill="none" stroke="${L}" stroke-width="2" stroke-dasharray="4 3"/><circle cx="100" cy="72" r="46" fill="${S}"/>`+arc(100,72,50,0,342,20).map(p=>ce(p[0],p[1],6.5)).join("")+[[84,52],[98,48],[90,64],[106,60]].map(p=>ce(p[0],p[1],9,A)).join("")+tx(100,86,"blastocele")+tx(100,143,"trofoblasto y masa interna")
+},
+ga:{
+ peces:()=>`<circle cx="100" cy="72" r="50" fill="${Y}" opacity=".5" stroke="${L}" stroke-width="1.5"/><path d="M52.4 99.5A55 55 0 1 1 147.6 99.5" fill="none" stroke="var(--ecto)" stroke-width="6"/><path d="M56.7 97A50 50 0 1 1 143.3 97" fill="none" stroke="var(--meso)" stroke-width="3.5"/><path d="M61 94.5A45 45 0 1 1 139 94.5" fill="none" stroke="var(--endo)" stroke-width="3.5"/><ellipse cx="147.6" cy="99.5" rx="7" ry="5" fill="var(--meso)"/>`+tx(47,114,"epibolia ↓","end")+tx(158,118,"escudo","start"),
+ anfibios:()=>`<g transform="translate(-14 0)">`+ball+`<path d="M158.3 93.2A62 62 0 1 1 158.3 50.8" fill="none" stroke="var(--ecto)" stroke-width="6"/><ellipse cx="125" cy="72" rx="36" ry="9" fill="${S}" stroke="var(--endo)" stroke-width="3"/><path d="M150 62Q122 55 92 66" fill="none" stroke="var(--meso)" stroke-width="4"/>`+ce(158,72,7,Y)+tx(118,75,"arquenterón")+`</g>`+tx(150,55,"blastoporo","start"),
+ reptiles:()=>layers(tx(100,34,"línea primitiva")),
+ aves:()=>layers(tx(100,34,"surco y nodo de Hensen")),
+ mamiferos:()=>layers(tx(100,26,"cavidad amniótica")+tx(100,126,"saco vitelino"),`<path d="M30 52Q100 -2 170 52" fill="${S}" stroke="${L}" stroke-dasharray="3 2"/><path d="M30 104Q100 142 170 104Z" fill="${Y}" opacity=".45" stroke="${L}"/>`)
+}};
+const NM={mo:"Mórula",bl:"Blástula",ga:"Gástrula"};
+const model=(id,st)=>`<svg viewBox="0 0 200 145" role="img" aria-label="${NM[st]} de ${id}">${SV[st][id]()}</svg>`;
+function egg(g){
+  const yolkLayer=`<circle cx="100" cy="100" r="88" fill="var(--yolk)" opacity=".35" stroke="var(--cell-line)" stroke-width="2"/>`;
+  const c=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="var(--cell)" stroke="var(--cell-line)" stroke-width="2"/>`;
+  let s="";
+  if(g.pat==="disc"){
+    s=yolkLayer+`<circle cx="100" cy="100" r="88" fill="var(--yolk)" opacity=".5"/>`+
+    c(78,38,13)+c(100,34,13)+c(122,38,13)+c(89,56,12)+c(111,56,12);
+  }else if(g.pat==="unequal"){
+    s=`<circle cx="100" cy="100" r="88" fill="var(--yolk)" opacity=".45" stroke="var(--cell-line)" stroke-width="2"/>`+
+    `<g stroke="var(--cell-line)" stroke-width="2.5" fill="none"><path d="M100 12V188"/><path d="M14 72H186"/></g>`+
+    c(66,40,0.1).replace('r="0.1"','r="0"')+
+    `<g fill="var(--cell)" opacity=".7"><path d="M100 12A88 88 0 0 0 14 72H100Z"/><path d="M100 12A88 88 0 0 1 186 72H100Z"/></g>`;
+  }else{
+    s=`<circle cx="100" cy="100" r="88" fill="none" stroke="var(--cell-line)" stroke-width="2" stroke-dasharray="4 4"/>`+
+    c(70,70,30)+c(130,70,30)+c(70,130,30)+c(130,130,30);
+  }
+  return `<svg viewBox="0 0 200 200" role="img" aria-label="Esquema de segmentación: ${g.seg}">${s}</svg>`;
+}
+
+function render(id){
+  const g=G.find(x=>x.id===id),i=G.indexOf(g);
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.id===id));
+  $("hero").innerHTML=egg(g)+`<div><h2>${g.n}</h2><p>${g.seg}. Huevo: ${g.egg.toLowerCase()}.</p>
+  <div class="tags"><span>Vitelo: ${g.yolk>.7?"abundante":g.yolk>.3?"moderado":"escaso"}</span><span>${g.pat==="rot"?"Se divide todo el huevo":g.pat==="unequal"?"Se divide todo el huevo":"Solo se divide el blastodisco"}</span></div></div>`;
+  $("stages").innerHTML=ST.map((s,k)=>`<li><h3>${k+1}. ${s[0]}</h3><p>${g[s[1]]}</p></li>`).join("");
+  $("models").innerHTML=["mo","bl","ga"].map((st,k)=>`<div>${model(g.id,st)}<h3>${k+3}. ${NM[st]}</h3><p>${g[st]}</p></div>`).join("");
+  document.querySelectorAll("[data-c]").forEach(e=>e.classList.toggle("hl",+e.dataset.c===i));
+}
+
+$("tabs").innerHTML=G.map(g=>`<button role="tab" data-id="${g.id}">${g.n}</button>`).join("");
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)render(b.dataset.id)});
+$("tbl").innerHTML=`<thead><tr><th></th>${G.map((g,i)=>`<th data-c="${i}">${g.n}</th>`).join("")}</tr></thead><tbody>`+
+ROWS.map(r=>`<tr><th>${r[0]}</th>${G.map((g,i)=>`<td data-c="${i}">${g[r[1]]}</td>`).join("")}</tr>`).join("")+`</tbody>`;
+$("gal").innerHTML=`<thead><tr><th></th>${G.map((g,i)=>`<th data-c="${i}">${g.n}</th>`).join("")}</tr></thead><tbody>`+
+["mo","bl","ga"].map(st=>`<tr><th>${NM[st]}</th>${G.map((g,i)=>`<td data-c="${i}">${model(g.id,st)}</td>`).join("")}</tr>`).join("")+`</tbody>`;
+const DEF=[
+["Fecundación","Fecundación","Fusión del espermatozoide con el óvulo para formar el cigoto."],
+["Monospermia","Fecundación","Entrada de un solo espermatozoide en el óvulo."],
+["Polispermia fisiológica","Fecundación","Entrada de varios espermatozoides, pero solo un pronúcleo masculino se fusiona con el femenino (reptiles, aves, urodelos)."],
+["Reacción cortical","Fecundación","Liberación de gránulos corticales que modifica la cubierta del óvulo y bloquea la entrada de más espermatozoides."],
+["Media luna gris","Fecundación","Zona del citoplasma del huevo de anfibio, opuesta al punto de entrada del espermatozoide, que marca el futuro lado dorsal."],
+["Capacitación","Fecundación","Cambios del espermatozoide de mamífero en el tracto femenino que le permiten fecundar."],
+["Zona pelúcida","Fecundación","Cubierta glucoproteica que rodea al óvulo de los mamíferos y que el espermatozoide debe atravesar."],
+["Oligolecito","Huevo","Huevo con muy poco vitelo, repartido de forma pareja (mamíferos)."],
+["Mesolecito","Huevo","Huevo con vitelo moderado, más abundante hacia el polo vegetal (anfibios)."],
+["Telolecito","Huevo","Huevo con mucho vitelo que ocupa casi todo su volumen (peces, reptiles, aves)."],
+["Segmentación","Segmentación","Serie de divisiones mitóticas rápidas del cigoto que reparten su citoplasma en células más pequeñas, sin crecimiento."],
+["Blastómero","Segmentación","Cada una de las células formadas durante la segmentación."],
+["Holoblástica","Segmentación","Segmentación en la que los surcos atraviesan todo el huevo (anfibios y mamíferos)."],
+["Meroblástica discoidal","Segmentación","Segmentación limitada a un disco de citoplasma en el polo animal; el vitelo no se divide (peces, reptiles, aves)."],
+["Micrómero y macrómero","Segmentación","Células pequeñas del polo animal y células grandes, cargadas de vitelo, del polo vegetal en la segmentación desigual."],
+["Compactación","Segmentación","Aumento de la adhesión entre blastómeros del embrión de mamífero hacia las 8 células, que forma una esfera apretada."],
+["Mórula","Mórula","Masa sólida de blastómeros, con aspecto de mora, formada tras varias divisiones."],
+["Blástula","Blástula","Embrión con una cavidad interna (blastocele) rodeada por células."],
+["Blastocele","Blástula","Cavidad de la blástula."],
+["Celoblástula","Blástula","Blástula esférica con blastocele central o excéntrico (anfibios)."],
+["Blastodermo","Blástula","Capa de células formada por segmentación discoidal sobre el vitelo."],
+["Periblasto","Blástula","Capa sincitial (con núcleos y sin límites celulares) que cubre el vitelo en peces."],
+["Cavidad subgerminal","Blástula","Espacio entre el blastodermo y el vitelo en reptiles y aves."],
+["Blastocisto","Blástula","Blástula de mamífero, con trofoblasto, masa celular interna y blastocele."],
+["Trofoblasto","Blástula","Capa externa del blastocisto; forma parte de la placenta."],
+["Masa celular interna","Blástula","Grupo de células del blastocisto que origina el embrión."],
+["Gastrulación","Gástrula","Reorganización del embrión que forma las tres capas germinales y define los ejes del cuerpo."],
+["Epibolia","Gástrula","Extensión de una capa de células sobre otras, por ejemplo sobre el vitelo en peces."],
+["Involución","Gástrula","Giro de células hacia el interior del embrión por el borde del blastoporo."],
+["Convergencia-extensión","Gástrula","Movimiento por el que las células se agrupan hacia la línea media y alargan el embrión."],
+["Blastoporo","Gástrula","Abertura por donde las células ingresan al interior del embrión de anfibio."],
+["Arquenterón","Gástrula","Cavidad interna de la gástrula que origina el tubo digestivo primitivo."],
+["Organizador de Spemann","Gástrula","Región del labio dorsal del blastoporo que induce la formación del eje del embrión."],
+["Línea primitiva","Gástrula","Surco del epiblasto por el que ingresan las células que forman mesodermo y endodermo (amniotas)."],
+["Nodo de Hensen","Gástrula","Extremo anterior de la línea primitiva, equivalente al organizador."],
+["Epiblasto e hipoblasto","Gástrula","Las dos capas del disco bilaminar: la superior origina el embrión y la inferior contribuye a anexos."],
+["Ectodermo","Gástrula","Capa externa; origina la epidermis y el sistema nervioso."],
+["Mesodermo","Gástrula","Capa intermedia; origina músculo, hueso, sangre y riñones."],
+["Endodermo","Gástrula","Capa interna; origina el revestimiento del tubo digestivo y órganos asociados."],
+["Amniotas","General","Reptiles, aves y mamíferos, cuyo embrión se desarrolla rodeado de amnios."]
+];
+const dq=$("q");
+function defs(){const t=dq.value.trim().toLowerCase();
+  $("defs").tBodies[0].innerHTML=DEF.filter(d=>d.join(" ").toLowerCase().includes(t)).map(d=>`<tr><th>${d[0]}</th><td>${d[1]}</td><td>${d[2]}</td></tr>`).join("")||`<tr><td colspan="3">Sin resultados. Prueba con otro término.</td></tr>`}
+dq.addEventListener("input",defs);defs();
+render("peces");
+</script>
+</body>
+</html>

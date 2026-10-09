@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Morfógenos en la embriogénesis humana: modelo interactivo</title>
+<style>
+:root{--bg:#eef2f1;--fg:#16232b;--mut:#51636b;--card:#fbfdfc;--bd:#cbd6d3;--ac:#1f5f8b;--ac2:#c2410c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10181c;--fg:#e3ecee;--mut:#93a6ad;--card:#18242a;--bd:#2b3b43;--ac:#6bb4e3;--ac2:#f59e6b}}
+:root[data-theme=dark]{--bg:#10181c;--fg:#e3ecee;--mut:#93a6ad;--card:#18242a;--bd:#2b3b43;--ac:#6bb4e3;--ac2:#f59e6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 Georgia,"Times New Roman",serif}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;line-height:1.2;margin:.2em 0 .3em;font-weight:600}
+p.lead{color:var(--mut);margin:0 0 14px;max-width:70ch}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+nav button{font:inherit;font-family:system-ui,sans-serif;font-size:.9rem;padding:8px 12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:6px;cursor:pointer}
+nav button[aria-selected=true]{background:var(--ac);color:#fff;border-color:var(--ac)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ac2);outline-offset:2px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:12px}
+.ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 16px;font-family:system-ui,sans-serif;font-size:.82rem}
+.ctl label{display:block}.ctl input[type=range]{width:100%}
+.ctl .chk{display:flex;gap:6px;align-items:center}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+canvas{width:100%;height:250px;display:block;background:var(--card);border:1px solid var(--bd);border-radius:6px}
+canvas.wide{height:210px}
+.bar{display:flex;gap:10px;align-items:center;font-family:system-ui,sans-serif;font-size:.82rem;margin:10px 0 6px}
+.bar input[type=range]{flex:1}.bar button{font:inherit;padding:5px 12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:6px;cursor:pointer}
+.leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:system-ui,sans-serif;font-size:.78rem;color:var(--mut);margin:4px 0 8px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.note{font-size:.88rem;color:var(--mut)}.note b{color:var(--fg)}
+.kpi{font-family:system-ui,sans-serif;font-size:.85rem;margin:6px 0}
+small.refs{display:block;color:var(--mut);font-size:.78rem;margin-top:8px;line-height:1.45}
+</style></head><body><main>
+<h1>Morfógenos en la embriogénesis humana</h1>
+<p class="lead">Modelo cualitativo e interactivo en tres módulos más una cronología de 15 días (ratón) y su equivalente humano: gastrulación (BMP → WNT → NODAL/LEFTY), tubo neural (SHH) y eje axial (FGF/WNT y reloj de segmentación). Las escalas y constantes son ilustrativas y no están calibradas con datos humanos.</p>
+<nav role="tablist"><button role="tab" aria-selected="true" data-t="A">A · Gastrulación</button><button role="tab" aria-selected="false" data-t="B">B · Tubo neural (SHH)</button><button role="tab" aria-selected="false" data-t="C">C · Eje y somitas</button><button role="tab" aria-selected="false" data-t="D">D · Cronología (15 d)</button><button role="tab" aria-selected="false" data-t="E">E · Análisis</button></nav>
+<div class="bar" style="margin-top:0"><label for="sp">Especie y escala de tiempo:</label><select id="sp" style="font:inherit;padding:5px;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--fg)"><option value="m">Ratón (E0–E15)</option><option value="h15">Humano (días 0–15)</option><option value="hq">Humano, estadios equivalentes a E0–E15 (≈ días 0–54)</option></select></div>
+
+<section id="A" class="on">
+<div class="card"><div class="ctl" id="ctlA"></div>
+<div class="ctl" style="margin-top:8px"><label class="chk"><input type="checkbox" id="iwp"> IWP2 (bloquea secreción de WNT)</label><label class="chk"><input type="checkbox" id="sb"> SB431542 (bloquea señal NODAL)</label><label class="chk"><input type="checkbox" id="rd"> Hipótesis reacción-difusión (Turing)</label><button id="rsA" style="font:inherit;padding:3px 10px">Nueva réplica</button></div></div>
+<div class="bar"><button id="plA">▶ Reproducir</button><input type="range" id="tA" min="0" value="0" aria-label="Tiempo"><span id="tAl"></span></div>
+<div class="leg"><span><i style="background:#d99a1c"></i>Extraembrionario (CDX2)</span><span><i style="background:#c0392b"></i>Mesendodermo (BRA)</span><span><i style="background:#3b7bbf"></i>Ectodermo (SOX2)</span></div>
+<div class="row"><canvas id="cA1" aria-label="Colonia circular con destinos celulares"></canvas><canvas id="cA2" aria-label="Perfiles radiales de señal"></canvas><canvas id="cA3" aria-label="Cimógrafo de señal NODAL en el tiempo"></canvas></div>
+<div class="leg"><span>Centro → borde (radio)</span><span><i style="background:#d99a1c"></i>BMP</span><span><i style="background:#7c3aed"></i>WNT</span><span><i style="background:#c0392b"></i>NODAL</span><span><i style="background:#6b7b80"></i>LEFTY</span><span>Derecha: señal NODAL (eje vertical = tiempo, 48 h)</span></div>
+<p class="note">El BMP aplicado en el borde inicia una onda de WNT y luego de NODAL que avanza hacia el centro, como en los gastruloides humanos. Prueba acortar la duración de BMP (menos células extraembrionarias), bloquear WNT o NODAL, o aumentar la razón de difusión de LEFTY respecto a NODAL (relación activador-inhibidor).
+<small class="refs">Chhabra et al., PLoS Biol 2019 · Martyn et al., Nature 2018 · Heemskerk et al., eLife 2019 · Müller et al., Science 2012 (Nodal/Lefty, pez cebra).</small></p>
+</section>
+
+<section id="B">
+<div class="card"><div class="ctl" id="ctlB"></div></div>
+<div class="bar"><button id="plB">▶ Reproducir</button><input type="range" id="tB" min="0" value="0" aria-label="Tiempo"><span id="tBl"></span></div>
+<div class="leg"><span><i style="background:#7c3aed"></i>Placa del suelo</span><span><i style="background:#c0392b"></i>p3 (NKX2.2)</span><span><i style="background:#e08a2b"></i>pMN (OLIG2)</span><span><i style="background:#3b9a5a"></i>p0–p2 (PAX6)</span><span><i style="background:#3b7bbf"></i>Dorsal (BMP/WNT)</span><span><i style="background:#9aa5a8"></i>Sin definir</span></div>
+<div class="row"><canvas id="cB1" aria-label="Corte transversal del tubo neural"></canvas><canvas id="cB2" aria-label="Perfiles ventro-dorsales"></canvas></div>
+<p class="note">SHH proviene de la notocorda y la placa del suelo; las células lo interpretan con adaptación (se desensibilizan con la exposición) y una red de represión cruzada entre NKX2.2, OLIG2 y PAX6. Acorta la "Duración de SHH" a 24 h: la placa del suelo, que depende de señal sostenida, se pierde, mientras el dominio pMN persiste por la autoactivación de la red (histéresis parcial).
+<small class="refs">Dessaud et al., Nature 2007 · Balaskas et al., Cell 2012 · Duval et al., Development 2019 · Luo et al., Cell Stem Cell 2025.</small></p>
+</section>
+
+<section id="C">
+<div class="card"><div class="ctl" id="ctlC"></div></div>
+<div class="bar"><button id="plC">⏸ Pausar</button><button id="rsC">Reiniciar</button><span id="tCl"></span></div>
+<canvas id="cC1" class="wide" aria-label="Tejido axial con reloj de segmentación"></canvas>
+<div class="leg"><span>Cola (derecha) → anterior (izquierda)</span><span><i style="background:#0f9d8a"></i>Tubo neural</span><span><i style="background:#c2410c"></i>HES7 alto en PSM</span><span><i style="background:#8a6fb5"></i>Somitas</span></div>
+<canvas id="cC2" class="wide" aria-label="Gradiente FGF/WNT"></canvas>
+<div class="kpi" id="kC"></div>
+<p class="note">El gradiente posterior de FGF/WNT frena las oscilaciones del reloj (HES7) hasta que la señal cae bajo el umbral: allí está el frente de determinación y se fija un par de somitas por ciclo. La longitud de somita sale de velocidad × periodo. El nivel de WNT cambia la proporción somítica/neural (ilustrativo).
+<small class="refs">Yaman &amp; Ramanathan, Cell 2023 · Diaz-Cuadros et al., Nature 2020 · Sanaki-Matsumiya et al., 2022.</small></p>
+</section>
+
+<section id="D">
+<div class="bar"><input type="range" id="dD" min="0" max="15" step=".25" value="6.5" aria-label="Día de desarrollo"><span id="dDl"></span></div>
+<canvas id="cD" style="height:290px" aria-label="Cronología del desarrollo"></canvas>
+<p class="kpi" id="lD"></p>
+<p class="note">La cronología relaciona los módulos con los días de desarrollo. Los 15 días del ratón (E0–E15) llegan hasta el inicio de la organogénesis de las extremidades, mientras que en el humano los primeros 15 días cubren solo hasta la formación de la estría primitiva; los mismos estadios del ratón se alcanzan hacia el día 54 humano. El ritmo también cambia dentro de los módulos: al elegir ratón o humano, el módulo C ajusta el periodo del reloj de segmentación (≈2 h en ratón, ≈5 h en humano).
+<small class="refs">Equivalencias aproximadas entre estadios Carnegie y Theiler (Embryology UNSW; Anderson 2016) · Tyser et al., Nature 2021 (CS7, días 16–19) · Diaz-Cuadros et al., Nature 2020 (reloj humano ≈5 h) · Theiler, The House Mouse. Las ventanas de los módulos B y C son aproximadas.</small></p>
+</section>
+
+<section id="E">
+<div class="card"><div class="bar" style="margin-top:0"><button id="bV">Validar contra la literatura</button><button id="bS">Análisis de sensibilidad (±30 %)</button><button id="bX">Exportar escenario</button></div>
+<div id="oV" class="kpi"></div><canvas id="cE" class="wide" style="display:none"></canvas><div id="oS" class="kpi"></div><textarea id="oX" rows="7" style="width:100%;display:none;font:12px monospace;background:var(--card);color:var(--fg);border:1px solid var(--bd)" aria-label="Escenario exportado"></textarea><button id="bC" style="display:none">Copiar</button></div>
+<div class="card kpi"><b>Estado de los parámetros</b> · ninguna constante cuantitativa está calibrada todavía.<br>
+Humano medido: periodo del reloj ≈5 h (Diaz-Cuadros 2020) · Cualitativo humano: cascada BMP→WNT→NODAL (Chhabra 2019; Martyn 2018) · Cualitativo en otra especie: LEFTY más difusible que NODAL (pez cebra, Müller 2012); adaptación a SHH (Dessaud 2007) · Estructura de la red NKX2.2/OLIG2/PAX6 (Balaskas 2012) · Estimado e ilustrativo: difusividades, producciones, decaimientos, umbrales, ritmo humano (×2), periodo del reloj de ratón (2 h) · Equivalencia de estadios: tabla Carnegie–Theiler (UNSW).</div>
+<p class="note">La validación comprueba comportamientos cualitativos descritos en los papers, no valores numéricos. Un resultado ✘ señala una discrepancia del modelo, no del embrión. Pendientes: modelo basado en células 2D/3D y acoplamiento entre módulos.</p>
+</section>
+<p class="note">Los módulos son simplificaciones didácticas. Los valores de parámetros no provienen de mediciones humanas y no deben usarse como predicción cuantitativa.</p>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+//SIMSTART
+const NA=50;
+const mkR=seed=>{let a=(seed*2654435761)>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
+function simA(p){const N=NA,dx=1/(N-1),dt=.002,T=48,Dn=.006,Dl=Dn*Math.min(12,p.dl*(p.rd?1.5:1)),Db=.01,Dw=.003;
+let b=new Float32Array(N),w=new Float32Array(N),n=new Float32Array(N),l=new Float32Array(N);
+let g=new Float32Array(N),g2=new Float32Array(N);const rn=mkR(p.seed),fac=Array.from({length:N},()=>1+p.noise*(2*rn()-1));
+let b2=new Float32Array(N),w2=new Float32Array(N),n2=new Float32Array(N),l2=new Float32Array(N);
+const cB=new Float32Array(N),cM=new Float32Array(N),H=[];
+const lap=(f,i)=>i==0?2*(f[1]-f[0])/(dx*dx):i==N-1?2*(f[i-1]-f[i])/(dx*dx):(f[i+1]-2*f[i]+f[i-1])/(dx*dx)+(f[i+1]-f[i-1])/(2*dx*i*dx);
+const steps=Math.round(T/dt),rec=Math.round(.25/dt);
+for(let s=0;s<=steps;s++){const t=s*dt;
+ const sB=[],sW=[],sN=[];
+ for(let i=0;i<N;i++){sB[i]=b[i]*b[i]/(b[i]*b[i]+.0625);sW[i]=w[i]*w[i]/(w[i]*w[i]+.12);sN[i]=p.sb?0:n[i]*n[i]/(n[i]*n[i]+.15)}
+ if(s%rec==0)H.push({sB:sB.slice(),sW:sW.slice(),sN:sN.slice(),sL:Array.from(l,v=>v/(v+.5)),cB:cB.slice(),cM:cM.slice()});
+ for(let i=0;i<N;i++){
+  b2[i]=b[i]+dt*(Db*lap(b,i)-(.3+p.nog*g[i])*b[i]);g2[i]=g[i]+dt*(Db*lap(g,i)+.5*sB[i]-.3*g[i]);
+  w2[i]=w[i]+dt*(Dw*lap(w,i)+(p.iwp?0:fac[i]*p.kw*(sB[i]+.1*sN[i]))-.2*w[i]);
+  n2[i]=n[i]+dt*(Dn*lap(n,i)+(fac[i]*p.kn*(p.rd?.35*sW[i]+(p.auto+.6)*sN[i]:sW[i]+p.auto*sN[i]))/(1+l[i]/.4)-.3*n[i]);
+  l2[i]=l[i]+dt*(Dl*lap(l,i)+1.2*sN[i]-.3*l[i]);
+  cB[i]+=sB[i]*dt;cM[i]+=sW[i]*sN[i]*dt}
+ b2[N-1]=p.bmp*(t<p.tb?1:0);
+ [b,b2]=[b2,b];[w,w2]=[w2,w];[n,n2]=[n2,n];[l,l2]=[l2,l];[g,g2]=[g2,g]}
+return H}
+const NB=60;
+function simB(p){const N=NB,dt=.05,T=48,H=[];
+const r=new Array(N).fill(1),P=new Array(N).fill(1),O=new Array(N).fill(0),Nk=new Array(N).fill(0),G=new Array(N).fill(0);
+const rb=mkR(p.seed+7),fb=Array.from({length:N},()=>1+p.noise*(2*rb()-1)),hill=(x,k)=>1/(1+Math.pow(x/k,3));
+for(let s=0;s<=T/dt;s++){const t=s*dt,A=(t<p.ts||p.ts>=T)?p.A:0;
+ for(let i=0;i<N;i++){const S=A*fb[i]*Math.exp(-(i/(N-1))/p.lam)/(1+p.ptch*G[i]);
+  r[i]+=dt*((1-r[i])*.05-p.kad*S*r[i]);G[i]=S*r[i];
+  const g3=Math.pow(G[i],3),n3=Math.pow(Nk[i],3),o3=Math.pow(O[i],3),aN=(g3+20*n3)/(g3+20*n3+4.096),aO=(g3+6*o3)/(g3+6*o3+.729);
+  Nk[i]+=dt*(aN*hill(P[i],.9)*hill(O[i],1.2)-Nk[i]);
+  O[i]+=dt*(aO*hill(Nk[i],.4)-O[i]);
+  P[i]+=dt*(hill(Nk[i],.5)-P[i])}
+ if(s%10==0)H.push({G:G.slice(),P:P.slice(),O:O.slice(),N:Nk.slice()})}
+return H}
+function fateB(h,i,p){const s=i/(NB-1);if(s>1-p.d)return 4;if(h.N[i]>.5)return h.G[i]>1.55?0:1;if(h.O[i]>.5)return 2;if(h.P[i]>.5)return 3;return 5}
+const mesF=H=>{const h=H[H.length-1];let c=0;for(let i=0;i<NA;i++)if(h.cB[i]<=12&&h.cM[i]>2.5)c++;return c/NA},extF=H=>{const h=H[H.length-1];let c=0;for(let i=0;i<NA;i++)if(h.cB[i]>12)c++;return c/NA};
+const bF=(p,k,H)=>{H=H||simB(p);const h=H[H.length-1];let c=0;for(let i=0;i<NB;i++)if(fateB(h,i,p)==k)c++;return c/NB};
+const front=(H,k)=>H[k].sN.findIndex(v=>v>.25);
+function validate(PA,PB){const T=[],q=(d,r,f)=>{let o;try{o=f()}catch(e){o=[false,'error']}T.push([d,r,o[0],o[1]])};
+ const A0=simA(PA),m0=mesF(A0),f=x=>(100*x).toFixed(0)+' %';
+ q('A · Sin secreción de WNT (IWP2) disminuye el mesendodermo','Chhabra 2019',()=>{const m=mesF(simA({...PA,iwp:1}));return[m<m0,f(m0)+' → '+f(m)]});
+ q('A · Sin señal NODAL (SB431542) disminuye el mesendodermo','Chhabra 2019',()=>{const m=mesF(simA({...PA,sb:1}));return[m<m0,f(m0)+' → '+f(m)]});
+ q('A · Menor duración de BMP disminuye las células extraembrionarias','Chhabra 2019',()=>{const a=extF(A0),b=extF(simA({...PA,tb:12}));return[b<a,f(a)+' → '+f(b)]});
+ q('A · La onda de NODAL avanza hacia el centro (12 h → 36 h)','Chhabra 2019',()=>{const a=front(A0,48),b=front(A0,144);return[a>=0&&b>=0&&b<a,'célula '+a+' → '+b]});
+ q('A · LEFTY más difusible que NODAL acota el alcance de NODAL','Müller 2012',()=>{const a=A0[191].sN.filter(v=>v>.25).length,b=simA({...PA,dl:1})[191].sN.filter(v=>v>.25).length;return[a<b,b+' → '+a+' células']});
+ const B0=simB(PB),h=B0[B0.length-1];
+ q('B · Orden ventral→dorsal: placa del suelo, p3, pMN, p0–p2','Dessaud 2007; Balaskas 2012',()=>{const o=[0,1,2,3].map(k=>{for(let i=0;i<NB;i++)if(fateB(h,i,PB)==k)return i;return -1});return[o.every((v,i)=>v>=0&&(i==0||v>o[i-1])),'inicios: '+o.join(', ')]});
+ q('B · Más tiempo de SHH amplía los dominios ventrales','Dessaud 2007',()=>{const a=bF({...PB,ts:24},0)+bF({...PB,ts:24},1),b=bF(PB,0)+bF(PB,1);return[b>a,f(a)+' → '+f(b)]});
+ q('B · Persiste algún dominio tras cortar SHH (memoria)','Balaskas 2012',()=>{const a=bF({...PB,ts:24},2);return[a>0,'pMN: '+f(a)]});
+ q('B · Menos SHH reduce el dominio p3','Dessaud 2007',()=>{const a=bF({...PB,A:PB.A/2},1),b=bF(PB,1);return[a<b,f(b)+' → '+f(a)]});
+ return T}
+function sensitivity(PA,PB){const o=[],a0=mesF(simA(PA)),b0=bF(PB,2),d=(P,k,fn,b0,pre)=>{const r=[.7,1.3].map(x=>fn({...P,[k]:P[k]*x})-b0);o.push([pre+k,r[0],r[1]])};
+ ['bmp','kw','kn','auto','dl','tb'].forEach(k=>d(PA,k,p=>mesF(simA(p)),a0,'A·'));['A','lam','kad','ts'].forEach(k=>d(PB,k,p=>bF(p,2),b0,'B·'));return o}
+//SIMEND
+const FA=['#d99a1c','#c0392b','#3b7bbf'],FB=['#7c3aed','#c0392b','#e08a2b','#3b9a5a','#3b7bbf','#9aa5a8'];
+const PA={nog:0,noise:0,pace:1,rd:0,seed:1,bmp:1,tb:36,kw:.6,kn:.5,auto:.8,dl:6,iwp:0,sb:0},PB={ptch:0,noise:0,pace:1,seed:1,A:6,lam:.3,ts:48,kad:.02,d:.25},PC={T:5,v:1,lam:14,g0:1,th:.3,wnt:.5,sp:1};
+function build(sel,P,defs,cb){defs.forEach(([k,l,mn,mx,st])=>{const d=document.createElement('label');d.innerHTML=`${l}: <b></b><input type=range min=${mn} max=${mx} step=${st} value=${P[k]}>`;const i=d.querySelector('input'),b=d.querySelector('b'),u=()=>{P[k]=+i.value;b.textContent=P[k]};i.oninput=()=>{u();cb()};u();$(sel).append(d)})}
+function setup(c){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.font='12px system-ui,sans-serif';return[x,r.width,r.height]}
+const fg=()=>getComputedStyle(document.documentElement).getPropertyValue('--fg').trim(),mut=()=>getComputedStyle(document.documentElement).getPropertyValue('--mut').trim();
+function axes(x,w,h,m,lx,ly){x.strokeStyle=mut();x.fillStyle=mut();x.lineWidth=1;x.beginPath();x.moveTo(m,6);x.lineTo(m,h-m);x.lineTo(w-6,h-m);x.stroke();x.fillText(lx,w-6-x.measureText(lx).width,h-6);x.fillText(ly,m+4,16)}
+function curve(x,arr,w,h,m,col,mx){x.strokeStyle=col;x.lineWidth=2;x.beginPath();arr.forEach((v,i)=>{const X=m+(w-m-8)*i/(arr.length-1),Y=h-m-(h-m-8)*Math.min(1,v/mx);i?x.lineTo(X,Y):x.moveTo(X,Y)});x.stroke()}
+let HA,HB,tA=0,tB=0,playA=0,playB=0,tab='A';
+const runA=()=>{HA=simA(PA);$('#tA').max=HA.length-1;tA=Math.min(tA,HA.length-1);drawA()};
+const runB=()=>{HB=simB(PB);$('#tB').max=HB.length-1;tB=Math.min(tB,HB.length-1);drawB()};
+function drawA(){if(!HA||tab!='A')return;$('#tA').value=tA;$('#tAl').textContent=(tA*.25*PA.pace).toFixed(1)+' h';const h=HA[tA];
+ let [x,w,hh]=setup($('#cA1')),R=Math.min(w,hh)/2-8;x.clearRect(0,0,w,hh);
+ for(let i=NA-1;i>=0;i--){x.fillStyle=FA[h.cB[i]>12?0:h.cM[i]>2.5?1:2];x.beginPath();x.arc(w/2,hh/2,R*(i+1)/NA,0,7);x.fill()}
+ x.strokeStyle=mut();x.beginPath();x.arc(w/2,hh/2,R,0,7);x.stroke();
+ [x,w,hh]=setup($('#cA2'));axes(x,w,hh,26,'radio →','señal (a.u.)');
+ [[h.sB,'#d99a1c'],[h.sW,'#7c3aed'],[h.sN,'#c0392b'],[h.sL,'#6b7b80']].forEach(([a,c])=>curve(x,a,w,hh,26,c,1));
+ [x,w,hh]=setup($('#cA3'));const rh=hh/HA.length;
+ HA.forEach((q,j)=>q.sN.forEach((v,i)=>{x.fillStyle=`rgba(192,57,43,${v})`;x.fillRect(w*i/NA,hh*j/HA.length,w/NA+1,rh+1)}));
+ x.strokeStyle=fg();x.beginPath();x.moveTo(0,hh*tA/HA.length);x.lineTo(w,hh*tA/HA.length);x.stroke()}
+function drawB(){if(!HB||tab!='B')return;$('#tB').value=tB;$('#tBl').textContent=(tB*.5*PB.pace).toFixed(1)+' h';const h=HB[tB];
+ let [x,w,hh]=setup($('#cB1')),cx=w/2,cy=hh/2-6,Rm=Math.min(w,hh)/2-34;x.clearRect(0,0,w,hh);
+ x.lineWidth=24;x.lineCap='butt';
+ for(let i=0;i<NB-1;i++){x.strokeStyle=FB[fateB(h,i,PB)];[1,-1].forEach(sg=>{x.beginPath();x.arc(cx,cy,Rm,Math.PI/2-sg*Math.PI*i/(NB-1),Math.PI/2-sg*Math.PI*(i+1)/(NB-1)-.001,sg<0);x.stroke()})}
+ x.fillStyle=fg();x.textAlign='center';x.fillText('Dorsal (BMP/WNT)',cx,12);x.fillText('Ventral · SHH (notocorda)',cx,hh-6);x.textAlign='left';
+ [x,w,hh]=setup($('#cB2'));axes(x,w,hh,26,'ventral → dorsal','actividad');const m=26;
+ [[h.G.map(v=>v/1.8),'#7c3aed'],[h.N,'#c0392b'],[h.O,'#e08a2b'],[h.P,'#3b9a5a']].forEach(([a,c])=>curve(x,a,w,hh-14,m,c,1));
+ for(let i=0;i<NB;i++){x.fillStyle=FB[fateB(h,i,PB)];x.fillRect(m+(w-m-8)*i/NB,hh-12,(w-m-8)/NB+1,10)}
+ x.fillStyle=mut();x.fillText('Gli · NKX2.2 · OLIG2 · PAX6',m+6,hh-18-0)}
+// Módulo C
+let tC=30,playC=1,lastT=0;
+function drawC(){if(tab!='C')return;const p=PC,L=p.v*tC,W=45,om=2*Math.PI/p.T,dth=Math.max(0,p.lam*Math.log(p.g0/p.th)),A=om*p.th*p.lam/(p.g0*p.v),f=p.wnt/(p.wnt+.5);
+ let [x,w,hh]=setup($('#cC1'));const m=14,H=hh-2*m-16,hn=(1-f)*H*.6+4,hs=H-hn,y0=m+10;
+ x.fillStyle=mut();x.fillText('t = '+tC.toFixed(1)+' h',6,12);
+ const xb0=-dth+p.lam*(1-p.th/p.g0),vT=p.v*p.T;
+ for(let px=0;px<w;px+=2){const X=L-W+W*px/w,d=L-X;if(X<0||d<0)continue;
+  x.fillStyle='#0f9d8a';x.globalAlpha=.55+.25*Math.sin(px/9);x.fillRect(px,y0,2.5,hn);x.globalAlpha=1;
+  if(d<=dth){const ph=om*tC-A*(Math.exp(d/p.lam)-1),v=(1+Math.sin(ph))/2;x.fillStyle=`rgb(${Math.round(60+150*v)},${Math.round(70+20*v)},${Math.round(90-40*v)})`}
+  else{const n=Math.floor((X-xb0)/vT),fr=((X-xb0)/vT)-n;x.fillStyle=(n%2?'#8a6fb5':'#a58cca');if(fr<.06||fr>.94)x.fillStyle='#5b4a80'}
+  x.fillRect(px,y0+hn+4,2.5,hs-4)}
+ const fx=w*(1-dth/W);x.setLineDash([4,3]);x.strokeStyle=fg();x.beginPath();x.moveTo(fx,6);x.lineTo(fx,hh-m);x.stroke();x.setLineDash([]);x.fillStyle=fg();x.fillText('frente (FGF = umbral)',Math.min(Math.max(fx-50,4),w-130),hh-3);
+ [x,w,hh]=setup($('#cC2'));axes(x,w,hh,26,'← anterior · distancia desde la cola (u) · cola →','nivel');
+ const pts=60,g=[],om2=[];for(let i=0;i<=pts;i++){const d=W*(1-i/pts);g.push(p.g0*Math.exp(-d/p.lam));om2.push(Math.max(0,1-p.th/(p.g0*Math.exp(-d/p.lam))))}
+ curve(x,g,w,hh,26,'#c2410c',Math.max(1,p.g0));curve(x,om2,w,hh,26,'#1f5f8b',1);
+ x.setLineDash([4,3]);x.strokeStyle=mut();const yt=hh-26-(hh-34)*p.th/Math.max(1,p.g0);x.beginPath();x.moveTo(26,yt);x.lineTo(w-8,yt);x.stroke();x.setLineDash([]);
+ x.fillStyle='#c2410c';x.fillText('FGF/WNT',w-70,16);x.fillStyle='#1f5f8b';x.fillText('frecuencia del reloj',w-150,30);x.fillStyle=mut();x.fillText('umbral',30,yt-4);
+ $('#kC').textContent=`Longitud de somita ≈ ${(p.v*p.T).toFixed(1)} u · PSM ≈ ${dth.toFixed(1)} u · ciclos del reloj en la PSM ≈ ${(dth/(p.v*p.T)).toFixed(1)} · fracción somítica ≈ ${(f*100).toFixed(0)} %`;
+ $('#tCl').textContent=''}
+function loopC(ts){if(playC&&tab=='C'){tC+=Math.min(.1,(ts-lastT)/1000)*2*PC.sp;}lastT=ts;if(tab=='C')drawC();requestAnimationFrame(loopC)}
+
+// Cronología
+const EQ=[[0,0],[1,1],[2,2.5],[3,4.5],[4.5,5.5],[5,9.5],[6,14],[7,16],[8,18],[9,20],[9.5,22],[10,24],[10.5,28],[11,30],[11.5,33],[12,36],[12.5,40],[13,42],[13.5,44],[14,48],[14.5,52],[15,54]];
+function interp(v,a,b){for(let i=1;i<EQ.length;i++){const x0=EQ[i-1][a],x1=EQ[i][a];if(v<=x1||i==EQ.length-1){const t=(v-x0)/(x1-x0);return EQ[i-1][b]+t*(EQ[i][b]-EQ[i-1][b])}}}
+const m2h=e=>interp(e,0,1),h2m=d=>interp(d,1,0);
+const EVT=[['Preimplantación (cigoto → blastocisto)',0,4.5,'#8a9a9f'],['Implantación y epiblasto',4.5,6.25,'#6f8791'],['A · Gastrulación: BMP → WNT → NODAL',6.25,7.5,'#c0392b'],['Placa neural y primeras somitas',7.5,8.5,'#3b9a5a'],['B · Patrón dorsoventral del tubo neural (SHH)',8,11,'#e08a2b'],['C · Somitogénesis (FGF/WNT y reloj)',8,13,'#8a6fb5'],['Organogénesis temprana (extremidades)',11,15,'#1f5f8b']];
+function spec(){return $('#sp').value}
+function dmax(){return spec()=='m'?15:spec()=='h15'?15:m2h(15)}
+function drawD(){if(tab!='D')return;const sv=spec(),d=+$('#dD').value,E=sv=='m'?d:h2m(d),[x,w,hh]=setup($('#cD')),mx=dmax(),L=10,R=w-10,X=v=>L+(R-L)*v/mx;
+ const toD=e=>sv=='m'?e:m2h(e);x.clearRect(0,0,w,hh);
+ EVT.forEach(([n,a,b,c],i)=>{const y=14+i*38,x0=X(Math.min(toD(a),mx)),x1=X(Math.min(toD(b),mx)),on=E>=a&&E<=b,out=toD(a)>mx;x.fillStyle=out?mut():fg();x.globalAlpha=out?.5:1;x.fillText(n+(out?' (fuera del rango)':''),x0,y);x.globalAlpha=on?1:.45;x.fillStyle=c;if(!out)x.fillRect(x0,y+5,Math.max(3,x1-x0),14);x.globalAlpha=1});
+ x.strokeStyle=mut();x.beginPath();x.moveTo(L,hh-22);x.lineTo(R,hh-22);x.stroke();x.fillStyle=mut();
+ const st=mx>20?6:1;for(let v=0;v<=mx;v+=st){x.fillText(v,X(v)-4,hh-8)}x.fillText('día',R-14,hh-24);
+ x.strokeStyle=fg();x.lineWidth=2;x.beginPath();x.moveTo(X(d),4);x.lineTo(X(d),hh-22);x.stroke();x.lineWidth=1;
+ $('#dDl').textContent=(sv=='m'?'E':'día ')+d;
+ const act=EVT.filter(e=>E>=e[1]&&E<=e[2]).map(e=>e[0]);
+ $('#lD').textContent='Activo ahora: '+(act.length?act.join(' · '):'ninguno de los módulos')+(sv=='m'?'  ·  equivalente humano ≈ día '+m2h(d).toFixed(0):sv=='hq'?'  ·  equivalente ratón ≈ E'+E.toFixed(1):'')}
+function setSpec(){const v=spec(),mx=dmax(),el=$('#dD');el.max=mx;el.step=mx>20?1:.25;el.value=Math.min(+el.value,mx);if(v=='m')el.value=Math.min(6.5,mx);else if(v=='h15')el.value=14;else el.value=16;
+ const inp=document.querySelector('#ctlC input');inp.value=v=='m'?2:5;inp.dispatchEvent(new Event('input'));['#ctlA','#ctlB'].forEach(c=>{const l=[...document.querySelectorAll(c+' label')].find(x=>x.textContent.startsWith('Ritmo')),i=l.querySelector('input');i.value=v=='m'?1:2;i.dispatchEvent(new Event('input'))});drawD()}
+$('#sp').onchange=setSpec;$('#dD').oninput=drawD;
+
+$('#bV').onclick=()=>{const T=validate(PA,PB);$('#oV').innerHTML='<table style="border-collapse:collapse;width:100%">'+T.map(r=>`<tr style="border-top:1px solid var(--bd)"><td style="padding:4px">${r[2]?'✔':'✘'}</td><td style="padding:4px">${r[0]}</td><td style="padding:4px;color:var(--mut)">${r[3]} · ${r[1]}</td></tr>`).join('')+'</table>'};
+$('#bS').onclick=()=>{const o=sensitivity(PA,PB).sort((a,b)=>Math.max(Math.abs(b[1]),Math.abs(b[2]))-Math.max(Math.abs(a[1]),Math.abs(a[2])));const c=$('#cE');c.style.display='block';c.style.height=(o.length*22+30)+'px';const[x,w,h]=setup(c),mx=Math.max(.05,...o.flatMap(r=>[Math.abs(r[1]),Math.abs(r[2])])),cx=w/2+30,sc=(w/2-60)/mx;
+ o.forEach((r,i)=>{const y=8+i*22;x.fillStyle=fg();x.fillText(r[0],4,y+12);x.fillStyle='#1f5f8b';x.fillRect(cx,y+2,r[1]*sc,14);x.fillStyle='#c2410c';x.fillRect(cx,y+2,r[2]*sc,14)});
+ x.strokeStyle=fg();x.beginPath();x.moveTo(cx,2);x.lineTo(cx,h-18);x.stroke();x.fillStyle='#1f5f8b';x.fillText('−30 %',cx-60,h-4);x.fillStyle='#c2410c';x.fillText('+30 %',cx+6,h-4);
+ $('#oS').textContent='Cambio en la fracción de mesendodermo (A) o de pMN (B) al variar cada parámetro. Barras largas indican los parámetros que más condicionan el patrón.'};
+$('#bX').onclick=()=>{const t=document.createElement('canvas'),fa=simA(PA),ha=fa[fa.length-1],fb2=simB(PB),hb=fb2[fb2.length-1];let o=JSON.stringify({especie:spec(),A:PA,B:PB,C:PC})+'\n\nmodulo_A_radio,sBMP,sWNT,sNODAL,sLEFTY\n';ha.sB.forEach((v,i)=>o+=[(i/(NA-1)).toFixed(3),v,ha.sW[i],ha.sN[i],ha.sL[i]].map(n=>+n?(+n).toFixed(3):n).join(',')+'\n');o+='\nmodulo_B_pos_ventral_dorsal,Gli,NKX2.2,OLIG2,PAX6,destino\n';const nm=['placa suelo','p3','pMN','p0-p2','dorsal','sin definir'];hb.G.forEach((v,i)=>o+=[(i/(NB-1)).toFixed(3),v.toFixed(3),hb.N[i].toFixed(3),hb.O[i].toFixed(3),hb.P[i].toFixed(3),nm[fateB(hb,i,PB)]].join(',')+'\n');const a=$('#oX');a.value=o;a.style.display='block';$('#bC').style.display='inline-block'};
+$('#bC').onclick=()=>{const a=$('#oX');a.select();try{navigator.clipboard.writeText(a.value)}catch(e){document.execCommand('copy')}};
+// Inicialización
+build('#ctlA',PA,[['bmp','BMP4 en el borde',.2,1.5,.1],['tb','Duración de BMP (h)',6,48,6],['kw','Producción de WNT',.2,1.2,.1],['kn','Producción de NODAL',.1,1.2,.1],['auto','Autoactivación de NODAL',0,2,.2],['dl','Difusión LEFTY / NODAL',1,12,1],['nog','Noggin (antagonista de BMP)',0,2,.25],['noise','Variabilidad entre células',0,.5,.05],['pace','Ritmo relativo (escala de tiempo)',.5,3,.25]],runA);
+$('#iwp').onchange=e=>{PA.iwp=+e.target.checked;runA()};$('#rd').onchange=e=>{PA.rd=+e.target.checked;runA()};$('#rsA').onclick=()=>{PA.seed++;PB.seed++;runA();runB()};$('#sb').onchange=e=>{PA.sb=+e.target.checked;runA()};
+build('#ctlB',PB,[['A','Nivel de SHH',2,10,.5],['lam','Alcance del gradiente (λ)',.2,.8,.05],['ts','Duración de SHH (h)',6,48,6],['kad','Adaptación a SHH',0,.06,.005],['d','Extensión dorsal (BMP/WNT)',0,.5,.05],['ptch','Retroalimentación PTCH1 (limita SHH)',0,2,.25],['noise','Variabilidad entre células',0,.5,.05],['pace','Ritmo relativo (escala de tiempo)',.5,3,.25]],runB);
+build('#ctlC',PC,[['T','Periodo del reloj (h)',1.5,8,.5],['v','Velocidad de elongación (u/h)',.5,2,.1],['lam','Alcance FGF/WNT (u)',6,24,1],['g0','Nivel de FGF/WNT en la cola',.6,2,.1],['th','Umbral del frente',.1,.6,.05],['wnt','Nivel de WNT',.1,1.5,.1],['sp','Velocidad de simulación',.25,3,.25]],()=>{});
+$('#tA').oninput=e=>{tA=+e.target.value;drawA()};$('#tB').oninput=e=>{tB=+e.target.value;drawB()};
+$('#plA').onclick=()=>{playA=!playA;$('#plA').textContent=playA?'⏸ Pausar':'▶ Reproducir'};
+$('#plB').onclick=()=>{playB=!playB;$('#plB').textContent=playB?'⏸ Pausar':'▶ Reproducir'};
+$('#plC').onclick=()=>{playC=!playC;$('#plC').textContent=playC?'⏸ Pausar':'▶ Reanudar'};
+$('#rsC').onclick=()=>{tC=30};
+setInterval(()=>{if(playA&&tab=='A'){tA=(tA+1)%HA.length;drawA()}if(playB&&tab=='B'){tB=(tB+1)%HB.length;drawB()}},70);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;document.querySelectorAll('nav button').forEach(o=>o.setAttribute('aria-selected',o==b));document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==tab));({A:drawA,B:drawB,C:drawC,D:drawD,E:()=>{}})[tab]()});
+addEventListener('resize',()=>({A:drawA,B:drawB,C:drawC,D:drawD,E:()=>{}})[tab]());
+runA();runB();tA=HA.length-1;drawA();tB=HB.length-1;requestAnimationFrame(loopC);setSpec();
+</script></body></html>
