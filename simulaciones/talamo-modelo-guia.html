@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelo Maestro del Tálamo: Embriología, Núcleos y Clínica</title>
+  <style>
+    :root {
+      --primary-color: #1e3a8a;
+      --secondary-color: #0284c7;
+      --accent-color: #0d9488;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-color: #1e293b;
+      --border-color: #e2e8f0;
+      --danger: #dc2626;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      color: var(--primary-color);
+      border-bottom: 3px solid var(--secondary-color);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    h2 {
+      color: var(--secondary-color);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.3rem;
+    }
+
+    h3 { color: var(--primary-color); margin-top: 1.5rem; }
+
+    .embfig { margin: 1.5rem 0; background: #f8fafc; border: 1px solid var(--border-color); border-left: 4px solid var(--secondary-color); border-radius: 0 8px 8px 0; padding: .75rem; }
+    .embfig { overflow-x: auto; }
+    .embfig svg { display: block; width: 100%; min-width: 520px; max-width: 640px; height: auto; margin: 0 auto; }
+    .embfig figcaption { font-size: .8rem; color: #64748b; text-align: center; margin-top: .4rem; }
+    .diagram-box {
+      background-color: #f1f5f9;
+      border-left: 4px solid var(--secondary-color);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border: 1px solid var(--border-color); }
+    th { background-color: var(--primary-color); color: white; font-weight: 600; }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr:hover { background-color: #f1f5f9; }
+
+    ul, ol { padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+
+    .highlight-card {
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+    }
+    .highlight-card h4 { margin: 0 0 0.5rem 0; color: var(--primary-color); }
+
+    /* ---------- Interactivo ---------- */
+    .hint { font-size: .85rem; color: #64748b; margin: -.5rem 0 .5rem; }
+    .note { font-size: .85rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: .6rem .9rem; margin: 1rem 0; }
+    tbody tr[data-id], tr.emb, tr.art { cursor: pointer; }
+    tbody tr[data-id].sel td, tr.sel-extra td { background-color: #bae6fd; }
+    tbody tr[data-id].lesioned td { background-color: #fee2e2; }
+
+    .btn {
+      background: var(--secondary-color); color: #fff; border: 0; padding: .45rem .9rem;
+      border-radius: 8px; cursor: pointer; font-weight: 600; font-size: .85rem; font-family: inherit;
+    }
+    .btn:hover { background: var(--primary-color); }
+    .btn.alt { background: #fff; color: var(--primary-color); border: 1px solid var(--primary-color); }
+    .btn.alt:hover { background: #eff6ff; }
+    .btn.danger { background: var(--danger); }
+
+    .toolbar { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin: 1rem 0; }
+    .switch { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; font-weight: 600; font-size: .9rem; color: var(--primary-color); user-select: none; }
+    .switch input { width: 1.1rem; height: 1.1rem; accent-color: var(--danger); }
+
+    .model { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5rem; align-items: start; margin: 1rem 0 1.5rem; }
+    .svgwrap { background-color: #f1f5f9; border-left: 4px solid var(--secondary-color); border-radius: 0 8px 8px 0; padding: .5rem; }
+    svg { width: 100%; height: auto; display: block; }
+    .nuc { cursor: pointer; stroke: #fff; stroke-width: 2; transition: opacity .2s, filter .2s; }
+    .nuc:hover { filter: brightness(1.15); }
+    .nuc:focus { outline: none; stroke: #0f172a; stroke-width: 4; }
+    .nuc.sel { stroke: #0f172a; stroke-width: 4; }
+    .nuc.dim { opacity: .2; }
+    .nuc.lesion { stroke: var(--danger); stroke-width: 5; stroke-dasharray: 8 4; }
+    .lbl { fill: #fff; font-size: 14px; font-weight: 700; pointer-events: none; text-anchor: middle; dominant-baseline: middle; }
+    .axis { fill: #64748b; font-size: 12px; }
+    .xmark { stroke: var(--danger); stroke-width: 5; stroke-linecap: round; pointer-events: none; display: none; }
+    .xmark.on { display: block; }
+
+    .detail { background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1.25rem; min-height: 320px; }
+    .detail.lesion { background-color: #fef2f2; border-color: #fecaca; }
+    .detail h4 { margin: 0 0 .5rem; color: var(--primary-color); }
+    .detail.lesion h4 { color: #991b1b; }
+    .detail .row { margin: .5rem 0; }
+    .detail .row b { color: var(--primary-color); }
+    .detail.lesion .row b { color: #991b1b; }
+    .detail .flow { font-family: monospace; background: #fff; border: 1px solid #bfdbfe; border-radius: 6px; padding: .5rem .75rem; margin: .5rem 0; font-size: .85rem; }
+    .placeholder { color: #64748b; text-align: center; margin-top: 4rem; }
+    .tag { display: inline-block; background: #fff; border: 1px solid #fecaca; border-radius: 999px; padding: .05rem .6rem; font-size: .8rem; margin: .1rem .15rem .1rem 0; cursor: pointer; }
+
+    .quiz { background-color: #f1f5f9; border-left: 4px solid var(--secondary-color); border-radius: 0 8px 8px 0; padding: 1.25rem 1.5rem; }
+    .qmeta { color: #64748b; font-size: .85rem; }
+    .qtext { font-size: 1.05rem; font-weight: 600; margin: .5rem 0 1rem; }
+    .opt {
+      display: block; width: 100%; text-align: left; background: #fff; border: 2px solid var(--border-color);
+      border-radius: 8px; padding: .65rem 1rem; margin-bottom: .5rem; cursor: pointer; font-size: .92rem;
+      font-family: inherit; color: var(--text-color);
+    }
+    .opt:hover:not(:disabled) { border-color: var(--secondary-color); }
+    .opt.ok { border-color: #16a34a; background: #dcfce7; }
+    .opt.bad { border-color: #dc2626; background: #fee2e2; }
+    .fb { display: none; margin: .75rem 0; padding: .6rem 1rem; border-radius: 8px; background: #eff6ff; border: 1px solid #bfdbfe; font-size: .9rem; }
+    .score { font-size: 1.8rem; font-weight: 800; color: var(--primary-color); }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      table { display: block; overflow-x: auto; }
+      .model { grid-template-columns: 1fr; }
+    }
+
+    .tl { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .75rem; margin: 1rem 0; }
+    .tlc { border: 2px solid var(--border-color); border-radius: 10px; padding: .75rem 1rem; cursor: pointer; background: #fff; }
+    .tlc:hover { border-color: var(--secondary-color); }
+    .tlc.sel { border-color: var(--secondary-color); background: #eff6ff; }
+    .tlc b { color: var(--primary-color); font-size: 1.05rem; }
+    .tlc small { color: #64748b; }
+    .tlinfo { background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+    .tlinfo ul { margin: .5rem 0 .75rem; }
+
+    @media (max-width: 768px) {
+      .tl { grid-template-columns: 1fr 1fr; }
+    }
+
+    .edge { cursor: pointer; }
+    .edge .vis { fill: none; stroke-width: 3.5; transition: stroke-width .15s; }
+    .edge .hit { fill: none; stroke: transparent; stroke-width: 22; }
+    .edge:hover .vis, .edge:focus .vis, .edge.sel .vis { stroke-width: 7; }
+    .edge:focus { outline: none; }
+    .edge.aff .vis { stroke: #2563eb; }
+    .edge.eff .vis { stroke: #0d9488; }
+    .cnode { stroke: #fff; stroke-width: 2; }
+    .ctxt { fill: #fff; font-size: 13px; font-weight: 700; text-anchor: middle; pointer-events: none; }
+    .legend { display: flex; gap: 1.25rem; flex-wrap: wrap; font-size: .85rem; margin: .3rem 0 .5rem; }
+    .legend i { display: inline-block; width: 24px; height: 4px; vertical-align: middle; margin-right: .4rem; border-radius: 2px; }
+
+    .toc { position: sticky; top: 0; z-index: 10; display: flex; gap: .4rem; overflow-x: auto; background: var(--card-bg); padding: .5rem 0; margin: 0 0 1rem; border-bottom: 1px solid var(--border-color); }
+    .toc a { white-space: nowrap; font-size: .85rem; padding: .25rem .65rem; border-radius: 999px; background: #eff6ff; color: var(--primary-color); text-decoration: none; border: 1px solid #bfdbfe; }
+    .toc a:hover, .toc a:focus { background: var(--primary-color); color: #fff; }
+    section[id] { scroll-margin-top: 3.5rem; }
+    html { scroll-behavior: smooth; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .container { box-shadow: none; max-width: none; padding: 0; }
+      .toc, .toolbar, .btn, .hint, #quizSection, .model { display: none !important; }
+      tr:hover { background: inherit; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Modelo de Estudio del Tálamo: Embriología, Núcleos y Clínica</h1>
+    <div class="toolbar">
+      <button class="btn alt" onclick="window.print()">🖨 Imprimir / guardar en PDF (tablas)</button>
+    </div>
+
+    <nav class="toc" aria-label="Índice">
+      <a href="#anatomia">1 Anatomía</a><a href="#embriologia">2 Embriología</a><a href="#fisiologia">3 Fisiología</a><a href="#nucleos">4 Núcleos</a><a href="#limbico">5 Línea media</a><a href="#irrigacion">6 Irrigación</a><a href="#sindromes">7 Síndromes</a><a href="#neuromodulacion">8 Neuromodulación</a><a href="#circuitos">9 Circuitos</a><a href="#quizSection">10 Autoevaluación</a><a href="#referencias">Referencias</a>
+    </nav>
+
+    <section id="anatomia">
+      <h2>1. Anatomía General del Tálamo</h2>
+      <p>Panorama de la anatomía talámica según distintas fuentes y atlas: el diencéfalo, la clasificación por grupos, la división del atlas de Morel y un atlas por difusión. Los núcleos se estudian uno a uno en la sección 4.</p>
+
+      <h3>El tálamo en el contexto del diencéfalo (Capítulo «Brain structures and functions»)</h3>
+      <p>El diencéfalo forma el núcleo central del prosencéfalo, rodeado por los hemisferios cerebrales, y consta de tres pares de estructuras de sustancia gris que rodean el tercer ventrículo: <strong>tálamo, hipotálamo y epitálamo</strong>.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Tema</th><th>Contenido</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Forma y tamaño</strong></td><td>Núcleos ovoides a cada lado del tercer ventrículo; unos 4 cm de longitud y alrededor del 80 % del diencéfalo; forman parte del suelo del ventrículo lateral. Los dos tálamos se unen por la adhesión intertalámica, presente en la mayoría de los cerebros jóvenes y ausente en la mayoría de los mayores.</td></tr>
+          <tr><td><strong>Organización</strong></td><td>La lámina medular interna separa porciones anterior, medial y lateral; los núcleos intralaminares quedan dentro de ella y los de la línea media tocan las paredes del tercer ventrículo. Los núcleos se nombran por su ubicación y cada uno tiene funciones especializadas.</td></tr>
+          <tr><td><strong>Función general</strong></td><td>Último punto de relevo de la información sensorial ascendente hacia la corteza sensorial primaria: la filtra, la amplifica y transmite la deseada. Casi todas las demás entradas a la corteza pasan por el tálamo, incluidas las emocionales y viscerales del hipotálamo (por los núcleos anteriores) y las instrucciones motoras del cerebelo y los ganglios basales; la información para la memoria o la integración sensorial se envía a cortezas de asociación. Las aferencias se clasifican como agradables o desagradables, pero la localización y la discriminación ocurren en la corteza.</td></tr>
+          <tr><td><strong>Con ganglios basales y cerebelo</strong></td><td>Los núcleos de salida de los ganglios basales (globo pálido y sustancia negra) proyectan a la corteza premotora y prefrontal a través del tálamo. Los pedúnculos cerebelosos superiores llevan eferencias de los núcleos dentado, emboliforme y globoso (y un pequeño fascículo del fastigial) a la corteza motora por relevos talámicos: las fibras decusan en el mesencéfalo caudal y hacen sinapsis en el núcleo rojo y el tálamo contralaterales.</td></tr>
+          <tr><td><strong>Memoria (circuito de Papez)</strong></td><td>El sistema límbico incluye el hipocampo, el cuerpo mamilar, el núcleo anterior del tálamo y el giro del cíngulo. El circuito de Papez parte del hipocampo y llega al cuerpo mamilar por el fórnix; el núcleo anterior y el giro del cíngulo se conectan por el haz del cíngulo.</td></tr>
+          <tr><td><strong>Formación reticular</strong></td><td>Sus neuronas tienen axones muy largos que llegan al hipotálamo, el tálamo, la corteza, el cerebelo y la médula, por lo que regulan bien la activación (arousal) cerebral.</td></tr>
+          <tr><td><strong>Epitálamo</strong></td><td>La parte más dorsal del diencéfalo: forma el techo del tercer ventrículo y se extiende hasta la glándula pineal, que libera melatonina y ayuda a regular el ciclo sueño-vigilia.</td></tr>
+          <tr><td><strong>Importancia clínica</strong></td><td>El tálamo es esencial para mediar la sensación, la activación de la corteza, la actividad motora, el aprendizaje y la memoria; su conocimiento ha ayudado al tratamiento de la epilepsia, varios tipos de dolor, la enfermedad de Parkinson y trastornos psiquiátricos.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Clasificación anatómica según StatPearls</h3>
+      <p>El tálamo se divide en unos 60 núcleos. Cada lado se separa en grupos lateral, medial y anterior por la <strong>lámina medular interna</strong> (estructura en Y); además hay núcleos de la línea media junto al tercer ventrículo y un núcleo reticular que envuelve el tálamo lateral.</p>
+      <table>
+        <thead>
+          <tr><th>Grupo</th><th>Núcleos (según la referencia)</th><th>En el esquema</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Relevo: grupo lateral</strong></td><td>VPL, VPM, geniculado lateral (CGL), geniculado medial (CGM), VL, VA, pulvinar, lateral dorsal, lateral posterior, ventral medial</td><td>VPL, VPM, CGL, CGM, VL, VA, Pulvinar</td></tr>
+          <tr><td><strong>Relevo: grupo medial</strong></td><td>Mediodorsal (MD)</td><td>DM</td></tr>
+          <tr><td><strong>Relevo: grupo anterior</strong></td><td>Núcleo anterior</td><td>NA</td></tr>
+          <tr><td><strong>Núcleos de la línea media</strong></td><td>Paraventricular (PVT), parataenial, interanteromedial, intermediodorsal, romboide, medial ventral</td><td>PVT</td></tr>
+          <tr><td><strong>Núcleo reticular</strong></td><td>Envuelve el tálamo lateral; sus proyecciones vuelven al propio tálamo (no a la corteza) y regulan su actividad</td><td>TRN</td></tr>
+          <tr><td><strong>Núcleos intralaminares</strong></td><td>Rostrales: central medial, paracentral, central lateral. Caudales: centromediano, parafascicular</td><td>CM (representa el grupo)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Divisiones según el atlas de Morel (Marcuse et al., 2025)</h3>
+      <p>Esta fuente habla de unos <strong>30 núcleos</strong>, frente a unas 60 regiones en StatPearls y más de 100 núcleos en Bordes et al.: el número y los nombres varían según el atlas. Marcuse sigue el atlas de Morel, con la salvedad de que el VIM se considera parte del VL en el original. Bordes et al. incluyen el lateral dorsal en el grupo anterior (límbico).</p>
+      <table>
+        <thead>
+          <tr><th>División</th><th>Núcleos</th><th>En el esquema</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA"><td><strong>Anterior</strong></td><td>Anterodorsal, anteroventral y anteromedial (con conexiones algo distintas)</td><td>NA</td></tr>
+          <tr class="art" data-ids="DM"><td><strong>Medial</strong></td><td>Dorsomedial (el mayor de la superficie medial)</td><td>DM</td></tr>
+          <tr class="art" data-ids="PUL"><td><strong>Lateral: estrato dorsal</strong></td><td>Pulvinar (el mayor de todos)</td><td>Pulvinar</td></tr>
+          <tr class="art" data-ids="VA,VL,VIM,VPL,VPM,CGL,CGM"><td><strong>Lateral: estrato ventral</strong></td><td>VA, VL, ventral intermedio (VIM), VPL (cuerpo), VPM (cara); en la parte más posterior e inferior, CGL y CGM</td><td>VA, VL, VIM, VPL, VPM, CGL, CGM</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>Intralaminares</strong></td><td>Rodeados por la lámina medular interna; incluyen el centromediano (CM) y el central lateral (CL)</td><td>CM (representa el grupo)</td></tr>
+          <tr class="art" data-ids="TRN"><td><strong>Reticular</strong></td><td>Cubre la superficie lateral como una manta, recibe de las neuronas de proyección cuando entran o salen del tálamo</td><td>TRN</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Atlas probabilístico por difusión (Najdenovska et al., 2018)</h3>
+      <p>El tálamo mide cerca de 8 cm³ por hemisferio y está formado por numerosos núcleos pequeños que difieren en histología y función; cada uno proyecta a distintas partes de la corteza. En la RM convencional (T1 y T2) el contraste es demasiado bajo para distinguir sus subpartes, y la RM de difusión es el único método no invasivo capaz de hacerlo. Los atlas previos se basan en pocos sujetos: los de Morel e Yelnik reflejan la histología y el de Behrens divide el tálamo según sus conexiones corticales, lo que no refleja necesariamente la anatomía.</p>
+      <p>Najdenovska et al. construyeron un atlas con 70 voluntarios sanos del Human Connectome Project (22–36 años; 39 mujeres; se descartaron 3 por una segmentación atípica). Cada tálamo se dividió con un algoritmo de agrupamiento (k-means) que combina la posición de los vóxeles y sus propiedades de difusión, en <strong>siete subpartes por hemisferio</strong> (14 en total), y los resultados se llevaron al espacio MNI.</p>
+      <p class="hint">💡 Haz clic en una fila para resaltar el núcleo equivalente en el esquema (la correspondencia es por nombre).</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Subparte del atlas</th><th>Qué agrupa</th><th>En el esquema</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA"><td><strong>A</strong></td><td>Grupo anterior</td><td>NA</td></tr>
+          <tr class="art" data-ids="VA"><td><strong>VA</strong></td><td>Grupo ventral anterior</td><td>VA</td></tr>
+          <tr class="art" data-ids="DM"><td><strong>MD</strong></td><td>Grupo mediodorsal</td><td>DM</td></tr>
+          <tr><td><strong>VLV</strong></td><td>Grupo ventral lateroventral</td><td>Sin correspondencia directa descrita en la fuente</td></tr>
+          <tr><td><strong>VLD</strong></td><td>Grupo ventral laterodorsal</td><td>Sin correspondencia directa descrita en la fuente</td></tr>
+          <tr class="art" data-ids="PUL"><td><strong>Pu</strong></td><td>Pulvinar</td><td>Pulvinar</td></tr>
+          <tr><td><strong>CL-LP-PuM</strong></td><td>Un solo grupo que reúne el central lateral, el lateral posterior y el pulvinar medial</td><td>Sin correspondencia directa descrita en la fuente</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Validación:</strong> en 34 sujetos sanos de 20 a 70 años escaneados en un entorno clínico estándar, el atlas se comparó con el agrupamiento individual por difusión. El solapamiento (índice de Dice) fue en promedio de 0,6, con el máximo en el pulvinar izquierdo (0,74) y el mínimo en el grupo CL-LP-PuM derecho (0,46); la diferencia de volumen fue de alrededor del 20 %, y la distancia entre centros de masa fue baja. Visualmente, la segmentación se parece a la del atlas histológico de Morel. Los autores concluyen que el atlas puede sustituir al agrupamiento por difusión cuando no hay imágenes de difusión.</p>
+      <div class="note">⚠ No existe un patrón de oro para los núcleos talámicos, por lo que la evaluación es indirecta. Las subpartes son agrupaciones por difusión y posición, no núcleos histológicos uno a uno, y el nombre «VLD» es el de la fuente.</div>
+    </section>
+
+    <!-- SECCIÓN 1: EMBRIOLOGÍA -->
+    <section id="embriologia">
+      <h2>2. Embriología y Linajes Celulares</h2>
+      <p>El tálamo se desarrolla a partir del <strong>prosencéfalo</strong> (cerebro anterior), el cual se divide en telencéfalo y diencéfalo hacia la quinta semana de gestación (en la semana 3 el ectodermo forma el tubo neural, y hacia la semana 5 el tálamo surge del diencéfalo a los lados del tercer ventrículo). Según Marcuse et al., a las 4 semanas el sistema nervioso central se divide en tres vesículas (prosencéfalo, mesencéfalo y rombencéfalo); las neuronas talámicas nacen en la zona ventricular que rodea el tercer ventrículo y migran lateralmente a lo largo de fibras gliales radiales, y las primeras células generadas ocupan la posición más lateral. Los núcleos separados empiezan a distinguirse entre las semanas gestacionales 8 y 16, y el desarrollo y la diferenciación del tálamo preceden a los del telencéfalo. Tálamo y corteza se influyen mutuamente durante el desarrollo: proliferación, conexiones axonales y maduración de interneuronas. La organización e inducción de patrones depende del centro organizador <strong>Zona Limitans Intrathalamica (ZLI)</strong> a través de la señalización por <strong>Sonic Hedgehog (Shh)</strong>. Según el modelo de prosómeros, p1 origina el pretecho, p2 el tálamo dorsal y el epitálamo, y p3 el prétálamo (tálamo ventral); la ZLI separa p2 de p3. Un gradiente de Shh define la identidad neuronal: niveles más bajos producen neuronas glutamatérgicas en la región caudal (tálamo) y niveles más altos neuronas GABAérgicas en la región rostral. Todas las neuronas glutamatérgicas del tálamo derivan de las zonas ventricular y subventricular de p2.</p>
+
+      <figure class="embfig">
+        <svg viewBox="0 0 640 470" role="img" aria-labelledby="embT embD" xmlns="http://www.w3.org/2000/svg">
+          <title id="embT">Esquema embriológico del tálamo</title>
+          <desc id="embD">El prosencéfalo da origen al diencéfalo. El prosómero 1 forma el pretecho, el prosómero 2 el tálamo dorsal y el epitálamo, y el prosómero 3 el tálamo ventral o pretálamo. La zona limitans intratalámica (ZLI), con Shh, separa p2 de p3.</desc>
+          <defs>
+            <marker id="embArr" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M0 0L10 5L0 10z" fill="#64748b"/></marker>
+          </defs>
+          <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14">
+            <!-- tronco -->
+            <rect x="20" y="10" width="220" height="50" rx="12" fill="#1e3a8a"/>
+            <text x="130" y="31" text-anchor="middle" fill="#fff" font-weight="700">Prosencéfalo</text>
+            <text x="130" y="49" text-anchor="middle" fill="#dbeafe" font-size="12">(cerebro anterior)</text>
+            <line x1="130" y1="60" x2="130" y2="86" stroke="#64748b" stroke-width="2" marker-end="url(#embArr)"/>
+            <rect x="20" y="90" width="220" height="44" rx="12" fill="#0284c7"/>
+            <text x="130" y="118" text-anchor="middle" fill="#fff" font-weight="700">Diencéfalo</text>
+            <line x1="60" y1="134" x2="60" y2="420" stroke="#94a3b8" stroke-width="2"/>
+
+            <!-- p1 -->
+            <line x1="60" y1="185" x2="100" y2="185" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="100" y="155" width="130" height="60" rx="10" fill="#475569"/>
+            <text x="165" y="182" text-anchor="middle" fill="#fff" font-weight="700">Prosómero 1</text>
+            <text x="165" y="200" text-anchor="middle" fill="#e2e8f0" font-size="12">(p1)</text>
+            <line x1="230" y1="185" x2="262" y2="185" stroke="#64748b" stroke-width="2" marker-end="url(#embArr)"/>
+            <rect x="266" y="155" width="354" height="60" rx="10" fill="#f1f5f9" stroke="#94a3b8"/>
+            <text x="283" y="178" fill="#1e293b" font-weight="700">Pretecho</text>
+            <text x="283" y="198" fill="#334155" font-size="12">Interneuronas GABAérgicas que migran al tálamo</text>
+
+            <!-- p2 -->
+            <line x1="60" y1="290" x2="100" y2="290" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="100" y="250" width="130" height="80" rx="10" fill="#2563eb"/>
+            <text x="165" y="287" text-anchor="middle" fill="#fff" font-weight="700">Prosómero 2</text>
+            <text x="165" y="305" text-anchor="middle" fill="#dbeafe" font-size="12">(p2)</text>
+            <line x1="230" y1="270" x2="262" y2="270" stroke="#64748b" stroke-width="2" marker-end="url(#embArr)"/>
+            <line x1="230" y1="312" x2="262" y2="312" stroke="#64748b" stroke-width="2" marker-end="url(#embArr)"/>
+            <rect x="266" y="245" width="354" height="50" rx="10" fill="#eff6ff" stroke="#2563eb"/>
+            <text x="283" y="266" fill="#1e3a8a" font-weight="700">Tálamo dorsal</text>
+            <text x="283" y="284" fill="#334155" font-size="12.5">Núcleos glutamatérgicos: relevo, límbicos, asociación</text>
+            <rect x="266" y="300" width="354" height="42" rx="10" fill="#eff6ff" stroke="#2563eb"/>
+            <text x="283" y="318" fill="#1e3a8a" font-weight="700">Epitálamo</text>
+            <text x="283" y="334" fill="#334155" font-size="12.5">Habénula y glándula pineal</text>
+
+            <!-- ZLI -->
+            <line x1="100" y1="361" x2="620" y2="361" stroke="#dc2626" stroke-width="2" stroke-dasharray="7 5"/>
+            <rect x="262" y="350" width="236" height="22" rx="11" fill="#fff" stroke="#dc2626"/>
+            <text x="380" y="365" text-anchor="middle" fill="#b91c1c" font-weight="700" font-size="12.5">ZLI (Shh): frontera p2 | p3</text>
+
+            <!-- p3 -->
+            <line x1="60" y1="415" x2="100" y2="415" stroke="#94a3b8" stroke-width="2"/>
+            <rect x="100" y="385" width="130" height="60" rx="10" fill="#0d9488"/>
+            <text x="165" y="412" text-anchor="middle" fill="#fff" font-weight="700">Prosómero 3</text>
+            <text x="165" y="430" text-anchor="middle" fill="#ccfbf1" font-size="12">(p3)</text>
+            <line x1="230" y1="415" x2="262" y2="415" stroke="#64748b" stroke-width="2" marker-end="url(#embArr)"/>
+            <rect x="266" y="385" width="354" height="60" rx="10" fill="#f0fdfa" stroke="#0d9488"/>
+            <text x="283" y="408" fill="#115e59" font-weight="700">Tálamo ventral / pretálamo</text>
+            <text x="283" y="428" fill="#334155" font-size="12.5">GABAérgico: TRN y zona incerta</text>
+          </g>
+        </svg>
+        <figcaption>Derivados de los prosómeros del diencéfalo y su frontera (ZLI).</figcaption>
+      </figure>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Estructura</th>
+            <th>Origen Embriológico</th>
+            <th>Neurotransmisor Principal</th>
+            <th>Función Principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="emb" data-ids="VA,VL,VIM,VPL,VPM,CGL,CGM,NA,DM,CM,PUL,PVT">
+            <td><strong>Tálamo Dorsal</strong><br>(VA, VL, VIM, VPL, VPM, CGL, CGM, NA, DM, CM, Pulvinar, PVT)</td>
+            <td>Prosómero 2 (p2)</td>
+            <td><strong>Glutamato</strong> (Excitador)</td>
+            <td>Relevo de información motora, sensorial y límbica hacia la neocorteza; integración de asociación y activación cortical.</td>
+          </tr>
+          <tr class="emb" data-ids="TRN">
+            <td><strong>Núcleo Reticular</strong><br>(TRN)</td>
+            <td>Prosómero 3 (p3)</td>
+            <td><strong>GABA</strong> (Inhibidor)</td>
+            <td>Filtro y modulador de la comunicación talamocortical; regula el sueño y la atención.</td>
+          </tr>
+          <tr>
+            <td><strong>Interneuronas GABAérgicas talámicas</strong><br>(dentro de los núcleos)</td>
+            <td>Pretecho (p1) y mesencéfalo (células SOX14+); en humanos, posiblemente también la eminencia ganglionar caudal. No derivan de la zona ventricular del tálamo dorsal.</td>
+            <td><strong>GABA</strong> (Inhibidor)</td>
+            <td>Inhibición local; migran tarde, de posterior a anterior. En primates pueden ser hasta ~30 % de las neuronas de cada núcleo (en roedores son muy pocas).</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="hint">💡 Haz clic en una fila para resaltar sus núcleos en el esquema de la sección 4.</p>
+
+      <h3>Cronología del desarrollo talámico humano (4 semanas a 16 PCW)</h3>
+      <p class="hint">PCW = semanas postconcepcionales (datos de tejido fetal humano). Las fuentes usan conteos distintos (semanas gestacionales o postconcepcionales), por lo que las cifras no son directamente comparables. Haz clic en una etapa.</p>
+      <div class="tl" id="tl"></div>
+      <div class="tlinfo" id="tlinfo">Selecciona una etapa para ver qué ocurre en ella.</div>
+
+      <h3>Protomapa molecular</h3>
+      <p>Antes de que existan núcleos definidos, gradientes de factores de transcripción delimitan territorios dentro del tálamo. En la zona ventricular, <strong>OLIG3</strong> y <strong>NR2F1</strong> marcan la extensión de p2, mientras que <strong>PAX6</strong> y <strong>NR2F2</strong> forman gradientes opuestos que definen cuatro compartimentos:</p>
+      <table>
+        <thead>
+          <tr><th>Compartimento de la zona ventricular</th><th>Expresión</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Anterior / dorsal</td><td>NR2F2 negativo, PAX6 positivo</td></tr>
+          <tr><td>Anterior / ventral</td><td>NR2F2 positivo, PAX6 negativo</td></tr>
+          <tr><td>Posterior / dorsal</td><td>NR2F2 positivo, PAX6 muy alto</td></tr>
+          <tr><td>Posterior / ventral</td><td>NR2F2 muy alto, PAX6 negativo</td></tr>
+        </tbody>
+      </table>
+      <p>En las neuronas posmitóticas (8–10 PCW), ZIC4 es más alto en la zona anterior y lateral, y FOXP2, GBX2 y OTX2 son más altos en la posterior y medial. Hacia 14–15 PCW cada núcleo emergente muestra su propia combinación:</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Núcleo emergente</th><th>Rasgos moleculares descritos (14–16 PCW)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>CM–pF</strong> (centromediano / parafascicular)</td><td>FOXP2 muy alto, GBX2 y CALB1 ausentes; maduración precoz de interneuronas GAD67+.</td></tr>
+          <tr><td><strong>DM</strong> (mediodorsal)</td><td>GBX2 fuerte con FOXP2 presente (menor que en CM); sin interneuronas SOX14+ a las 16 PCW.</td></tr>
+          <tr><td><strong>NA</strong> (anterior)</td><td>GBX2 positivo, sin FOXP2; ZIC4 alto.</td></tr>
+          <tr><td><strong>VA</strong></td><td>FOXP2 fuerte.</td></tr>
+          <tr><td><strong>Pulvinar</strong></td><td>FOXP2 moderado a fuerte (mayor en el pulvinar lateral e inferior que en el medial); el medial queda libre de interneuronas migradas.</td></tr>
+          <tr><td><strong>CGL</strong> (geniculado lateral)</td><td>SP8 fuerte (marcador fiable), ZIC4 y NR2F1 altos, FOXP2 moderado; aún sin laminación a las 14 PCW.</td></tr>
+          <tr><td><strong>CGM</strong> (geniculado medial)</td><td>Co-expresión de FOXP2 y GBX2; no expresa SP8.</td></tr>
+          <tr><td><strong>LD</strong> (laterodorsal)</td><td>FOXP2 y CALB1; GBX2 fuerte hacia las 15 PCW.</td></tr>
+          <tr><td><strong>TRN</strong> (reticular, de p3)</td><td>SP8 y NR2F2 fuertes, FOXP2 negativo.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Desarrollo recíproco entre tálamo y corteza (Antón-Bolaños et al., 2018)</h3>
+      <p>Los programas de desarrollo del tálamo y de la corteza coinciden en el tiempo y se solapan en el espacio, por lo que se influyen mutuamente. El bucle tálamo-cortico-talámico, en el que la capa 6 cortical devuelve retroalimentación a los núcleos sensoriales talámicos de primer orden, se construye a fines de la etapa prenatal y comienzos de la posnatal. A fines de los años 80 surgieron dos teorías opuestas sobre cómo se especifican las áreas corticales: el <strong>protomapa</strong> (las células corticales ya están «pre-especificadas», y el área donde se generan define su identidad) y la <strong>protocorteza</strong> (la corteza nace como una «tabla rasa» y los axones aferentes, sobre todo talámicos, imponen la identidad del área mediante mecanismos dependientes de actividad; la enucleación prenatal en macacos cambió la especificación y el tamaño de la corteza visual). Hoy se entiende que los mecanismos intrínsecos y extrínsecos cooperan. <em>Casi todos los datos de la revisión provienen del ratón.</em></p>
+      <p><strong>Primeras interacciones: cronología en el ratón.</strong></p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Etapa</th><th>Qué ocurre</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>E10.5–E16.5</strong></td><td>Se generan las neuronas talámicas en la placa alar del prosómero 2.</td></tr>
+          <tr><td><strong>Axones talámicos (TCA)</strong></td><td>Se extienden hacia el prétálamo guiados por axones prétalámicos y del telencéfalo ventral. Repulsiones mediadas por Slit-Robo les impiden entrar al hipotálamo y los hacen girar hacia la cápsula interna, en dirección al borde diencéfalo-telencéfalo. En el telencéfalo ventral, las «células corredor» les abren paso por la eminencia ganglionar medial (interacciones ErbB4-Neuregulina 1) y los TCA se ordenan topográficamente antes de cruzar el límite palio-subpalio.</td></tr>
+          <tr><td><strong>E11.5–E16.5</strong></td><td>Se generan las neuronas corticales en la zona ventricular palial; las primeras ocupan las capas profundas y las tardías las superiores.</td></tr>
+          <tr><td><strong>~E12.5</strong></td><td>Las neuronas tempranas de la subplaca envían axones hacia el tálamo. Según la «hipótesis del apretón de manos», estos axones se encuentran con los TCA en el límite palio-subpalio y les sirven de andamio.</td></tr>
+          <tr><td><strong>Axones corticotalámicos (CTA)</strong></td><td>Crecen hacia la cápsula interna y el núcleo reticular, esperan un día y hacia E17.5 invaden el tálamo.</td></tr>
+          <tr><td><strong>~E15.5</strong></td><td>Los TCA llegan al primordio cortical, cuando las neuronas de las capas 2-4 aún no han nacido; se acumulan en la subplaca («periodo de espera») e interactúan con sus células de forma dependiente de actividad.</td></tr>
+          <tr><td><strong>Poco antes del nacimiento</strong></td><td>Los TCA invaden la placa cortical, se ramifican y forman sinapsis sobre todo con neuronas de la capa 4; la corteza puede enviar señales de «detención» y «ramificación».</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Influencia de la corteza sobre el desarrollo talamocortical.</strong> El mapa cortical se organiza primero por factores intrínsecos y programas genéticos, que además guían a los TCA hacia su destino.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Factor</th><th>Efecto descrito</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Programas genéticos corticales</strong></td><td>El FGF8, morfógeno anterior del telencéfalo, especifica áreas corticales: su expresión ectópica duplica y desplaza los mapas sensoriales. También intervienen Emx2, Pax6, Sp8 y COUP-TF1.</td></tr>
+          <tr><td><strong>Pax6</strong></td><td>Su expresión alterada en progenitores corticales produjo un mapa corporal miniaturizado y aberrante en el área somatosensorial primaria (S1), lo que desencadenó una representación corporal aberrante también en el VPM del tálamo.</td></tr>
+          <tr><td><strong>COUP-TF1</strong></td><td>Reprime rasgos frontales y motores en la corteza parietal y occipital. Al eliminarlo de la corteza, las áreas sensoriales primarias se comprimen hacia caudal y se desplaza la conectividad de los TCA.</td></tr>
+          <tr><td><strong>Actividad cortical</strong></td><td>La actividad neuronal cortical regula la navegación axonal y el refinamiento de los mapas topográficos; su alteración (NMDAR1, AC1, mGluR5) produce barriles somatosensoriales más pequeños y borrosos, mientras que los «barriloides» del tálamo permanecen intactos.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Influencia del tálamo sobre el desarrollo cortical.</strong></p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Aspecto</th><th>Efecto descrito</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Proliferación</strong></td><td>Los TCA liberan un factor difusible (relacionado con la señalización de bFGF) con efecto mitógeno sobre progenitores de capas superiores.</td></tr>
+          <tr><td><strong>Guía de los CTA</strong></td><td>Los TCA guían a los axones corticotalámicos hacia la región «corredor»; sin ellos, los CTA toman una trayectoria de tipo corticoespinal.</td></tr>
+          <tr><td><strong>Identidad del área cortical</strong></td><td>Los TCA de núcleos sensoriales de primer orden instruyen a su área cortical diana. Sin ellos, el área queda en modo «por defecto» y adopta un destino de orden superior. Al ablacionar el VPM, la capa 4 de S1 se parece molecularmente a la de la corteza somatosensorial secundaria (S2) y el núcleo de orden superior POm inerva de forma aberrante la capa 4 de S1, que pasa a responder a estímulos nocivos.</td></tr>
+          <tr><td><strong>Interneuronas y capa 4</strong></td><td>La entrada talámica activa receptores NR2B de las interneuronas Reelin e inerva de forma transitoria a las interneuronas de somatostatina durante la primera semana posnatal; bloquear la liberación talámica altera la morfología de las neuronas estrelladas espinosas de la capa 4, que desarrollan un proceso apical.</td></tr>
+          <tr><td><strong>Sincronía y mapas</strong></td><td>Durante la primera semana posnatal, oscilaciones gamma tempranas sincronizan un barriloide talámico con su barril cortical. Alterar la liberación presináptica talámica (NMDAR en el VPM, Vglut2, AC1) deteriora la formación del mapa de barriles.</td></tr>
+          <tr><td><strong>Plasticidad entre modalidades</strong></td><td>La expansión del campo de barriles posteromedial tras la privación visual ocurre antes del inicio de la experiencia sensorial y está liderada por el tálamo, mediante ondas espontáneas de calcio que controlan la expresión génica talámica y la arborización de los TCA.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note">⚠ Varias características del desarrollo cortical pueden avanzar con poca influencia talámica, al menos en el periodo embrionario: un desplazamiento topográfico de la conectividad talámica prenatal afecta solo débilmente la regionalización cortical, y los ratones sin TCA ni axones corticófugos desarrollan una corteza globalmente normal. Los datos son de ratón y no se han comprobado en el tálamo humano.</div>
+    </section>
+
+    <section id="fisiologia">
+      <h2>3. Fisiología Básica</h2>
+
+      <h3>Tipos celulares</h3>
+      <table>
+        <thead>
+          <tr><th>Tipo celular</th><th>Neurotransmisor</th><th>Características</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Neuronas de proyección</strong></td>
+            <td><strong>Glutamato</strong> (excitadoras)</td>
+            <td>Envían sus axones fuera del tálamo hacia la corteza, el estriado y la amígdala, y dejan colaterales en el núcleo reticular. No existen conexiones excitatorias intratalámicas recurrentes (a diferencia de la corteza), por lo que el tálamo parece organizar la percepción de una señal más que modificarla.</td>
+          </tr>
+          <tr>
+            <td><strong>Interneuronas</strong></td>
+            <td><strong>GABA</strong> (inhibidoras)</td>
+            <td>No abandonan su núcleo de origen. Están muy interconectadas con las neuronas de proyección y entre sí.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Modos de disparo: ráfaga y tónico</h3>
+      <p class="hint">💡 Alterna entre los dos modos. El trazado es ilustrativo, no son datos reales.</p>
+      <div class="toolbar">
+        <button class="btn" id="mBurst">⚡ Modo ráfaga (burst)</button>
+        <button class="btn alt" id="mTonic">〰 Modo tónico</button>
+      </div>
+      <div class="tlinfo" id="modeBox"></div>
+
+      <h3>Aferencias: drivers y moduladores</h3>
+      <table>
+        <thead>
+          <tr><th>Tipo de aferencia</th><th>Función</th><th>Origen / ejemplos</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Drivers</strong></td>
+            <td>Transmiten el <em>contenido de la información</em> al tálamo mediante sinapsis glutamatérgicas.</td>
+            <td>Células ganglionares de la retina ➔ CGL; núcleos grácil y cuneato ➔ VPL.</td>
+          </tr>
+          <tr>
+            <td><strong>Moduladores</strong></td>
+            <td>Superan en número a los drivers y determinan si el contenido llega a la corteza y de qué forma. Usan neurotransmisores más diversos (glutamato, GABA, serotonina, dopamina, acetilcolina, noradrenalina).</td>
+            <td>Axones de la capa VI cortical (de la misma área que recibe del núcleo), ganglios basales, interneuronas intratalámicas, cerebelo y formación reticular del tronco encefálico.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Los núcleos se pueden agrupar de forma aproximada en <strong>específicos</strong> (una función concreta, como la visión en el CGL) y de <strong>asociación</strong> (pulvinar, DM, intralaminares), que participan en redes difusas: saliencia, percepción, procesamiento sensorial multimodal, flexibilidad conductual y nivel de conciencia. En ellos la distinción entre drivers y moduladores no es simple.</p>
+    </section>
+
+    <section id="nucleos">
+      <h2>4. Núcleos Talámicos: Tabla Maestra y Esquema</h2>
+
+      <h3>Tabla maestra</h3>
+      <p class="hint">💡 Haz clic en cualquier núcleo (en la tabla o en el esquema) para ver su ficha completa.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Categoría Funcional</th>
+            <th>Núcleo</th>
+            <th>Aferencias (Entradas)</th>
+            <th>Eferencias (Proyecciones / Metas)</th>
+            <th>Irrigación Arterial</th>
+            <th>Déficit / Síndrome Clínico por Lesión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-id="VA">
+            <td rowspan="3"><strong>Efector (motor)</strong></td>
+            <td><strong>VA</strong><br><em>Ventral Anterior</em></td>
+            <td>Ganglios basales</td>
+            <td>Corteza premotora</td>
+            <td>Tuberotalámica</td>
+            <td>No descrito en las fuentes (función según Bordes et al.: conductas complejas y movimiento).</td>
+          </tr>
+          <tr data-id="VL">
+            <td><strong>VL</strong><br><em>Ventral Lateral</em></td>
+            <td>Cerebelo, ganglios basales</td>
+            <td>Corteza motora y premotora</td>
+            <td>Inferolateral (talamogeniculada)</td>
+            <td>No hay déficit específico descrito; el territorio inferolateral produce alteración del movimiento (Bordes et al.). Función: movimiento y lenguaje.</td>
+          </tr>
+          <tr data-id="VIM">
+            <td><strong>VIM</strong><br><em>Ventral Intermedio</em><br><small>(subcampo del VL en el atlas de Morel)</small></td>
+            <td>Información de sensibilidad profunda (kinestésica); tractos cerebelotalámico / dentato-rubro-talámico</td>
+            <td><em>No detallado en las fuentes</em></td>
+            <td>Inferolateral (talamogeniculada) <em>(asumida como el VL)</em></td>
+            <td>Media el <strong>temblor</strong>: su lesión terapéutica o neuromodulación lo reduce (blanco en temblor esencial). Función sensorial y motora.</td>
+          </tr>
+          <tr data-id="VPL">
+            <td rowspan="2"><strong>Sensorial específico (somatosensorial)</strong></td>
+            <td><strong>VPL</strong><br><em>Ventral Posterolateral</em></td>
+            <td>Tracto neoespinotalámico, lemnisco medial (núcleos grácil y cuneato)</td>
+            <td>Corteza somatosensorial (sensación del cuerpo y extremidades)</td>
+            <td>Inferolateral (talamogeniculada)</td>
+            <td>Pérdida hemisensitiva contralateral y dolor hemicorporal (<strong>síndrome de Dejerine-Roussy</strong>) al ocluirse el territorio inferolateral (Bordes et al.).</td>
+          </tr>
+          <tr data-id="VPM">
+            <td><strong>VPM</strong><br><em>Ventral Posteromedial</em></td>
+            <td>Tracto trigeminotalámico, tracto solitario</td>
+            <td>Corteza somatosensorial y área gustativa cortical (sensación de cabeza y cuello, gusto)</td>
+            <td>Inferolateral (talamogeniculada)</td>
+            <td>No hay déficit específico descrito; el territorio inferolateral produce pérdida hemisensitiva y dolor hemicorporal (Bordes et al.). Función: sensación de cabeza y cuello, gusto.</td>
+          </tr>
+          <tr data-id="CGL">
+            <td rowspan="2"><strong>Sensorial específico (visión y audición)</strong></td>
+            <td><strong>CGL (LGN)</strong><br><em>Geniculado Lateral</em></td>
+            <td>Tracto óptico (Retina); modulado por corteza visual, colículo superior y núcleo reticular</td>
+            <td>Corteza Visual Primaria (V1 / Surco Calcarino)</td>
+            <td>Coroidea posterior <em>(la contribución de la coroidea anterior es discutida)</em></td>
+            <td>Hemianopsia al ocluirse el territorio posterior (Bordes et al.).</td>
+          </tr>
+          <tr data-id="CGM">
+            <td><strong>CGM (MGN)</strong><br><em>Geniculado Medial</em></td>
+            <td>Oliva superior, colículo inferior; retroalimentación del núcleo reticular y de la corteza auditiva</td>
+            <td>Corteza auditiva (lóbulo temporal)</td>
+            <td>Inferolateral (ramas mediales) y coroidea posterior</td>
+            <td>No descrito en las fuentes (función: audición).</td>
+          </tr>
+          <tr data-id="DM">
+            <td rowspan="2"><strong>Asociación</strong></td>
+            <td><strong>DM</strong><br><em>Dorsomedial (Mediodorsal, MD)</em></td>
+            <td>Amígdala (sistema límbico), corteza olfatoria</td>
+            <td>Corteza prefrontal y sistema límbico</td>
+            <td>Paramediana (talamosubtalámica posterior)</td>
+            <td>Destrucción preferente en el insomnio familiar fatal (Marcuse et al.); el territorio paramediano produce alteración visual, hemiparesia, pérdida de memoria y mutismo acinético (Bordes et al.).</td>
+          </tr>
+          <tr data-id="PUL">
+            <td><strong>PUL</strong><br><em>Pulvinar</em></td>
+            <td>Colículo superior, sistema límbico, corteza visual y de asociación</td>
+            <td>Corteza de asociación parietal posterior, occipital, insular y cingulada; lóbulo temporal anterior</td>
+            <td>Coroidea posterior (y ramas pulvinares de la inferolateral)</td>
+            <td>Sin síndrome específico en las fuentes; el territorio posterior produce hemianopsia, pérdida hemisensitiva y dolor hemicorporal (Bordes et al.).</td>
+          </tr>
+          <tr data-id="NA">
+            <td rowspan="4"><strong>Límbico y Regulador</strong></td>
+            <td><strong>NA (AN)</strong><br><em>Núcleo Anterior</em><br><small>(anterodorsal, anteroventral, anteromedial)</small></td>
+            <td>Cuerpos mamilares (tracto mamilotalámico) y subículo; el hipocampo llega vía fórnix</td>
+            <td>Corteza del cíngulo anterior (Circuito de Papez: cíngulo ➔ corteza entorrinal ➔ hipocampo)</td>
+            <td>Tuberotalámica (y paramediana)</td>
+            <td>Amnesia anterógrada (y retrógrada en el <strong>Síndrome de Korsakoff</strong>), confabulación.</td>
+          </tr>
+          <tr data-id="PVT">
+            <td><strong>PVT</strong><br><em>Paraventricular (línea media)</em></td>
+            <td>Tronco encefálico (sustancia gris periacueductal, parabraquial, tracto solitario, locus coeruleus, tegmental laterodorsal y pedunculopontino, rafe), corteza prefrontal medial (prelímbica, infralímbica, insular) e hipotálamo (orexina, dinorfina, CART)</td>
+            <td>Estriado ventral (núcleo accumbens, sobre todo la cáscara), amígdala central y basolateral, núcleo de la estría terminal (BNST) y corteza prefrontal</td>
+            <td>No descrita en las fuentes</td>
+            <td>Sin síndrome clínico específico en las fuentes. Los núcleos de la línea media participan en alerta, motivación y procesamiento sensorial; en roedores, el PVT interviene en la búsqueda de drogas y la recaída.</td>
+          </tr>
+          <tr data-id="CM">
+            <td><strong>CM</strong><br><em>Intralaminares (central medial / centromediano)</em></td>
+            <td>Globo pálido interno (GPi), núcleos cerebelosos profundos, sistema reticular activador (tronco encefálico), tracto espinotalámico, colículo superior, núcleos vestibulares, otros núcleos talámicos y corteza (incl. motora)</td>
+            <td>Principalmente estriado, con algunas proyecciones directas a la corteza peri-rolándica; otras áreas por vía multisináptica; también sistema límbico y corteza visual</td>
+            <td>Paramediana (y parte de la tuberotalámica y de la coroidea posterior)</td>
+            <td>Parte del sistema reticular activador (vigilia, alerta y conciencia); mutismo acinético en el infarto paramediano (Bordes et al.).</td>
+          </tr>
+          <tr data-id="TRN">
+            <td><strong>TRN</strong><br><em>Reticular</em></td>
+            <td>Otros núcleos talámicos, sistema reticular activador, prosencéfalo basal, ganglios basales, corteza</td>
+            <td>Solo al propio tálamo (sinapsis estrictamente inhibitorias); único núcleo sin proyecciones excitatorias fuera del tálamo <em>(bucle GABAérgico)</em></td>
+            <td>Multiterritorial (tuberotalámica y paramediana)</td>
+            <td>Participa en alerta, ritmicidad y epileptogénesis (Bordes et al.); su inhibición prolongada en las descargas espiga-onda puede deprimir la conciencia (Marcuse et al.).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Esquema interactivo de núcleos</h3>
+      <div class="toolbar">
+        <label class="switch"><input type="checkbox" id="lesionMode"> 🔴 Modo lesión</label>
+        <button class="btn alt" id="clearBtn">Limpiar selección</button>
+        <span class="hint" style="margin:0" id="modeHint">Modo normal: haz clic en un núcleo para ver su ficha.</span>
+      </div>
+      <div class="model" id="modelo">
+        <div class="svgwrap">
+          <svg viewBox="0 0 520 570" role="img" aria-label="Esquema del tálamo">
+            <line x1="440" y1="20" x2="440" y2="530" stroke="#94a3b8" stroke-dasharray="6 5" stroke-width="2"/>
+            <text class="axis" x="446" y="275" transform="rotate(90 446 275)">Línea media (III ventrículo)</text>
+            <text class="axis" x="260" y="18" text-anchor="middle">▲ Anterior</text>
+            <text class="axis" x="260" y="562" text-anchor="middle">▼ Posterior</text>
+
+            <path class="nuc" data-id="TRN" tabindex="0" d="M 118 70 Q 82 280 118 490 L 140 490 Q 108 280 140 70 Z" fill="#0d9488"/>
+            <ellipse class="nuc" data-id="NA" tabindex="0" cx="285" cy="75" rx="75" ry="34" fill="#7c3aed"/>
+            <rect class="nuc" data-id="VA" tabindex="0" x="170" y="120" width="165" height="52" rx="14" fill="#2563eb"/>
+            <rect class="nuc" data-id="VL" tabindex="0" x="170" y="178" width="165" height="64" rx="14" fill="#1d4ed8"/>
+            <rect class="nuc" data-id="VIM" tabindex="0" x="170" y="248" width="165" height="44" rx="14" fill="#4338ca"/>
+            <rect class="nuc" data-id="DM" tabindex="0" x="341" y="120" width="59" height="172" rx="14" fill="#6d28d9"/>
+            <rect class="nuc" data-id="VPL" tabindex="0" x="170" y="298" width="115" height="70" rx="14" fill="#dc2626"/>
+            <rect class="nuc" data-id="VPM" tabindex="0" x="291" y="298" width="54" height="70" rx="14" fill="#b91c1c"/>
+            <rect class="nuc" data-id="CM" tabindex="0" x="351" y="298" width="49" height="70" rx="14" fill="#475569"/>
+            <rect class="nuc" data-id="PVT" tabindex="0" x="406" y="100" width="28" height="330" rx="12" fill="#be185d"/>
+            <rect class="nuc" data-id="PUL" tabindex="0" x="170" y="374" width="230" height="70" rx="14" fill="#0e7490"/>
+            <ellipse class="nuc" data-id="CGL" tabindex="0" cx="225" cy="502" rx="52" ry="30" fill="#d97706"/>
+            <ellipse class="nuc" data-id="CGM" tabindex="0" cx="345" cy="502" rx="52" ry="30" fill="#b45309"/>
+
+            <text class="lbl" x="285" y="75">NA</text>
+            <text class="lbl" x="252" y="146">VA</text>
+            <text class="lbl" x="252" y="210">VL</text>
+            <text class="lbl" x="252" y="270">VIM</text>
+            <text class="lbl" x="370" y="206">DM</text>
+            <text class="lbl" x="227" y="333">VPL</text>
+            <text class="lbl" x="318" y="333">VPM</text>
+            <text class="lbl" x="375" y="333">CM</text>
+            <text class="lbl" x="420" y="265" transform="rotate(-90 420 265)">PVT</text>
+            <text class="lbl" x="285" y="409">Pulvinar</text>
+            <text class="lbl" x="225" y="502">CGL</text>
+            <text class="lbl" x="345" y="502">CGM</text>
+            <text class="axis" x="112" y="512" text-anchor="middle">TRN</text>
+
+            <g id="xmarks"></g>
+          </svg>
+          <p style="font-size:.8rem;color:#64748b;margin:.3rem .5rem">Vista dorsal esquemática (hemisferio izquierdo). Simplificada, sin proporciones anatómicas exactas; CM representa el grupo intralaminar; PVT es un núcleo de la línea media (junto al tercer ventrículo).</p>
+        </div>
+        <div class="detail" id="detail">
+          <div class="placeholder">👈 Selecciona un núcleo para ver su ficha.</div>
+        </div>
+      </div>
+
+      <h3>Núcleos intralaminares: conectividad estructural en humanos (Kumar et al., 2023)</h3>
+      <p>Kumar et al. mapearon con tractografía probabilística de difusión (730 voluntarios sanos del Human Connectome Project) las conexiones de cinco núcleos intralaminares. Estos núcleos están en la lámina medular interna, rodean al DM y forman parte del sistema talamocortical «inespecífico», que transmite la actividad de la formación reticular del tronco encefálico a áreas corticales amplias. Según el anatomista se dividen en 2 o 3 grupos: el central medial (CeM) en la línea media; el paracentral y el central lateral (CL) en la parte anterior y lateral; y el posterior, con el intralaminar posterior, el centromediano (CM) y el parafascicular (Pf). Algunos autores añaden el subparafascicular (sPf). <strong>Todos se conectan con el tronco encefálico.</strong></p>
+      <p class="hint">💡 Haz clic en una fila para resaltar el CM (que en el esquema representa al grupo intralaminar).</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Núcleo</th><th>Conectividad descrita</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="CM"><td><strong>CL</strong><br><em>Central lateral</em></td><td>El mayor del grupo en el atlas de Morel y el de conectividad más confinada: colículo superior, formación reticular mesencefálica (parte dorsal) y fórnix; dentro del tálamo, sitios de proyección prefrontal y temporal; el inicio de la radiación talámica anterior.</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>CM</strong><br><em>Centromediano</em></td><td>Segundo en tamaño. Conecta por los pedúnculos cerebelosos medio y superior con el tronco encefálico y los lóbulos cerebelosos (Crus I y II, V, IX, I–IV, VIIb), y con el tracto corticoespinal (sin llegar a la corteza), el pálido y el grupo superficial de la amígdala. En el tronco encefálico: rafe, sustancia gris periacueductal, colículo inferior, parabraquial, pedunculopontino, sustancia negra, núcleos vestibulares y área tegmental ventral, entre otros. No llegó a las cortezas cerebrales superiores.</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>CeM</strong><br><em>Central medial</em></td><td>Tercero en tamaño. Por la comisura anterior y la radiación talámica anterior llega a la corteza orbitofrontal (área de Brodmann 11); además, lóbulos temporales mediales, amígdala e hipocampo; pálido, putamen, caudado, fórnix y cíngulo; por la radiación óptica y el fascículo occipitofrontal inferior, corteza calcarina, cuña, precuña y giro fusiforme; pedúnculos cerebelosos; y dentro del tálamo, el cuerpo geniculado medial y el sitio prefrontal.</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>Pf</strong><br><em>Parafascicular</em></td><td>Proyecciones casi iguales a las del CeM, con más conexiones al fascículo longitudinal inferior, la corteza occipital lateral, la precuña y el esplenio del cuerpo calloso; a diferencia del CeM, sin conexión intratalámica con el sitio prefrontal.</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>sPf</strong><br><em>Subparafascicular</em></td><td>El más pequeño. Conecta con los sitios talámicos sensorial y parietal posterior, el caudado, el putamen, el pálido, el tronco encefálico y el tracto corticoespinal; por este y el fascículo longitudinal superior llega a las cortezas somatosensorial secundaria y primaria, motora primaria, ínsula, giros precentral y poscentral y lóbulos parietales superior e inferior.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>El CeM y el Pf comparten conexiones con cortezas visual, temporal y frontal que incluyen nodos de la red por defecto, y el CM y el sPf participan en redes sensoriomotoras. Funciones asociadas en la literatura que cita el artículo: alerta, conciencia, sueño, vigilancia, atención y procesamiento visual y sensoriomotor; el CeM, con sus modos tónico y en ráfagas, modula la actividad cortical durante el sueño.</p>
+      <div class="note">⚠ Son resultados de tractografía de difusión: no distinguen entre conexiones directas e indirectas, ni entre aferencias drivers y moduladoras, ni capas corticales; además dependen de núcleos definidos por un atlas, y el CeM se superpone mucho con el Pf. Los autores los contrastan con estudios de trazadores en animales, pero la comparación punto a punto no es posible.</div>
+
+      <h3>El geniculado lateral: más que un relevo (Weyand, 2016)</h3>
+      <p>Weyand revisa el CGL, la estructura talámica que recibe de la retina y proyecta a la corteza visual, y que suele presentarse como prototipo de núcleo de relevo. Sostiene que, aunque el acoplamiento retinogeniculado es fuerte, el CGL realiza una «poda» selectiva de la señal retiniana mediante aferencias no retinianas: aun con un campo receptivo concéntrico similar al de la retina, cada espiga del CGL transmitió entre un 20 y un 50 % más de información (bits por espiga) que la espiga retiniana que la origina (en animales anestesiados).</p>
+      <p><strong>Diseño esencial.</strong> El CGL tiene solo dos tipos celulares: neuronas de proyección impulsadas por la retina e interneuronas inhibitorias que también reciben retina; a ellas se suman neuronas inhibitorias extrínsecas del núcleo reticular, que forman un bucle de inhibición recurrente. Las neuronas que reciben de la retina son las mismas que proyectan a la corteza visual (no hay una neurona intermedia), y la retina las impulsa como <em>driver</em>. La inervación retiniana (1) impulsa las neuronas, (2) se segrega por ojo y grupo funcional, a menudo formando capas, y (3) termina en agrupaciones ordenadas que forman un mapa retinotópico del campo visual contralateral. La convergencia retiniana es mínima (a menudo 1:1). Dos aferencias extrínsecas grandes modifican la salida: la retroalimentación de la capa VI de la corteza visual y la proyección ascendente del tronco encefálico (estado, alerta, atención y movimientos oculares). La sinapsis retinogeniculada es de las más potentes del cerebro, pero una neurona registrada en un gato despierto solo disparó con cerca del 50 % de los impulsos retinianos.</p>
+      <p class="hint">💡 Haz clic en una fila para resaltar el CGL en el esquema. Son diez funciones putativas que propone el autor.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Función putativa</th><th>Qué ocurre</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="CGL"><td><strong>1. Ordenar las aferencias retinianas</strong></td><td>Las aferencias se separan por ojo, grupo funcional (en el mono: magnocelular, parvocelular y koniocelular; en el gato: X, Y y W) y polaridad del centro (on u off). Esta «organización» facilita que las aferencias no retinianas accedan a poblaciones selectas; por ejemplo, la activación del EEG afectó distinto a las capas parvocelulares C y a las capas A del gato.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>2. Multiplexación</strong></td><td>Una célula ganglionar de la retina puede impulsar varias neuronas del CGL, lo que amplifica la señal.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>3. Integración</strong></td><td>Varios axones retinianos pueden converger en una misma neurona, creando campos receptivos sin equivalente en la retina. Muchas de estas aferencias participan en inhibición anterógrada (disináptica), que modifica el entorno del campo receptivo o el momento de la transmisión y crea las llamadas células «lagged».</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>4. Control de ganancia</strong></td><td>Las neuronas del CGL tienen su propio control de ganancia de luminancia y contraste, que altera la eficacia retinogeniculada.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>5. Estado de alerta y atención</strong></td><td>La eficacia de la transmisión aumenta con el nivel de alerta, con un componente espacial que refleja atención selectiva; el estado amplifica así las señales retinianas en función de la actividad. La proyección ascendente del tronco encefálico participa.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>6. Retroalimentación cortical</strong></td><td>Una gran proyección desde la capa VI de la corteza visual aumenta la selectividad de las neuronas del CGL, sobre todo cuando hay una textura distinta en el entorno extraclásico, y sincroniza las neuronas estimuladas por un mismo borde.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>7. Decorrelación temporal</strong></td><td>La diversidad temporal inducida por la inhibición anterógrada decorrelaciona la respuesta a imágenes naturales, lo que da un código más eficiente.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>8. Selectividad direccional</strong></td><td>Esa misma diversidad temporal, que depende de las células «lagged», es un sustrato para las neuronas direccionales de la corteza visual.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>9. Movimientos oculares</strong></td><td>La eficacia de la transmisión disminuye unos 100 ms antes de una sacada y se convierte en excitación sincronizada con su final; como la depresión precede a la sacada, su origen no es retiniano ni propioceptivo.</td></tr>
+          <tr class="art" data-ids="CGL"><td><strong>10. Posición del ojo</strong></td><td>La posición ocular modifica la respuesta visual, de modo que el CGL participa en construir un marco de referencia centrado en la cabeza, un primer paso hacia uno egocéntrico.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note">⚠ Es una revisión de fisiología; casi toda la evidencia proviene de gato y mono, y el autor señala que varias de estas funciones solo se aprecian en el animal despierto. No describe síndromes clínicos del CGL.</div>
+    <section id="limbico">
+      <h2>5. Tálamo Límbico y de la Línea Media</h2>
+      <p>Vertes et al. (2015) proponen agrupar los núcleos talámicos en un continuo de tres conjuntos: <strong>sensoriomotores</strong> (principales o de relevo), <strong>límbicos</strong> y núcleos «<strong>puente</strong>» entre ambos dominios. El tálamo límbico incluye los núcleos anteriores, los de la línea media, la división medial del mediodorsal (MDm) y el central medial (CeM) del complejo intralaminar. Los núcleos de la línea media son el paraventricular (PV) y el paratenial (PT), dorsales, y el reuniens (RE) y el romboide (RH), ventrales. Como «puente» se proponen el submedial, el paracentral, el central lateral y el parafascicular, las partes central y lateral del MD, y los núcleos laterodorsal y lateral posterior.</p>
+      <p>La clasificación tradicional que resumen distingue núcleos <em>principales</em> (LGN, MGN, VPM, VPL, posterior, VL, VA y VM), núcleos de <em>asociación</em> (MD, anteriores, submedial y laterales, que reciben de la capa 5 cortical) y un grupo de <strong>línea media e intralaminares</strong>, definido por su ubicación, su distribución a estructuras subcorticales y corticales y su relación con la activación y la atención; el reticular queda aparte porque no proyecta a la corteza. Los autores señalan que el esquema «específico/inespecífico» nació de un conocimiento incompleto, ya que a esos núcleos no se les atribuía una función concreta.</p>
+      <p class="hint">💡 Haz clic en una fila para resaltar el núcleo equivalente en el esquema (RE y RH no están en el esquema). La revisión trata sobre todo el tálamo de <strong>roedores</strong>.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Núcleo</th><th>Conexiones y funciones descritas</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA"><td><strong>Núcleos anteriores</strong></td><td>Forman parte del tálamo límbico, junto con los de la línea media, la división medial del mediodorsal y el central medial.</td></tr>
+          <tr class="art" data-ids="PVT"><td><strong>PV · Paraventricular (dorsal)</strong></td><td>Se ubica bajo el tercer ventrículo y recorre casi todo el tálamo en sentido rostrocaudal. Sus principales blancos son las cortezas infralímbica y prelímbica, la ínsula agranular dorsal, el subículo ventral, el claustro, el septo lateral, el núcleo accumbens (core y cáscara), el tubérculo olfatorio, el BNST, varios núcleos de la amígdala (medial, central, cortical y basal) y núcleos del hipotálamo; el PV caudal proyecta además al estriado dorsal. Su entrada principal es la corteza prefrontal medial (prelímbica e infralímbica, de forma masiva) y la ínsula, además de aferencias del tronco encefálico. Se asocia con estrés y ansiedad, alimentación y búsqueda de drogas: se activa ante distintos factores estresantes, y la lesión del PV posterior bloquea la habituación al estrés repetido; también responde a condiciones de recompensa.</td></tr>
+          <tr class="art" data-ids="PVT"><td><strong>PT · Paratenial (dorsal)</strong></td><td>Núcleo delgado y alargado del tálamo anterior, que se solapa con el tercio rostral del PV. Sus salidas son paralelas a las del PV, pero con más peso cortical (corteza orbital medial, prefrontal medial ventral, entorrinal lateral) y estriado dorsal, frente al mayor peso subcortical del PV (BNST, amígdala e hipotálamo). Se sabe poco de sus funciones.</td></tr>
+          <tr><td><strong>RE · Reuniens (ventral)</strong></td><td>El mayor de los núcleos de la línea media, en los dos tercios anteriores del tálamo y justo dorsal al tercer ventrículo. Es la principal fuente talámica de entrada al hipocampo: termina en el estrato lacunoso-molecular de CA1 y en la capa molecular del subículo y el parasubículo, sin proyectar a CA2, CA3 ni al giro dentado. También proyecta a cortezas límbicas (orbital medial y ventral, infralímbica, prelímbica y cingulada anterior). Participa en conductas que dependen de la interacción entre el hipocampo y la corteza prefrontal medial.</td></tr>
+          <tr><td><strong>RH · Romboide (ventral)</strong></td><td>Pequeño, dorsal al RE y solapado con sus dos tercios caudales. Sus entradas y salidas son similares a las del RE, pero distribuye más ampliamente por la corteza límbica y no límbica. Muchos estudios no pueden separar sus efectos de los del RE; en memoria de trabajo, la inactivación de RE/RH deterioró tareas que dependen del circuito hipocampo-prefrontal.</td></tr>
+          <tr class="art" data-ids="DM"><td><strong>MDm · Mediodorsal, división medial</strong></td><td>El MD está casi «rodeado» por núcleos de la línea media e intralaminares, y en ratas se divide en porciones medial, central, lateral y paralaminar, con conexiones que van de lo límbico (medial) a lo motor (lateral). Mantiene conexiones recíprocas fuertes con la corteza prefrontal medial, orbital e insular, y se le asocia con la flexibilidad conductual.</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>CeM · Central medial (intralaminar rostral)</strong></td><td>Pertenece al grupo intralaminar rostral (central medial, paracentral y central lateral). Sus proyecciones límbicas son más afines a las de los núcleos de la línea media que a las de otros intralaminares; sus funciones casi no se han estudiado por separado del paracentral y el central lateral.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p><strong>Conclusión de los autores:</strong> los núcleos que se extienden de dorsal a ventral por la línea media y paramedia del tálamo forman el núcleo del tálamo límbico; reciben una amplia variedad de aferencias de sitios límbicos del tronco encefálico y del prosencéfalo, y proyectan casi exclusivamente a estructuras límbicas subcorticales y corticales (y al estriado dorsal). <strong>Los núcleos dorsales de la línea media (PV, PT) participan sobre todo en funciones afectivas, y los ventrales (RE, RH) en funciones cognitivas.</strong></p>
+      <div class="note">⚠ Casi todo se basa en estudios de trazadores y de conducta en ratas. En esta revisión «CM» se refiere al central medial; en el esquema del modelo, «CM» representa a todo el grupo intralaminar.</div>
+    </section>
+
+    <section id="irrigacion">
+      <h2>6. Irrigación Arterial</h2>
+
+      <h3>Territorios arteriales (Bordes et al., 2020)</h3>
+      <p>Las regiones mediales, laterales y posteriores reciben sangre sobre todo de ramas de la arteria comunicante posterior (PCom) y de los segmentos P1 y P2 de la arteria cerebral posterior (PCA), alimentadas por el sistema vertebrobasilar; las carótidas internas aportan poco (la coroidea anterior irriga parte del tálamo lateral, pero su contribución se discute). Hay <strong>4 territorios estándar</strong> y <strong>3 variantes</strong>.</p>
+      <p class="hint">💡 Haz clic en un territorio para resaltarlo en el esquema (aproximado: la fuente describe regiones y no núcleos individuales).</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Territorio</th><th>Arteria y origen</th><th>Regiones talámicas</th><th>Síntomas al ocluirse</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA,VA,CM,TRN">
+            <td><strong>Anterior</strong></td>
+            <td><strong>Tuberotalámica</strong> (polar), del tercio medio de la PCom. Cruza el túber cinéreo (núcleo arcuato) e irriga también el hipotálamo.</td>
+            <td>Anterior, ventral e intralaminar (afecta grupos reticular, límbico y efector)</td>
+            <td>Pérdida de memoria, hemiparesia, alteración emocional</td>
+          </tr>
+          <tr class="art" data-ids="VL,VIM,VPL,VPM,CGM,PUL">
+            <td><strong>Inferolateral</strong></td>
+            <td><strong>Talamogeniculada</strong>, 5–10 ramas del segmento P2 (ambiens) de la PCA; pasan entre los cuerpos geniculados medial y lateral</td>
+            <td>Ventral (VP y VL) y cuerpo geniculado medial; ramas pulvinares inferolaterales</td>
+            <td>Pérdida hemisensitiva contralateral, dolor hemicorporal (Dejerine-Roussy), alteración del movimiento</td>
+          </tr>
+          <tr class="art" data-ids="NA,DM,CM,TRN">
+            <td><strong>Paramediano</strong></td>
+            <td><strong>Talamosubtalámica posterior</strong> (talamoperforante posterior o mesencefálica), del segmento P1 / interpeduncular de la PCA</td>
+            <td>Anterior, medial, ventral (en parte) e intralaminar (grupos reticular, límbico, efector, asociativo, sensorial específico e intralaminar)</td>
+            <td>Alteración visual, hemiparesia, pérdida de memoria, mutismo acinético</td>
+          </tr>
+          <tr class="art" data-ids="CM,PUL,CGL,CGM">
+            <td><strong>Posterior</strong></td>
+            <td><strong>Coroidea posterior</strong>, de la parte distal de P1 o proximal de P2 de la PCA (ramas mediales y laterales)</td>
+            <td>Intralaminar (en parte), pulvinar y cuerpos geniculados medial y lateral</td>
+            <td>Hemianopsia, pérdida hemisensitiva contralateral, dolor hemicorporal</td>
+          </tr>
+          <tr class="art" data-ids="NA">
+            <td><strong>Anteromediano</strong> <small>(variante)</small></td>
+            <td>Parte posterior del territorio anterior y parte anterior del paramediano</td>
+            <td>Anterior</td>
+            <td>Paresia de la mirada vertical, amnesia, afasia, abulia</td>
+          </tr>
+          <tr class="art" data-ids="TRN,NA,VA,VL,VIM,DM,VPL,VPM,CM,PUL,CGL,CGM">
+            <td><strong>Central</strong> <small>(variante)</small></td>
+            <td>Partes centrales de los 4 territorios estándar</td>
+            <td>Todas las regiones</td>
+            <td>Pérdida cognitiva, paresia de la mirada vertical, pérdida de alerta, ataxia</td>
+          </tr>
+          <tr class="art" data-ids="PUL,VL,VIM,VPL,VPM">
+            <td><strong>Posterolateral</strong> <small>(variante)</small></td>
+            <td>Parte anterior del territorio posterior y parte posterior del inferolateral</td>
+            <td>Pulvinar y regiones ventrales</td>
+            <td>Afasia, ataxia, pérdida de función ejecutiva</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note">⚠ La fuente describe <em>regiones</em> (anterior, ventral, medial, intralaminar…), no núcleos uno por uno, así que la asignación por núcleo y el resaltado son aproximaciones. Variaciones relevantes: la tuberotalámica falta en un tercio de las personas, y su territorio lo cubren las paramedianas o, más a menudo, la arteria de Percheron; la contribución de la coroidea anterior sigue en discusión. El VIM se asignó al territorio inferolateral por analogía con el VL (el atlas de Morel lo considera un subcampo del VL).</div>
+    </section>
+
+    <!-- SECCIÓN 3: SÍNDROMES CLÍNICOS -->
+    <section id="sindromes">
+      <h2>7. Síndromes Vasculares y Clínicos Clave</h2>
+      <p>Según Marcuse et al., una lesión vascular talámica puede producir un abanico amplio de síntomas según su localización exacta: alteraciones de la memoria, disminución del nivel de conciencia o coma, afasia, hemiataxia, síndrome doloroso y pérdida sensitiva. Las lesiones talámicas adquiridas no suelen causar epilepsia; una excepción notable son las lesiones neonatales (ver síndrome 8).</p>
+
+      <div class="highlight-card">
+        <h4>1. Síndrome de Dejerine-Roussy (Síndrome del Dolor Talámico)</h4>
+        <ul>
+          <li><strong>Causa:</strong> Isquemia en el territorio de la <strong>arteria talamogeniculada</strong> (territorio inferolateral, ramas del segmento P2 de la cerebral posterior), que irriga la región ventral (VP y VL) y el cuerpo geniculado medial.</li>
+          <li><strong>Presentación:</strong> Pérdida hemisensitiva y dolor hemicorporal contralaterales, con el movimiento ligeramente alterado (Bordes et al.).</li>
+        </ul>
+        <button class="btn" data-ids="VPL,VPM">Ver núcleos afectados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>2. Síndrome de Amnesia Talámica</h4>
+        <ul>
+          <li><strong>Causa:</strong> Infarto de la arteria tuberotalámica o paramediana que daña el <strong>Núcleo Anterior (NA)</strong> o el fascículo mamilotalámico. El infarto tuberotalámico también puede dar hemiparesia y alteración emocional, porque la arteria irriga además el hipotálamo posterior, la cápsula interna posterior y los cuerpos mamilares.</li>
+          <li><strong>Presentación:</strong> Pérdida de memoria (territorios anterior y paramediano); amnesia anterógrada en la variante anteromediana (Bordes et al.).</li>
+        </ul>
+        <button class="btn" data-ids="NA">Ver núcleos afectados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>3. Infarto Talámico Paramediano (Arteria de Percheron)</h4>
+        <ul>
+          <li><strong>Causa:</strong> Oclusión de la arteria paramediana/talamoperforante; cuando nace de un tronco común (arteria de Percheron tipo B: un mismo pedículo del segmento P1 de la cerebral posterior irriga ambos territorios paramedianos; la prevalencia es discutida, ya que StatPearls estima 4–12 % y Bordes et al. hablan de un tercio de las personas) produce infarto talámico paramediano <strong>bilateral y simétrico</strong>.</li>
+          <li><strong>Presentación:</strong> Según Bordes et al., el cuadro incluye alteración visual, hemiparesia, pérdida de memoria y mutismo acinético, atribuibles a isquemia de la formación reticular mesencefálica, el hipotálamo posterior, los cuerpos mamilares y los núcleos talámicos anterior y medial.</li>
+        </ul>
+        <button class="btn" data-ids="DM,CM">Ver núcleos afectados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>4. Infarto de la Arteria Coroidea Posterior</h4>
+        <ul>
+          <li><strong>Causa:</strong> Isquemia del territorio de la arteria coroidea posterior (pulvinar, cuerpos geniculados y parte de la región intralaminar), rama de la parte distal de P1 o proximal de P2 de la cerebral posterior. Los infartos aislados de este territorio son raros por la cercanía de la cerebral posterior y las anastomosis con vasos vecinos; lo habitual es que el infarto de la cerebral posterior los incluya.</li>
+          <li><strong>Presentación:</strong> Hemianopsia, pérdida hemisensitiva contralateral y dolor hemicorporal (Bordes et al.). Se han descrito casos aislados con síntomas visuales transitorios, atribuidos a la afectación de los cuerpos geniculados y de núcleos asociativos.</li>
+        </ul>
+        <button class="btn" data-ids="CM,PUL,CGL,CGM">Ver núcleos afectados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>5. Núcleos de Orden Superior y Enfermedades del Neurodesarrollo</h4>
+        <ul>
+          <li><strong>Contexto:</strong> el <strong>DM</strong> y el <strong>pulvinar</strong> son núcleos de orden superior (retransmiten información entre regiones corticales). Están muy expandidos en humanos frente a roedores y participan en funciones cognitivas como el procesamiento léxico-semántico del lenguaje.</li>
+          <li><strong>Hallazgos de investigación:</strong> en esquizofrenia se ha descrito menor volumen del DM, el pulvinar y el CM; en el pulvinar medial, menor densidad neuronal post mortem y menor conectividad con el lóbulo temporal. Genes como <em>CNTNAP2</em> (asociado a autismo, esquizofrenia y trastornos del lenguaje) y su regulador <em>FOXP2</em> se expresan en estos núcleos durante el desarrollo.</li>
+          <li><em>Son asociaciones de investigación, no criterios diagnósticos ni un síndrome vascular.</em></li>
+        </ul>
+        <button class="btn" data-ids="DM,PUL,CM">Ver núcleos implicados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>6. Síndrome de Korsakoff</h4>
+        <ul>
+          <li><strong>Causa:</strong> déficit crónico de vitamina B1 (tiamina). La causa más frecuente es el trastorno por consumo de alcohol, aunque también puede deberse a inanición prolongada; la mala dieta, la absorción digestiva comprometida y el menor almacenamiento de tiamina aumentan el riesgo.</li>
+          <li><strong>Presentación:</strong> amnesia anterógrada y retrógrada, con atrofia cerebral generalizada; la mayor degeneración ocurre en el <strong>núcleo talámico anterior</strong>. Los déficits específicos son amnesia anterógrada profunda, amnesia retrógrada, déficits ejecutivos y confabulaciones (rellenar lagunas de memoria con información inventada, sin intención de engañar).</li>
+          <li><strong>Encefalopatía de Wernicke:</strong> si la deficiencia de tiamina no se trata puede evolucionar a Korsakoff. Se caracteriza por ataxia, movimientos oculares anormales (oftalmoplejía), confusión, visión borrosa o doble, temblor y nistagmo. En etapas tempranas, la tiamina puede revertir los síntomas neurológicos; el aprendizaje y la memoria responden más despacio y de forma incompleta (Matzeu et al.).</li>
+          <li><strong>Circuitos afectados:</strong> el tálamo es un nodo central del circuito de Papez (memoria episódica) y del circuito frontocerebeloso (memoria de trabajo y función ejecutiva); la pérdida de volumen talámica por el alcohol y la deficiencia de tiamina afecta a ambos.</li>
+        </ul>
+        <button class="btn" data-ids="NA">Ver núcleo afectado en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>7. Insomnio Familiar Fatal</h4>
+        <ul>
+          <li><strong>Causa:</strong> enfermedad priónica autosómica dominante, rara, con destrucción preferente del <strong>DM</strong> y del <strong>núcleo anterior</strong>.</li>
+          <li><strong>Presentación:</strong> se altera el ciclo natural de sueño y vigilia; el insomnio, con ausencia de sueño de ondas lentas, es de las primeras manifestaciones.</li>
+        </ul>
+        <button class="btn" data-ids="DM,NA">Ver núcleos afectados en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>8. Lesión talámica neonatal y epilepsia con activación en sueño (DEE-SWAS)</h4>
+        <ul>
+          <li><strong>Causa:</strong> lesiones talámicas neonatales se vinculan con encefalopatía del desarrollo y/o epiléptica con espiga-onda en sueño (DEE-SWAS), de etiologías variables.</li>
+          <li><strong>Presentación:</strong> las espigas se desencadenan en el sueño no REM; fenotipo variable con alteraciones conductuales, del lenguaje, afasia adquirida y epilepsia. Los niños con DEE-SWAS y RM normal muestran cambios en la espectroscopía y menor volumen talámico, lo que sugiere pérdida neuronal.</li>
+        </ul>
+      </div>
+
+      <div class="highlight-card">
+        <h4>9. Territorios vasculares variantes (Bordes et al.)</h4>
+        <ul>
+          <li><strong>Anteromediano:</strong> parte posterior del territorio anterior y parte anterior del paramediano. Paresia de la mirada vertical, amnesia anterógrada, afasia y falta de motivación; probablemente se afectan los núcleos límbicos anteriores.</li>
+          <li><strong>Central:</strong> intersección central de los 4 territorios estándar. Los infartos aislados son extremadamente raros; se esperan pérdida cognitiva, paresia de la mirada vertical, pérdida de alerta y ataxia, con afectación probable de todos los grupos nucleares.</li>
+          <li><strong>Posterolateral:</strong> parte anterior del territorio posterior y posterior del inferolateral. Afasia, ataxia y pérdida de función ejecutiva, por afectación del pulvinar y de regiones ventrales.</li>
+          <li>Estos territorios están peor definidos que los cuatro estándar, pero se han observado en estudios de RM.</li>
+        </ul>
+        <button class="btn" data-ids="NA">Anteromediano</button>
+        <button class="btn" data-ids="PUL,VL,VIM,VPL,VPM">Posterolateral</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>10. Etiología, diagnóstico y drenaje venoso</h4>
+        <ul>
+          <li><strong>Causas más frecuentes de lesión talámica no iatrogénica:</strong> infarto embólico, encefalopatía hipertensiva y trombosis venosa cerebral profunda. Otras: neoplasias, enfermedades desmielinizantes, infecciosas, metabólicas y degenerativas, y encefalopatía hipóxica en neonatos.</li>
+          <li><strong>Diagnóstico:</strong> TC y RM (T1, T2, FLAIR, difusión, eco de gradiente, susceptibilidad y angio-RM de tiempo de vuelo); angio-TC y angiografía de sustracción digital para precisar el nivel de oclusión y valorar tratamiento intraarterial. Tanto un infarto como la oclusión de una arteria de Percheron pueden producir infartos talámicos bilaterales.</li>
+          <li><strong>Drenaje venoso:</strong> las venas talamoestriada y talámicas laterales drenan a las venas cerebrales internas y a la vena basal de Rosenthal, que se unen a la gran vena de Galeno. Los infartos venosos no respetan los territorios arteriales y su presentación varía desde cefalea hasta coma.</li>
+        </ul>
+      </div>
+
+      <div class="highlight-card">
+        <h4>11. Núcleos intralaminares: hallazgos clínicos (Kumar et al., 2023)</h4>
+        <ul>
+          <li>Los infartos parciales de los intralaminares causan déficits cognitivos, con menor flexibilidad para usar estrategias cognitivas (síndrome disejecutivo), y la degeneración de los intralaminares caudales se asocia a parálisis supranuclear progresiva y enfermedad de Parkinson.</li>
+          <li>La estimulación cerebral profunda de los núcleos de la línea media e intralaminares mejoró la alerta, el habla, el control motor ejecutivo y la conducta de alimentación en un estado de mínima conciencia tras un traumatismo grave. En macacos, la estimulación del CL redujo la conciencia.</li>
+          <li>El CM es blanco de DBS en epilepsia generalizada o multifocal, y el complejo CM-Pf es un blanco emergente en el síndrome de Tourette.</li>
+        </ul>
+        <button class="btn" data-ids="CM">Ver el grupo intralaminar en el esquema</button>
+      </div>
+
+      <div class="highlight-card">
+        <h4>12. El tálamo cognitivo (Cassel y Pereira de Vasconcelos, 2015)</h4>
+        <ul>
+          <li>El tálamo (del griego «cámara nupcial») es la mayor de las estructuras diencefálicas y tiene unos 60 núcleos. La visión tradicional reduce su papel a transmitir información entre áreas subcorticales y la corteza, sobre todo sensorial y motora.</li>
+          <li>En personas con ictus, traumatismo craneoencefálico, síndrome de Korsakoff u otras patologías que afectan al tálamo, sus lesiones se asocian con amnesia, afasia, disfunción ejecutiva, alteraciones de la atención y perseveración.</li>
+          <li>Según estudios en animales, entre los núcleos que transmiten y modulan información crucial para la cognición destacan el anterodorsal, el mediodorsal, los intralaminares y los núcleos reuniens y romboide (estos dos de la línea media, que no están en el esquema). Cuando el daño se limita a uno o varios de ellos puede afectarse algún aspecto de la memoria, a veces de forma dramática: las lesiones del núcleo anterodorsal producen un síndrome similar al hipocámpico.</li>
+          <li><strong>Reseña histórica:</strong> Korsakoff describió en 1887-1889 la grave alteración de la memoria de una parte de las personas con alcoholismo crónico; creyó que la causa era una toxina (no el alcohol mismo, porque había síntomas parecidos en personas no alcohólicas). La hipótesis de una deficiencia vitamínica surgió algo más de 30 años después de su muerte, y la contribución del daño en regiones como el núcleo talámico anterior no se reconocía entonces.</li>
+        </ul>
+        <button class="btn" data-ids="NA,DM,CM">Ver núcleos cognitivos en el esquema</button>
+      </div>
+
+      <details>
+        <summary><strong>Riesgo vascular de los abordajes quirúrgicos (Bordes et al., Tabla 3)</strong></summary>
+        <p>Diez de los 13 abordajes descritos (77 %) se dirigen a la región del pulvinar y ponen en riesgo el territorio posterior por daño de las arterias coroideas posteriores; la propia cerebral posterior también puede lesionarse.</p>
+        <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Abordaje</th><th>Territorios en riesgo</th></tr></thead>
+          <tbody>
+            <tr><td>Interhemisférico transcalloso anterior</td><td>Paramediano, central</td></tr>
+            <tr><td>Interhemisférico transcalloso contralateral</td><td>Anterior, inferolateral, posterior, central, posterolateral</td></tr>
+            <tr><td>Transilviano distal</td><td>Posterior, central</td></tr>
+            <tr><td>Interhemisférico transcalloso occipital</td><td>Posterior, central</td></tr>
+            <tr><td>Transtentorial supracerebeloso paramediano</td><td>Posterior, central, posterolateral</td></tr>
+            <tr><td>Transtentorial suboccipital</td><td>Posterior, central</td></tr>
+            <tr><td>Transventricular transcoroideo subtemporal</td><td>Posterior, posterolateral</td></tr>
+            <tr><td>Lóbulo parietal superior</td><td>Posterior, central</td></tr>
+            <tr><td>Infrafrontal supracarotídeo</td><td>Anterior, paramediano, central, anteromediano</td></tr>
+            <tr><td>Infratentorial supracerebeloso</td><td>Posterior, central</td></tr>
+            <tr><td>Receso suprapineal</td><td>Paramediano, posterior, central</td></tr>
+            <tr><td>Transprecúneo</td><td>Posterior, central</td></tr>
+            <tr><td>Translámina terminal transrostral</td><td>Anterior, paramediano, central, anteromediano</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- SECCIÓN 4: NEUROMODULACIÓN -->
+    <section id="neuromodulacion">
+      <h2>8. Neuromodulación Talámica y Terapéutica</h2>
+      <p>En la epilepsia, el tálamo normalmente <strong>no es la zona de inicio</strong> de las crisis, pero interviene en su propagación y, sobre todo, en la pérdida de conciencia. Sus amplias conexiones corticales permiten alcanzar varias regiones a la vez, lo que lo hace atractivo cuando la red epiléptica es grande y no resecable. Los núcleos más usados son el anterior, el CM y el pulvinar; el DM y el central lateral están en investigación.</p>
+      <p class="hint">💡 Haz clic en una fila para ver el núcleo blanco en el esquema de la sección 4.</p>
+
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Indicación</th><th>Blanco talámico</th><th>Evidencia y notas</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA">
+            <td><strong>Epilepsia focal o multifocal farmacorresistente</strong></td>
+            <td>Núcleo anterior (NA), DBS</td>
+            <td>Ensayo SANTE (110 pacientes, estimulación por ciclos): en la fase ciega la reducción de crisis fue de 40,4 % frente a 14,5 % con simulación (3 meses); a los 2 años, mediana de 56 % y 54 % de pacientes con reducción ≥50 %; seguimiento largo hasta ~70 %. Depresión en 37 % a 7 años (dos tercios con depresión previa). Mejor respuesta con electrodos en la parte más anterior, cerca del tracto mamilotalámico. Un segundo ensayo aleatorizado más pequeño (18 pacientes) no mostró diferencia significativa a los 6 meses.</td>
+          </tr>
+          <tr class="art" data-ids="CM">
+            <td><strong>Epilepsia generalizada y síndrome de Lennox-Gastaut (LGS)</strong></td>
+            <td>Centromediano (CM), DBS</td>
+            <td>Series no controladas con reducción media de ~70 %. El primer ensayo aleatorizado doble ciego en LGS (ESTEL) no mostró diferencia significativa en el objetivo primario a los 3 meses según los diarios, pero con tendencia a la mejoría; en el EEG ambulatorio, 59 % del grupo estimulado frente a 0 % de los controles tuvo una reducción de crisis electrográficas >50 %. La mejor respuesta se asoció al borde anterior e inferior del CM, cerca del núcleo ventral lateral.</td>
+          </tr>
+          <tr class="art" data-ids="PUL">
+            <td><strong>Epilepsia del lóbulo temporal y del cuadrante posterior</strong></td>
+            <td>Pulvinar (medial), RNS</td>
+            <td>Actividad ictal en el pulvinar en ~80 % de las crisis en epilepsia temporal farmacorresistente (SEEG). Al estimular el pulvinar medial, las crisis provocaron menos pérdida de conciencia, no se generalizaron y tuvieron fase tónica más corta. Evidencia limitada a series pequeñas.</td>
+          </tr>
+          <tr class="art" data-ids="NA,CM,PUL">
+            <td><strong>Estimulación responsiva (RNS)</strong></td>
+            <td>NA, CM o pulvinar</td>
+            <td>Serie retrospectiva multicéntrica de 25 pacientes: reducción mediana de crisis de 54 % a los 6 meses y 75 % a los 2 años. En el estudio pivotal del sistema RNS ningún blanco original era talámico (eficacia de 75 % a los 9 años con electrodos corticales o profundos).</td>
+          </tr>
+          <tr class="art" data-ids="VIM">
+            <td><strong>Temblor esencial y enfermedad de Parkinson con predominio de temblor</strong></td>
+            <td>Ventral intermedio (VIM): DBS, talamotomía o ultrasonido focalizado guiado por RM (MRgFUS)</td>
+            <td>Hasta ~50 % de los pacientes con temblor esencial no responde a fármacos. DBS aprobada por la FDA en 1997; reducción esperada del temblor de 60–90 %, con mayor beneficio si la estimulación cruza el tracto dentato-rubro-talámico. La talamotomía clásica se asoció a pérdida de eficacia y déficits permanentes, sobre todo si fue bilateral.</td>
+          </tr>
+          <tr class="art" data-ids="VL">
+            <td><strong>Distonía focal (calambre del escribiente)</strong></td>
+            <td>Ventral lateral (VL), talamotomía</td>
+            <td>La talamotomía del núcleo ventral lateral mostró eficacia en distonía focal de la mano.</td>
+          </tr>
+          <tr class="art" data-ids="DM,CM">
+            <td><strong>Síndrome de Tourette</strong></td>
+            <td>DM o CM/parafascicular, DBS</td>
+            <td>Cerca de la mitad de los casos de DBS en Tourette; mejoría mediana >50 % en la escala YGTSS. El efecto antitics parece depender de estimular las conexiones del CM con la corteza motora, mientras que estimular las del DM con regiones límbicas puede provocar ánimo deprimido.</td>
+          </tr>
+          <tr class="art" data-ids="CM">
+            <td><strong>Trastornos de la conciencia (coma, lesión cerebral traumática)</strong></td>
+            <td>CM-parafascicular y núcleo central lateral (CL)</td>
+            <td>Moruzzi y Magoun (1949) mostraron la relación causal entre estimular el tálamo o el mesencéfalo y el despertar cortical. Resultados clínicos mixtos con CM-parafascicular; en un estudio pequeño, el CL mejoró el control ejecutivo en lesión cerebral traumática crónica, y se evalúa en crisis focales del lóbulo temporal. Kumar et al. (2023) añaden la mejoría de alerta, habla y control motor con DBS de la línea media e intralaminar en un estado de mínima conciencia tras traumatismo grave, y que la estimulación del CL redujo la conciencia en macacos.</td>
+          </tr>
+          <tr class="art" data-ids="TRN,CM">
+            <td><strong>Estimulación del nervio vago (VNS)</strong></td>
+            <td>Vía indirecta (núcleo del tracto solitario ➔ TRN e intralaminares)</td>
+            <td>El mecanismo exacto no se conoce; los cambios talámicos del flujo sanguíneo regional se asocian a mayor eficacia. El tracto solitario informa al núcleo reticular, que modula la corteza vía relevo talamocortical, y los intralaminares reciben aferencias ascendentes del vago.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Selección del núcleo en epilepsia (hipótesis de trabajo)</h3>
+      <table>
+        <thead>
+          <tr><th>Núcleo</th><th>Tipo de epilepsia</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="NA"><td><strong>Anterior</strong></td><td>Focal o multifocal; red límbica: epilepsia temporal mesial y circunvolución del cíngulo anterior</td></tr>
+          <tr class="art" data-ids="CM"><td><strong>CM</strong></td><td>Generalizada, síndrome de Lennox-Gastaut, epilepsia del lóbulo frontal</td></tr>
+          <tr class="art" data-ids="PUL"><td><strong>Pulvinar</strong></td><td>Epilepsia del lóbulo temporal, epilepsia del cuadrante posterior</td></tr>
+        </tbody>
+      </table>
+      <p>La hipótesis es que la eficacia mejora al elegir el núcleo con mayor conectividad con la zona de inicio. El mejor apoyo es un subanálisis de SANTE (11 pacientes): quienes tenían crisis dentro de la red formación hipocampal ➔ cuerpos mamilares ➔ núcleo anterior ➔ cíngulo (circuito de Papez) tuvieron una reducción mediana de crisis significativamente mayor (80 % frente a 53 %) al año.</p>
+
+      <div class="highlight-card">
+        <h4>Estimulación continua o por ciclos frente a responsiva</h4>
+        <ul>
+          <li><strong>Bucle abierto (ciclos):</strong> sin retroalimentación en tiempo real; los ensayos aleatorizados con estimulación talámica usaron ciclos de trabajo, típicamente 1 min activa y 5 min inactiva. La DBS permite programar en casa, pero puede empeorar el ánimo (con el núcleo anterior).</li>
+          <li><strong>Bucle cerrado (RNS):</strong> estimula solo cuando detecta un cambio en la electrocorticografía; guarda registros de crisis en la nube, pero requiere programación más sofisticada. No se han comparado de forma directa.</li>
+          <li>Los parámetros (ancho de pulso, frecuencia, voltaje) y la elección del núcleo para cada tipo de paciente no están validados formalmente. La estimulación de baja frecuencia y alta intensidad puede ser proconvulsivante, mientras que la de alta frecuencia tendría efecto desincronizante.</li>
+        </ul>
+      </div>
+
+      <div class="highlight-card">
+        <h4>Epilepsia como trastorno de la conciencia</h4>
+        <ul>
+          <li>Los husos del sueño surgen de la inhibición rítmica (GABA) del núcleo reticular sobre las neuronas de proyección y la retroalimentación excitatoria cortical. Durante las descargas de espiga-onda, la inhibición prolongada del reticular puede deprimir la conciencia.</li>
+          <li>En las crisis de ausencia se observa activación talámica bilateral y simétrica en fMRI; en las focales, la propagación al tálamo deprime la activación cortical, lo que puede explicar el enlentecimiento en regiones alejadas del foco.</li>
+        </ul>
+        <button class="btn" data-ids="TRN,CM,DM">Ver núcleos implicados en el esquema</button>
+      </div>
+
+      <div class="note">⚠ Material educativo basado en una revisión narrativa. Gran parte de la evidencia son estudios retrospectivos, con posible sesgo hacia resultados favorables, y la libertad de crisis sigue siendo poco frecuente. No sustituye el criterio clínico.</div>
+    </section>
+
+    <!-- SECCIÓN 5: CIRCUITOS Y ADICCIONES -->
+    <section id="circuitos">
+      <h2>9. Circuitos Talámicos y Trastornos por Uso de Sustancias</h2>
+      <p>Según Matzeu et al. (2023), el tálamo actúa como estación de relevo que filtra la información entre el cuerpo y el cerebro: con la excepción del olfato, todo sistema sensorial tiene un núcleo talámico que recibe, procesa y envía información a un área cortical asociada. Cada tálamo se conecta con el otro por la <strong>adhesión intertalámica</strong>. Algunos núcleos proyectan a una o pocas áreas corticales bien definidas («tálamo específico») y otros lo hacen de forma difusa («tálamo inespecífico»). Reciben aferencias del hipotálamo lateral, el tronco encefálico y la amígdala, y proyectan al estriado, la amígdala y el hipocampo; con el hipocampo y los cuerpos mamilares se conecta además por el fórnix y el tracto mamilotalámico. Las estructuras límbicas como la amígdala se conectan con los núcleos anteriores, lo que permite al tálamo participar en el aprendizaje y la memoria episódica, y regular el sueño y la vigilia.</p>
+
+      <h3>Cinco componentes funcionales</h3>
+      <p class="hint">💡 Haz clic en una fila para resaltar sus núcleos en el esquema de la sección 4.</p>
+      <table>
+        <thead>
+          <tr><th>Componente</th><th>Función (Matzeu et al.)</th><th>Núcleos de este modelo</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="TRN,CM,PVT"><td><strong>Reticular e intralaminar</strong></td><td>Activación (arousal) y regulación del dolor</td><td>TRN, CM y, como núcleo de la línea media, PVT</td></tr>
+          <tr class="art" data-ids="VPL,VPM,CGL,CGM"><td><strong>Sensorial</strong></td><td>Implicado en todos los dominios sensoriales salvo el olfato</td><td>VPL, VPM, CGL, CGM</td></tr>
+          <tr class="art" data-ids="VA,VL,VIM"><td><strong>Efector</strong></td><td>Control de la función motora y del lenguaje</td><td>VA, VL, VIM</td></tr>
+          <tr class="art" data-ids="DM,PUL"><td><strong>Asociativo</strong></td><td>Cognición de nivel superior</td><td>DM, pulvinar</td></tr>
+          <tr class="art" data-ids="NA"><td><strong>Límbico</strong></td><td>Estado de ánimo y motivación</td><td>NA</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Hallazgos en humanos (estudios de imagen)</h3>
+      <p>Los estudios en humanos evalúan el tálamo en conjunto y su relación con el resto del cerebro; los animales permiten manipular núcleos concretos.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Sustancia</th><th>Hallazgos talámicos</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Visión general</strong></td><td>Reducción basal del volumen de sustancia gris y blanca; la menor integridad de la sustancia blanca se asocia a menor metabolismo basal y conectividad funcional en reposo. Pese a esa menor activación basal, se observó hiperactividad talámica ante estímulos asociados a drogas.</td></tr>
+          <tr><td><strong>Cocaína</strong></td><td>Menor volumen de sustancia gris en hemisferios cerebelosos, corteza frontal, corteza temporal y tálamo, y menor integridad de la sustancia blanca alrededor del tálamo. Hipoactivación talámica en una tarea de atención visuoespacial; una menor activación talámica asociada a errores predijo la recaída y un retorno más temprano al consumo. Mayor activación talámica ante estímulos relacionados con la cocaína. Menor conectividad con el mesencéfalo, el putamen, el área tegmental ventral y la corteza cingulada anterior; con el mesencéfalo y el área tegmental ventral se correlacionó de forma negativa con los años de consumo.</td></tr>
+          <tr><td><strong>Opioides</strong></td><td>Los receptores μ-opioides son más densos en el tálamo dorsomedial, lateroposterior y laterodorsal (hibridación in situ en cerebros humanos post mortem). Menor metabolismo de glucosa en personas mantenidas con metadona; menor homogeneidad regional en reposo en dependientes de heroína; la heroína aguda redujo la conectividad funcional talamocortical. Mayor disponibilidad de receptores μ-opioides talámicos a los 10 días de abstinencia. Menor volumen de sustancia gris y menor conectividad de sustancia blanca entre la amígdala central y el tálamo en dependientes de opioides recetados.</td></tr>
+          <tr><td><strong>Alcohol</strong></td><td>Menor volumen talámico en dependientes del alcohol, que se correlaciona de forma negativa con el consumo. Mayor actividad talámica ante claves de alcohol; quienes tenían un tálamo más pequeño tendían a retomar el consumo intenso. La misma reducción de volumen se vio en ratas Marchigian-Sardinian, que prefieren el alcohol. Un estudio reciente describió una conectividad funcional distinta del VPL (ver su ficha). Ver también el síndrome de Korsakoff (sección 7).</td></tr>
+          <tr><td><strong>Varias sustancias y nicotina</strong></td><td>Volumen de sustancia gris talámica significativamente menor en el trastorno por uso de varias sustancias. En fumadores, un tálamo más pequeño se correlaciona con mayor gravedad de la dependencia de nicotina, y lesiones del tálamo se asociaron al cese del tabaquismo y del consumo de alcohol.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Circuito del PVT (investigación preclínica en roedores)</h3>
+      <p>El núcleo paraventricular del tálamo (PVT) es un núcleo dorsal de la línea media, junto a la cara dorsal del tercer ventrículo, con una subdivisión anterior (aPVT) y otra posterior (pPVT). Participa en la activación, la atención, la recompensa y la conciencia. Se activa con la administración pasiva de opioides, psicoestimulantes, nicotina, alcohol y cannabinoides, y se recluta durante la búsqueda de alcohol, cocaína y heroína. Sus neuronas muestran dos patrones de disparo, tónico (prevalente) y en ráfagas, y son más excitables en la oscuridad (los roedores son nocturnos).</p>
+      <p class="hint">💡 Haz clic en una flecha para ver la evidencia de esa conexión.</p>
+      <div class="legend">
+        <span><i style="background:#2563eb"></i>Aferencias al PVT</span>
+        <span><i style="background:#0d9488"></i>Eferencias del PVT</span>
+      </div>
+      <div class="model" id="circ">
+        <div class="svgwrap">
+          <svg viewBox="0 0 600 380" role="img" aria-label="Circuitos del núcleo paraventricular del tálamo">
+            <defs>
+              <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2563eb"/></marker>
+              <marker id="arrE" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0d9488"/></marker>
+            </defs>
+            <rect class="cnode" x="20" y="30" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="95" y="54"><tspan x="95">Hipotálamo</tspan><tspan x="95" dy="16" style="font-size:11px;font-weight:600">orexina · dinorfina · CART</tspan></text>
+            <rect class="cnode" x="20" y="162" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="95" y="186"><tspan x="95">Corteza prefrontal</tspan><tspan x="95" dy="16">medial</tspan></text>
+            <rect class="cnode" x="20" y="294" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="95" y="327">Tronco encefálico</text>
+            <rect class="cnode" x="230" y="140" width="140" height="100" rx="16" fill="#be185d"/>
+            <text class="ctxt" x="300" y="188" style="font-size:22px"><tspan x="300">PVT</tspan><tspan x="300" dy="20" style="font-size:11px;font-weight:600">paraventricular</tspan></text>
+            <rect class="cnode" x="430" y="30" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="505" y="54"><tspan x="505">Núcleo accumbens</tspan><tspan x="505" dy="16">(cáscara)</tspan></text>
+            <rect class="cnode" x="430" y="162" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="505" y="186"><tspan x="505">Amígdala central</tspan><tspan x="505" dy="16">y basolateral</tspan></text>
+            <rect class="cnode" x="430" y="294" width="150" height="56" rx="12" fill="#475569"/>
+            <text class="ctxt" x="505" y="322"><tspan x="505">BNST</tspan><tspan x="505" dy="16" style="font-size:11px;font-weight:600">estría terminal</tspan></text>
+            <g id="edges"></g>
+          </svg>
+        </div>
+        <div class="detail" id="circDetail">
+          <div class="placeholder">👈 Selecciona una conexión (flecha) para ver la evidencia.</div>
+        </div>
+      </div>
+
+      <h3>Otros núcleos y estructuras del epitálamo</h3>
+      <p class="hint">💡 La habénula no pertenece al tálamo propiamente dicho (es epitálamo), por lo que no está en el esquema de núcleos. Haz clic en la fila del DM para verlo.</p>
+      <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Estructura</th><th>Evidencia preclínica (roedores)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="art" data-ids="DM"><td><strong>Núcleo dorsomedial (DM / MD)</strong></td><td>Forma parte del circuito límbico-cortical. Cerca del 10 % de sus neuronas respondió a claves asociadas a recompensa. Un ambiente emparejado con morfina aumentó la expresión de Fos en el DM. Las lesiones excitotóxicas redujeron la adquisición de la autoadministración de cocaína y la preferencia de lugar por sacarosa; su inactivación transitoria alteró la preferencia de lugar por metanfetamina. Se propone que interviene en las asociaciones contextuales y la formación de hábito.</td></tr>
+          <tr><td><strong>Habénula lateral</strong></td><td>Recibe aferencias dopaminérgicas del área tegmental ventral y proyecta fibras glutamatérgicas al área tegmental ventral y al núcleo tegmental rostromedial (GABAérgico), inhibiendo las neuronas dopaminérgicas. Se activa ante eventos negativos y se le atribuye un papel en el refuerzo negativo y las respuestas aversivas. La estimulación cerebral profunda de baja frecuencia redujo la autoadministración y la reinstauración de cocaína y mejoró la extinción; su lesión aumentó la búsqueda de cocaína y, si ocurría antes de la extinción, impidió alcanzar el criterio de extinción.</td></tr>
+          <tr><td><strong>Habénula medial</strong></td><td>Proyecta al núcleo interpeduncular por el fascículo retroflexo. Se asocia sobre todo con la abstinencia de nicotina: los ratones sin la subunidad α5 del receptor nicotínico se autoadministraron más nicotina, lo que sugiere que media sus efectos aversivos. Infundir un antagonista nicotínico (mecamilamina) en la habénula medial o el núcleo interpeduncular precipitó síntomas de abstinencia en ratones con consumo crónico de alcohol.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="note">⚠ La mayor parte de la evidencia de circuitos de esta sección es preclínica (roedores) y no implica terapias validadas en humanos. Los hallazgos humanos son de imagen y correlacionales. El capítulo señala que hay poca literatura sobre los núcleos talámicos en la adicción y que algunos resultados son contradictorios: por ejemplo, la lesión excitotóxica del PVT no impidió la autoadministración voluntaria de alcohol ni de cocaína, por lo que no sería esencial para el consumo. Material educativo; no sustituye el criterio clínico.</div>
+    </section>
+
+    <!-- SECCIÓN 6: AUTOEVALUACIÓN -->
+    <section id="quizSection">
+      <h2>10. Autoevaluación</h2>
+      <div class="quiz" id="quiz"></div>
+    </section>
+
+    <!-- REFERENCIA -->
+    <section id="referencias">
+      <h2>Referencias</h2>
+      <p><strong>Principal:</strong> Sheridan N, Tadi P. <em>Neuroanatomy, Thalamic Nuclei.</em> En: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; actualizado el 24 de julio de 2023. <a href="https://www.ncbi.nlm.nih.gov/sites/books/NBK549908/" target="_blank" rel="noopener">NBK549908</a>.<br><em>Contribución:</em> Clasificación anatómica del tálamo (grupos lateral, medial y anterior, intralaminares, línea media y reticular), conexiones básicas de los núcleos, embriología general, arterias talámicas y arteria de Percheron.</p>
+      <p><strong>Sobre desarrollo:</strong> Alhesain M, Alzu’bi A, Sankar N, Smith C, Kerwin J, Laws R, Lindsay S, Clowry GJ. <em>Development of the early fetal human thalamus: from a protomap to emergent thalamic nuclei.</em> Front Neuroanat. 2025;19:1530236. <a href="https://doi.org/10.3389/fnana.2025.1530236" target="_blank" rel="noopener">doi:10.3389/fnana.2025.1530236</a>.<br><em>Contribución:</em> Embriología y desarrollo fetal humano: prosómeros, protomapa molecular, emergencia de los núcleos, interneuronas GABAérgicas y relación con enfermedades del neurodesarrollo.</p>
+      <p><strong>Sobre estructura, función y neuromodulación:</strong> Marcuse LV, Langan M, Hof PR, Panov F, Saez I, Jimenez-Shahed J, Figee M, Mayberg H, Yoo JY, Ghatan S, Balchandani P, Fields MC. <em>The thalamus: Structure, function, and neurotherapeutics.</em> Neurotherapeutics. 2025;22:e00550. <a href="https://doi.org/10.1016/j.neurot.2025.e00550" target="_blank" rel="noopener">doi:10.1016/j.neurot.2025.e00550</a>.<br><em>Contribución:</em> Tipos celulares, modos de disparo, drivers y moduladores, divisiones del atlas de Morel, conexiones por núcleo, síndromes clínicos y neuromodulación en epilepsia y otros trastornos.</p>
+      <p><strong>Sobre irrigación arterial:</strong> Bordes S, Werner C, Mathkour M, McCormack E, Iwanaga J, Loukas M, Lammle M, Dumont AS, Tubbs RS. <em>Arterial supply of the thalamus: a comprehensive review.</em> World Neurosurg. 2020;137:310-318. <a href="https://doi.org/10.1016/j.wneu.2020.01.237" target="_blank" rel="noopener">doi:10.1016/j.wneu.2020.01.237</a>.<br><em>Contribución:</em> Territorios arteriales (4 estándar y 3 variantes), arterias de origen, síntomas de oclusión, drenaje venoso, etiología, diagnóstico, riesgo vascular de los abordajes quirúrgicos y tabla de conexiones y funciones por grupo nuclear.</p>
+      <p><strong>Sobre circuitos y adicciones:</strong> Matzeu A, Flores-Ramirez FJ, Martin-Fardon R. <em>Thalamic circuits.</em> En: Neurocircuitry of Addiction. Elsevier; 2023. Capítulo 6, pp. 209-231. <a href="https://doi.org/10.1016/B978-0-12-823453-2.00012-6" target="_blank" rel="noopener">doi:10.1016/B978-0-12-823453-2.00012-6</a>.<br><em>Contribución:</em> Circuitos talámicos, hallazgos en humanos en trastornos por uso de sustancias, circuito del PVT, DM y habénulas en la adicción, y síndrome de Wernicke-Korsakoff.</p>
+      <p><strong>Sobre atlas por difusión:</strong> Najdenovska E, Alemán-Gómez Y, Battistella G, Descoteaux M, Hagmann P, Jacquemont S, Maeder P, Thiran JP, Fornari E, Bach Cuadra M. <em>In-vivo probabilistic atlas of human thalamic nuclei based on diffusion-weighted magnetic resonance imaging.</em> Sci Data. 2018;5:180270. <a href="https://doi.org/10.1038/sdata.2018.270" target="_blank" rel="noopener">doi:10.1038/sdata.2018.270</a>.<br><em>Contribución:</em> Atlas probabilístico de siete subpartes talámicas por hemisferio obtenido con RM de difusión, con su método y su validación.</p>
+      <p><strong>Sobre el desarrollo recíproco tálamo-corteza:</strong> Antón-Bolaños N, Espinosa A, López-Bendito G. <em>Developmental interactions between thalamus and cortex: a true love reciprocal story.</em> Curr Opin Neurobiol. 2018;52:33-41. <a href="https://doi.org/10.1016/j.conb.2018.04.018" target="_blank" rel="noopener">doi:10.1016/j.conb.2018.04.018</a>.<br><em>Contribución:</em> cronología en el ratón del desarrollo de las conexiones talamocorticales y corticotalámicas, y cómo el tálamo y la corteza se influyen mutuamente en la especificación de áreas, las interneuronas y los mapas sensoriales.</p>
+      <p><strong>Sobre el tálamo límbico y de la línea media:</strong> Vertes RP, Linley SB, Hoover WB. <em>Limbic circuitry of the midline thalamus.</em> Neurosci Biobehav Rev. 2015;54:89-107. <a href="https://doi.org/10.1016/j.neubiorev.2015.01.014" target="_blank" rel="noopener">doi:10.1016/j.neubiorev.2015.01.014</a>.<br><em>Contribución:</em> clasificación alternativa de los núcleos talámicos (sensoriomotores, límbicos y «puente»), y conexiones y funciones en roedores de los núcleos de la línea media (PV, PT, RE y RH), el mediodorsal medial y el central medial.</p>
+      <p><strong>Sobre el tálamo cognitivo:</strong> Cassel JC, Pereira de Vasconcelos A. <em>The cognitive thalamus: a bridal chamber not to forget</em> (editorial). Neurosci Biobehav Rev. 2015;54:1-2. <a href="https://doi.org/10.1016/j.neubiorev.2015.01.017" target="_blank" rel="noopener">doi:10.1016/j.neubiorev.2015.01.017</a>.<br><em>Contribución:</em> el papel cognitivo de núcleos talámicos concretos, las alteraciones cognitivas tras lesiones talámicas y la reseña histórica del síndrome de Korsakoff.</p>
+      <p><strong>Sobre el diencéfalo y el contexto general:</strong> Capítulo 1, <em>Brain structures and functions.</em> En: Global Emergency of Mental Disorders. Elsevier; 2021. <a href="https://doi.org/10.1016/B978-0-323-85837-3.00023-6" target="_blank" rel="noopener">doi:10.1016/B978-0-323-85837-3.00023-6</a>.<br><em>Contribución:</em> el tálamo dentro del diencéfalo (tamaño, organización y función general), sus relaciones con los ganglios basales, el cerebelo y el sistema límbico, la formación reticular y el epitálamo con la glándula pineal.</p>
+      <p><strong>Sobre el geniculado lateral:</strong> Weyand TG. <em>The multifunctional lateral geniculate nucleus.</em> Rev Neurosci. 2016;27(2):135-157. <a href="https://doi.org/10.1515/revneuro-2015-0018" target="_blank" rel="noopener">doi:10.1515/revneuro-2015-0018</a>.<br><em>Contribución:</em> diseño del CGL (tipos celulares, aferencias de la retina, de la corteza y del tronco encefálico, mapa retinotópico) y diez funciones putativas que van más allá del relevo.</p>
+      <p><strong>Sobre núcleos intralaminares:</strong> Kumar VJ, Scheffler K, Grodd W. <em>The structural connectivity mapping of the intralaminar thalamic nuclei.</em> Sci Rep. 2023;13:11938. <a href="https://doi.org/10.1038/s41598-023-38967-0" target="_blank" rel="noopener">doi:10.1038/s41598-023-38967-0</a>.<br><em>Contribución:</em> Conectividad estructural en humanos de los núcleos intralaminares (CL, CM, CeM, Pf y sPf) y hallazgos clínicos y de neuromodulación asociados.</p>
+    </section>
+  </div>
+
+<script>
+const ART = {
+  tub: 'Tuberotalámica (polar)',
+  par: 'Paramediana (talamosubtalámica posterior)',
+  tg:  'Inferolateral (talamogeniculada)',
+  cp:  'Coroidea posterior'
+};
+
+const N = {
+  VA:  { n:'Ventral Anterior', neuro:'Glutamato (excitador)', aff:'Ganglios basales', eff:'Corteza premotora', art:'Tuberotalámica', arts:['tub'], def:'No descrito en las fuentes (función según Bordes et al.: conductas complejas y movimiento).', flow:'Ganglios basales ➔ VA ➔ Corteza premotora', syn:['Infarto tuberotalámico'], nota:'Según Bordes et al., interviene en conductas complejas y en el movimiento (efector y límbico).' },
+  VL:  { n:'Ventral Lateral', neuro:'Glutamato (excitador)', aff:'Cerebelo, ganglios basales', eff:'Corteza motora y premotora', art:'Inferolateral (talamogeniculada)', arts:['tg'], def:'No hay déficit específico descrito; el territorio inferolateral produce alteración del movimiento (Bordes et al.). Función: movimiento y lenguaje.', flow:'Cerebelo / Ganglios basales ➔ VL ➔ Corteza motora', syn:['Infarto del territorio inferolateral'], ther:'Talamotomía del núcleo ventral lateral: eficaz en distonía focal de la mano (calambre del escribiente).', nota:'Según Bordes et al., sus ramas principales vienen de la arteria inferolateral; interviene en el movimiento y en el lenguaje.' },
+  VIM: { n:'Ventral Intermedio (VIM)', neuro:'Glutamato (excitador)', aff:'Información de sensibilidad profunda (kinestésica); tractos cerebelotalámico / dentato-rubro-talámico', eff:'No detallado en las fuentes', art:'Inferolateral (talamogeniculada)', arts:['tg'], def:'Media el temblor: su lesión terapéutica o neuromodulación lo reduce (la referencia no describe un déficit clásico por lesión).', flow:'Tractos cerebelotalámicos / dentato-rubro-talámico ➔ VIM', syn:['Infarto del territorio inferolateral'], ther:'Blanco principal en temblor esencial: DBS, talamotomía o ultrasonido focalizado guiado por RM (MRgFUS); reducción esperada del temblor de 60–90 %.', nota:'Situado detrás del VL; recibe proyecciones de sensibilidad profunda y media el temblor, por lo que tiene función sensorial y motora. El atlas de Morel lo considera un subcampo del VL (de ahí su irrigación inferolateral).' },
+  VPL: { n:'Ventral Posterolateral', neuro:'Glutamato (excitador)', aff:'Tracto neoespinotalámico, lemnisco medial (núcleos grácil y cuneato)', eff:'Corteza somatosensorial (sensación del cuerpo y extremidades)', art:'Inferolateral (talamogeniculada)', arts:['tg'], def:'Pérdida hemisensitiva contralateral y dolor hemicorporal (síndrome de Dejerine-Roussy) al ocluirse el territorio inferolateral (Bordes et al.).', flow:'Neoespinotalámico / Lemnisco medial ➔ VPL ➔ Corteza somatosensorial', syn:['Dejerine-Roussy'], adic:'En el trastorno por consumo de alcohol, la conectividad funcional del VPL difiere de la de controles: su correlación negativa con la región temporal media bilateral pasa a ser positiva, y la correlación negativa con el cerebelo es más fuerte (Matzeu et al., a partir de Honnorat et al., 2021).' },
+  VPM: { n:'Ventral Posteromedial', neuro:'Glutamato (excitador)', aff:'Tracto trigeminotalámico, tracto solitario', eff:'Corteza somatosensorial y área gustativa cortical (sensación de cabeza y cuello, gusto)', art:'Inferolateral (talamogeniculada)', arts:['tg'], def:'No hay déficit específico descrito; el territorio inferolateral produce pérdida hemisensitiva y dolor hemicorporal (Bordes et al.). Función: sensación de cabeza y cuello, gusto.', flow:'Trigeminotalámico / Tracto solitario ➔ VPM ➔ Corteza somatosensorial / Área gustativa', syn:['Dejerine-Roussy'] },
+  CGL: { n:'Geniculado Lateral (LGN)', neuro:'Glutamato (excitador)', aff:'Tracto óptico (Retina); modulado por corteza visual, colículo superior y núcleo reticular', eff:'Corteza Visual Primaria (V1 / Surco Calcarino)', art:'Coroidea posterior (la coroidea anterior: contribución discutida)', arts:['cp'], def:'Hemianopsia al ocluirse el territorio posterior (Bordes et al.).', flow:'Retina ➔ CGL ➔ V1 (calcarino)', syn:['Infarto de coroidea posterior'], lgn:'Según Weyand (2016), tiene solo neuronas de proyección e interneuronas inhibitorias; la retina las impulsa (convergencia mínima, a menudo 1:1) y sus aferencias se segregan por ojo y grupo funcional formando capas y un mapa retinotópico del campo visual contralateral. Recibe retroalimentación de la capa VI de la corteza visual y aferencias del tronco encefálico, y cada espiga transmite 20–50 % más información que la retiniana (animales anestesiados). Ver tabla de la sección 4.' },
+  CGM: { n:'Geniculado Medial (MGN)', neuro:'Glutamato (excitador)', aff:'Oliva superior, colículo inferior; retroalimentación del núcleo reticular y de la corteza auditiva', eff:'Corteza auditiva (lóbulo temporal)', art:'Inferolateral (ramas mediales) y coroidea posterior', arts:['tg','cp'], def:'No descrito en las fuentes (función: audición).', flow:'Oliva superior / Colículo inferior ➔ CGM ➔ Corteza auditiva', syn:['Infarto de coroidea posterior','Infarto del territorio inferolateral'] },
+  NA:  { n:'Núcleo Anterior (AN)', neuro:'Glutamato (excitador)', aff:'Cuerpos mamilares (tracto mamilotalámico) y subículo; el hipocampo llega vía fórnix', eff:'Corteza del cíngulo anterior (circuito de Papez: cíngulo ➔ corteza entorrinal ➔ hipocampo)', art:'Tuberotalámica (y paramediana)', arts:['tub','par'], def:'Amnesia anterógrada (y retrógrada en el síndrome de Korsakoff), confabulación.', flow:'Cuerpos mamilares ➔ NA ➔ Giro del cíngulo anterior', syn:['Amnesia talámica','Infarto tuberotalámico','Síndrome de Korsakoff','Insomnio familiar fatal'], ther:'Blanco principal de DBS en epilepsia focal y multifocal farmacorresistente (ensayo SANTE); también RNS.', nota:'Tiene tres subnúcleos (anterodorsal, anteroventral y anteromedial) con conexiones algo distintas. Participa en la activación y en el sueño: se le atribuye organizar los husos del sueño y la consolidación de la memoria. Según Bordes et al., interviene en aprendizaje, memoria, experiencia y expresión emocional y motivación (esa fuente incluye aquí el lateral dorsal).', adic:'En el trastorno por consumo de alcohol, la deficiencia de tiamina y el alcohol dañan el tálamo y el circuito de Papez (memoria episódica); en el síndrome de Korsakoff hay amnesia anterógrada y retrógrada, confabulación y déficit ejecutivo (Matzeu et al.).' },
+  DM:  { n:'Dorsomedial (Mediodorsal, MD)', neuro:'Glutamato (excitador)', aff:'Amígdala (sistema límbico), corteza olfatoria', eff:'Corteza prefrontal y sistema límbico', art:'Paramediana (talamosubtalámica posterior)', arts:['par'], def:'Destrucción preferente en el insomnio familiar fatal (Marcuse et al.); el territorio paramediano produce alteración visual, hemiparesia, pérdida de memoria y mutismo acinético (Bordes et al.).', flow:'Sistema límbico (amígdala) ➔ DM ➔ Corteza prefrontal', syn:['Infarto talámico paramediano','Insomnio familiar fatal'], ther:'Blanco en el síndrome de Tourette (junto con CM/parafascicular) y objeto de estudio en epilepsia.', mid:'Vertes et al. (2015), en ratas: la división medial (MDm) pertenece al tálamo límbico; el MD se conecta de forma recíproca con la corteza prefrontal medial, orbital e insular, y se le asocia con la flexibilidad conductual. Ver tabla de la sección 5.', nota:'El mayor núcleo de la superficie medial; participa en afecto, memoria y nivel de conciencia. Se afecta de forma preferente en el insomnio familiar fatal. Subdivisiones (Bordes et al.): parvocelular (funciones ejecutivas, memoria de trabajo, dolor), lateral (atención, mirada horizontal) y magnocelular (impulso, motivación, inhibición, emoción).', adic:'En roedores, cerca del 10 % de sus neuronas responde a claves asociadas a recompensa; su lesión excitotóxica reduce la adquisición de la autoadministración de cocaína y la preferencia de lugar por sacarosa, y su inactivación transitoria altera la preferencia de lugar por metanfetamina. Se propone que participa en las asociaciones contextuales y la formación de hábito. En el tálamo humano, los receptores μ-opioides son más densos en el DM, el lateral posterior y el lateral dorsal (estudio post mortem).' },
+  CM:  { n:'Intralaminares (central medial / centromediano)', neuro:'Glutamato (excitador)', aff:'Globo pálido interno (GPi), núcleos cerebelosos profundos, sistema reticular activador (tronco encefálico), tracto espinotalámico, colículo superior, núcleos vestibulares, otros núcleos talámicos y corteza (incl. motora)', eff:'Principalmente estriado, con algunas proyecciones directas a la corteza peri-rolándica; otras áreas por vía multisináptica; también sistema límbico y corteza visual', art:'Paramediana (y parte de la tuberotalámica y de la coroidea posterior)', arts:['par','tub','cp'], def:'Parte del sistema reticular activador (vigilia, alerta y conciencia); mutismo acinético en el infarto paramediano (Bordes et al.).', flow:'Tronco encefálico / cerebelo / GPi ➔ CM ➔ Estriado (y corteza peri-rolándica)', syn:['Infarto talámico paramediano'], ther:'Blanco de DBS/RNS en epilepsia generalizada y síndrome de Lennox-Gastaut; Tourette (CM/parafascicular); trastornos de la conciencia (CM-parafascicular y núcleo central lateral).', intra:'Kumar et al. (2023), tractografía en humanos: el CM conecta sobre todo con el tronco encefálico y el cerebelo por los pedúnculos cerebelosos medio y superior, además del pálido, el tracto corticoespinal y la amígdala, sin llegar a las cortezas superiores. El CeM y el Pf conectan con cortezas frontal, temporal y visual; el CL con el colículo superior y el fórnix; el sPf con cortezas somatosensorial y motora (tabla de la sección 4).', nota:'Forma parte del sistema reticular activador (vigilia, alerta y conciencia). El núcleo central lateral es contiguo y de perfil similar. Según Bordes et al., la región intralaminar recibe sangre de los territorios anterior, paramediano y posterior.' },
+  PUL: { n:'Pulvinar', neuro:'Glutamato (excitador)', aff:'Colículo superior, sistema límbico, corteza visual y de asociación', eff:'Corteza de asociación parietal posterior, occipital, insular y cingulada; lóbulo temporal anterior; sistema límbico y corteza visual', art:'Coroidea posterior (y ramas pulvinares de la inferolateral)', arts:['cp','tg'], def:'Sin síndrome específico en las fuentes; el territorio posterior produce hemianopsia, pérdida hemisensitiva y dolor hemicorporal (Bordes et al.).', flow:'Colículo superior ➔ Pulvinar ➔ Corteza de asociación', syn:['Infarto de coroidea posterior'], ther:'Blanco de RNS y de estudios en epilepsia del lóbulo temporal y del cuadrante posterior.', nota:'El mayor de los núcleos talámicos y el que más ha crecido en la evolución; núcleo de asociación (atención visual, saliencia, procesamiento multimodal). Subdivisiones (Bordes et al.): medial (asociación de alto nivel entre dominios), anterior (asociación somatosensorial y dolor), lateral e inferior (asociación visual). En epilepsia: actividad ictal en ~80 % de las crisis temporales en SEEG y alteraciones de RM en el estatus epiléptico.' },
+  PVT: { n:'Paraventricular (PVT, línea media dorsal)', neuro:'Neuronas de proyección excitadoras (efecto excitador sobre el accumbens); en roedores no hay interneuronas GABAérgicas: la inhibición llega del TRN y de la zona incerta', aff:'Tronco encefálico (sustancia gris periacueductal, parabraquial, tracto solitario, locus coeruleus, tegmental laterodorsal y pedunculopontino, rafe), corteza prefrontal medial (prelímbica, infralímbica, insular) e hipotálamo (neuropéptidos orexina, dinorfina, CART, NPY, encefalina, neurotensina)', eff:'Estriado ventral (núcleo accumbens, sobre todo la cáscara), amígdala central y basolateral, núcleo de la estría terminal (BNST) y corteza prefrontal', art:'No descrita en las fuentes', arts:[], def:'Sin síndrome clínico específico descrito en las fuentes. Los núcleos de la línea media participan en alerta, motivación y procesamiento sensorial.', flow:'Hipotálamo / Tronco encefálico / Corteza prefrontal ➔ PVT ➔ Accumbens / Amígdala / BNST', syn:[], mid:'Vertes et al. (2015), en roedores: el PV (dorsal) proyecta sobre todo a estructuras límbicas subcorticales (accumbens, BNST, amígdala, hipotálamo) y recibe de la corteza prefrontal medial; se asocia con estrés y ansiedad, alimentación y búsqueda de drogas. Los núcleos dorsales de la línea media (PV, PT) participan sobre todo en funciones afectivas. Ver tabla de la sección 5.', adic:'En roedores se activa con la administración pasiva de opioides, psicoestimulantes, nicotina, alcohol y cannabinoides y se recluta en la búsqueda de alcohol, cocaína y heroína. Su inactivación transitoria previene la búsqueda de cocaína inducida por señales o por una dosis de cebado, sin afectar la motivación por una recompensa de alimento; sin embargo, su lesión excitotóxica no impide la autoadministración de alcohol ni de cocaína, de modo que no sería esencial para el consumo voluntario. Todo es investigación preclínica (ver sección 9).', nota:'Núcleo de la línea media junto a la cara dorsal del tercer ventrículo, con una subdivisión anterior (aPVT) y otra posterior (pPVT). Participa en la activación, la atención, la recompensa y la conciencia, y sus neuronas son más excitables en la oscuridad (roedores). Dos patrones de disparo: tónico (prevalente) y en ráfagas. La ausencia de interneuronas se describe en roedores; Alhesain et al. señalan que en primates hay muchas interneuronas talámicas, por lo que no debe extrapolarse.' },
+  TRN: { n:'Reticular', neuro:'GABA (inhibidor), origen p3', aff:'Otros núcleos talámicos, sistema reticular activador, prosencéfalo basal, ganglios basales, corteza', eff:'Solo al propio tálamo (sinapsis estrictamente inhibitorias; no proyecta a la corteza)', art:'Multiterritorial (tuberotalámica y paramediana)', arts:['tub','par'], def:'Participa en alerta, ritmicidad y epileptogénesis (Bordes et al.); su inhibición prolongada en las descargas espiga-onda puede deprimir la conciencia (Marcuse et al.).', flow:'Corteza / Núcleos talámicos ➔ TRN ➔ Núcleos talámicos (inhibición)', syn:[], ther:'Interviene en los husos del sueño y en la pérdida de conciencia de las crisis de ausencia; el nervio vago lo modula de forma indirecta (VNS).', nota:'Cubre la superficie lateral del tálamo como una manta. En la vigilia interviene en la atención selectiva; en el sueño, un bucle con los demás núcleos sustenta los husos. Según Bordes et al., participa en alerta, ritmicidad y epileptogénesis.' }
+};
+['NA','DM','CM','TRN'].forEach(k => { N[k].spec = true; }); /* déficits específicos descritos */
+/* Grupo anatómico según StatPearls (Sheridan & Tadi) */
+const GRP = {
+  VA:'Grupo lateral (relevo)', VL:'Grupo lateral (relevo)', VIM:'Grupo lateral (relevo)', VPL:'Grupo lateral (relevo)', VPM:'Grupo lateral (relevo)',
+  CGL:'Grupo lateral (relevo)', CGM:'Grupo lateral (relevo)', PUL:'Grupo lateral (relevo)',
+  DM:'Grupo medial (relevo)', NA:'Grupo anterior (relevo)',
+  CM:'Núcleos intralaminares', PVT:'Núcleos de la línea media', TRN:'Núcleo reticular'
+};
+/* Orden de relevo (Sherman & Guillery, según Alhesain et al. 2025) */
+const ORD = {
+  VPL:'Primer orden (sensorial)', VPM:'Primer orden (sensorial)', CGL:'Primer orden (sensorial)', CGM:'Primer orden (sensorial)',
+  DM:'Orden superior (cognitivo)', NA:'Orden superior (cognitivo)', PUL:'Orden superior (retransmite entre regiones corticales)'
+};
+const MOREL = {
+  NA:'Anterior', DM:'Medial', PUL:'Lateral, estrato dorsal',
+  VA:'Lateral, estrato ventral', VL:'Lateral, estrato ventral', VIM:'Lateral, estrato ventral (subcampo del VL)',
+  VPL:'Lateral, estrato ventral (cuerpo)', VPM:'Lateral, estrato ventral (cara)',
+  CGL:'Lateral, estrato ventral (posterior e inferior)', CGM:'Lateral, estrato ventral (posterior e inferior)',
+  CM:'Intralaminares', TRN:'Reticular (cubre la superficie lateral)'
+};
+const IDS = Object.keys(N);
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+let lesionMode = false;
+let lesions = new Set();
+
+/* ---------- Marcas de lesión (X roja) ---------- */
+function drawX(){
+  const g = $('#xmarks');
+  g.innerHTML = '';
+  lesions.forEach(id => {
+    const b = document.querySelector('.nuc[data-id="' + id + '"]').getBBox();
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2, r = Math.min(b.width, b.height) * 0.28;
+    g.insertAdjacentHTML('beforeend',
+      '<g class="xmark on"><line x1="' + (cx - r) + '" y1="' + (cy - r) + '" x2="' + (cx + r) + '" y2="' + (cy + r) + '"/>' +
+      '<line x1="' + (cx + r) + '" y1="' + (cy - r) + '" x2="' + (cx - r) + '" y2="' + (cy + r) + '"/></g>');
+  });
+}
+
+/* ---------- Resaltado ---------- */
+function highlight(ids, dimOthers){
+  $$('.nuc').forEach(el => {
+    el.classList.toggle('sel', ids.includes(el.dataset.id));
+    el.classList.toggle('dim', !!dimOthers && !ids.includes(el.dataset.id));
+    el.classList.toggle('lesion', lesions.has(el.dataset.id));
+  });
+  $$('tbody tr[data-id]').forEach(tr => {
+    tr.classList.toggle('sel', ids.includes(tr.dataset.id));
+    tr.classList.toggle('lesioned', lesions.has(tr.dataset.id));
+  });
+  $$('tr.emb, tr.art').forEach(tr => tr.classList.toggle('sel-extra', tr.dataset.ids === ids.join(',')));
+  drawX();
+}
+function goModel(){ $('#modelo').scrollIntoView({ behavior:'smooth', block:'center' }); }
+
+/* ---------- Fichas ---------- */
+function showDetail(id){
+  const d = N[id];
+  const box = $('#detail');
+  box.className = 'detail';
+  box.innerHTML =
+    '<h4>' + id + ' — ' + d.n + '</h4>' +
+    '<div class="flow">' + d.flow + '</div>' +
+    '<div class="row"><b>Grupo anatómico:</b> ' + GRP[id] + '</div>' +
+    (MOREL[id] ? '<div class="row"><b>División (atlas de Morel):</b> ' + MOREL[id] + '</div>' : '') +
+    (ORD[id] ? '<div class="row"><b>Orden de relevo:</b> ' + ORD[id] + '</div>' : '') +
+    '<div class="row"><b>Neurotransmisor:</b> ' + d.neuro + '</div>' +
+    '<div class="row"><b>Aferencias:</b> ' + d.aff + '</div>' +
+    '<div class="row"><b>Eferencias:</b> ' + d.eff + '</div>' +
+    '<div class="row"><b>Irrigación arterial:</b> ' + d.art + '</div>' +
+    '<div class="row"><b>Déficit por lesión:</b> ' + d.def + '</div>' +
+    (d.ther ? '<div class="row"><b>Terapéutica / neuromodulación:</b> ' + d.ther + '</div>' : '') +
+    (d.mid ? '<div class="row"><b>Tálamo límbico / línea media:</b> ' + d.mid + '</div>' : '') +
+    (d.lgn ? '<div class="row"><b>Más que un relevo:</b> ' + d.lgn + '</div>' : '') +
+    (d.intra ? '<div class="row"><b>Conectividad intralaminar:</b> ' + d.intra + '</div>' : '') +
+    (d.adic ? '<div class="row"><b>Adicciones (Matzeu et al.):</b> ' + d.adic + '</div>' : '') +
+    (d.nota ? '<div class="row"><b>Notas:</b> ' + d.nota + '</div>' : '');
+}
+
+function showLesion(){
+  const box = $('#detail');
+  if (!lesions.size){
+    box.className = 'detail';
+    box.innerHTML = '<div class="placeholder">🔴 Modo lesión activo: haz clic en uno o varios núcleos para simular una lesión y ver el déficit esperado.</div>';
+    return;
+  }
+  const list = [...lesions];
+  const arteries = [...new Set(list.flatMap(id => N[id].arts))];
+  const syns = [...new Set(list.flatMap(id => N[id].syn))];
+  const siblings = IDS.filter(i => !lesions.has(i) && N[i].arts.some(a => arteries.includes(a)));
+  box.className = 'detail lesion';
+  box.innerHTML =
+    '<h4>⚠ Lesión simulada: ' + list.join(' + ') + '</h4>' +
+    list.map(id => '<div class="row"><b>' + id + ':</b> ' + N[id].def + '</div>').join('') +
+    '<div class="row"><b>Arteria probablemente comprometida:</b> ' + (arteries.length ? arteries.map(a => ART[a]).join('; ') : 'sin territorio único asignado en las fuentes (TRN: multiterritorial; PVT: no descrito)') + '</div>' +
+    (syns.length ? '<div class="row"><b>Síndromes asociados:</b> ' + syns.join(', ') + '</div>' : '') +
+    (siblings.length ? '<div class="row"><b>Otros núcleos en riesgo (misma arteria):</b><br>' +
+      siblings.map(s => '<span class="tag" data-add="' + s + '">' + s + '</span>').join('') +
+      '<br><small>Clic en uno para sumarlo a la lesión.</small></div>' : '');
+  box.querySelectorAll('[data-add]').forEach(t => t.onclick = () => toggleLesion(t.dataset.add));
+}
+
+function toggleLesion(id){
+  if (lesions.has(id)) lesions.delete(id); else lesions.add(id);
+  highlight([], false);
+  showLesion();
+}
+
+function pick(id, scroll){
+  if (lesionMode){ toggleLesion(id); }
+  else { highlight([id], false); showDetail(id); }
+  if (scroll) goModel();
+}
+
+/* ---------- Eventos ---------- */
+$$('.nuc').forEach(el => {
+  el.addEventListener('click', () => pick(el.dataset.id, false));
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(el.dataset.id, false); } });
+});
+$$('tbody tr[data-id]').forEach(tr => tr.addEventListener('click', () => pick(tr.dataset.id, true)));
+
+function groupSelect(ids){
+  highlight(ids, true);
+  $('#detail').className = 'detail';
+  $('#detail').innerHTML = '<div class="placeholder">Núcleos resaltados: <strong>' + ids.join(', ') + '</strong>.<br>Haz clic en uno para ver su ficha.</div>';
+  goModel();
+}
+$$('tr.emb').forEach(tr => tr.addEventListener('click', () => { setMode(false); groupSelect(tr.dataset.ids.split(',')); }));
+$$('tr.art').forEach(tr => tr.addEventListener('click', () => { setMode(false); groupSelect(tr.dataset.ids.split(',')); }));
+$$('.highlight-card .btn').forEach(b => b.addEventListener('click', () => {
+  setMode(false);
+  const ids = b.dataset.ids.split(',');
+  highlight(ids, true);
+  showDetail(ids[0]);
+  goModel();
+}));
+
+function setMode(on){
+  lesionMode = on;
+  $('#lesionMode').checked = on;
+  $('#modeHint').textContent = on ? 'Modo lesión: cada clic agrega o quita un núcleo lesionado.' : 'Modo normal: haz clic en un núcleo para ver su ficha.';
+  if (on){ highlight([], false); showLesion(); }
+  else {
+    lesions.clear();
+    highlight([], false);
+    $('#detail').className = 'detail';
+    $('#detail').innerHTML = '<div class="placeholder">👈 Selecciona un núcleo para ver su ficha.</div>';
+  }
+}
+$('#lesionMode').addEventListener('change', e => setMode(e.target.checked));
+$('#clearBtn').addEventListener('click', () => {
+  lesions.clear();
+  highlight([], false);
+  if (lesionMode) showLesion();
+  else { $('#detail').className = 'detail'; $('#detail').innerHTML = '<div class="placeholder">👈 Selecciona un núcleo para ver su ficha.</div>'; }
+});
+
+/* ---------- Territorios vasculares (Bordes et al., 2020) ---------- */
+const ARTT = [
+  { t:'Anterior (tuberotalámica)', s:'pérdida de memoria, hemiparesia y alteración emocional', r:'arteria tuberotalámica, del tercio medio de la PCom; regiones anterior, ventral e intralaminar' },
+  { t:'Inferolateral (talamogeniculada)', s:'pérdida hemisensitiva contralateral, dolor hemicorporal y alteración del movimiento', r:'arteria talamogeniculada, del segmento P2 de la PCA; regiones ventral y cuerpo geniculado medial' },
+  { t:'Paramediano (talamosubtalámica posterior)', s:'alteración visual, hemiparesia, pérdida de memoria y mutismo acinético', r:'arteria talamosubtalámica posterior, del segmento P1 de la PCA; regiones anterior, medial, ventral e intralaminar' },
+  { t:'Posterior (coroidea posterior)', s:'hemianopsia, pérdida hemisensitiva contralateral y dolor hemicorporal', r:'arteria coroidea posterior, de P1 distal o P2 proximal; regiones intralaminar, pulvinar y cuerpos geniculados' },
+  { t:'Anteromediano (variante)', s:'paresia de la mirada vertical, amnesia, afasia y abulia', r:'parte posterior del territorio anterior y anterior del paramediano; región anterior' },
+  { t:'Central (variante)', s:'pérdida cognitiva, paresia de la mirada vertical, pérdida de alerta y ataxia', r:'partes centrales de los 4 territorios estándar; todas las regiones' },
+  { t:'Posterolateral (variante)', s:'afasia, ataxia y pérdida de función ejecutiva', r:'parte anterior del posterior y posterior del inferolateral; pulvinar y regiones ventrales' }
+];
+function terrQ(a){
+  const others = ARTT.filter(x => x !== a).map(x => x.t);
+  return { text: 'Un infarto que produce «' + a.s + '» corresponde a qué territorio vascular talámico?',
+           correct: a.t, opts: shuffle([a.t, ...shuffle(others).slice(0, 3)]),
+           exp: a.t + ': ' + a.r + '.' };
+}
+
+/* ---------- Circuito del PVT (Matzeu et al., 2023) ---------- */
+const ILN = [
+  { n:'Central lateral (CL)', c:'proyección confinada al colículo superior, la formación reticular mesencefálica dorsal y el fórnix' },
+  { n:'Centromediano (CM)', c:'conexión por los pedúnculos cerebelosos medio y superior con el tronco encefálico y los lóbulos cerebelosos, sin llegar a las cortezas cerebrales superiores' },
+  { n:'Central medial (CeM)', c:'comisura anterior y radiación talámica anterior hasta la corteza orbitofrontal, además de amígdala e hipocampo' },
+  { n:'Parafascicular (Pf)', c:'conectividad casi igual a la del CeM, con más conexiones a la corteza occipital lateral, la precuña y el esplenio del cuerpo calloso' },
+  { n:'Subparafascicular (sPf)', c:'proyecciones por el tracto corticoespinal y el fascículo longitudinal superior a cortezas somatosensorial y motora primarias, ínsula y lóbulos parietales' }
+];
+function ilnQ(x){
+  const others = ILN.filter(y => y !== x).map(y => y.n);
+  return { text:'Según Kumar et al. (2023), ¿qué núcleo intralaminar muestra esta conectividad: «' + x.c + '»?', correct:x.n, opts:shuffle([x.n, ...shuffle(others).slice(0,3)]), exp:x.n + ': ' + x.c + '.' };
+}
+const EDGES = [
+  { id:'hyp', cls:'aff', x1:170, y1:58, x2:234, y2:148, t:'Hipotálamo → PVT (orexina, dinorfina, CART)',
+    q:'Los neuropéptidos orexina, dinorfina y CART modulan en el PVT la reinstauración de la búsqueda de cocaína y de alcohol. ¿A qué circuito corresponde?',
+    items:[
+      'Orexina: la infusión en el pPVT reinstauró la búsqueda de cocaína ya extinguida, de forma dependiente del receptor OrxR2; en el aPVT promovió el consumo de alcohol (también OrxR2). Además reinstauró la búsqueda de una recompensa de leche condensada azucarada, lo que sugiere un papel general en la búsqueda de recompensa.',
+      'Dinorfina (receptores κ-opioides): la activación de la proyección opioidérgica hipotálamo → PVT previno la reinstauración de la búsqueda de alcohol inducida por el contexto.',
+      'CART: su microinyección en el PVT atenuó la reinstauración de la búsqueda de cocaína inducida por una dosis de cebado y la actividad de las neuronas del PVT en animales expuestos a cocaína.',
+      'La orexina también se relaciona con la abstinencia de morfina (un antagonista de OrxR2 en el PVT atenuó la aversión de lugar inducida por naloxona) y con efectos de la nicotina.'],
+    nota:'Hipótesis del capítulo: el equilibrio entre la dinorfina (inhibitoria) y la orexina (excitatoria) podría alterarse en el consumo compulsivo.' },
+  { id:'pfc', cls:'aff', x1:170, y1:190, x2:228, y2:190, t:'Corteza prefrontal medial → PVT',
+    q:'La inhibición de la proyección desde la corteza prelímbica hacia el pPVT atenuó la búsqueda de cocaína inducida por el contexto y por señales tras la abstinencia. ¿A qué circuito corresponde?',
+    items:[
+      'Proyección glutamatérgica desde las cortezas prelímbica, infralímbica e insular; se piensa que contribuye a la búsqueda de recompensa.',
+      'Prelímbica → pPVT: su inhibición atenuó la búsqueda de cocaína inducida por el contexto y por señales tras la abstinencia (Giannotti 2018).',
+      'La exposición a señales asociadas a recompensa produjo una respuesta inhibitoria en esta vía, y su activación suprimió la adquisición y expresión de la búsqueda de recompensa condicionada (Otis 2019).',
+      'En ratas con restricción de alimento tras un periodo de abstinencia, activar o inhibir prelímbica → PVT no alteró la búsqueda de heroína (Chisholm 2021).'],
+    nota:'El capítulo indica que el papel de esta proyección cortical sigue siendo ambiguo.' },
+  { id:'bs', cls:'aff', x1:170, y1:322, x2:234, y2:232, t:'Tronco encefálico → PVT',
+    q:'Recibe aferencias de la sustancia gris periacueductal, el parabraquial, el tracto solitario, el locus coeruleus y el rafe, regiones asociadas a la activación y la función autonómica. ¿Qué circuito del PVT es?',
+    items:[
+      'Aferencias de la sustancia gris periacueductal, el núcleo parabraquial, el núcleo del tracto solitario, el locus coeruleus, los núcleos tegmentales laterodorsal y pedunculopontino y los núcleos del rafe, regiones ligadas a la activación (arousal) y a la función autonómica.',
+      'La cocaína podría aumentar la excitabilidad del PVT al aumentar la liberación de noradrenalina o serotonina; los opioides parecen ejercer una acción inhibitoria sobre sus neuronas.'],
+    nota:'En roedores el PVT no tiene interneuronas GABAérgicas: la inhibición viene del TRN y de la zona incerta.' },
+  { id:'nac', cls:'eff', x1:366, y1:148, x2:446, y2:90, t:'PVT → núcleo accumbens (cáscara)',
+    q:'El silenciamiento de esta vía redujo el síndrome de abstinencia somático de morfina y la aversión de lugar inducida por naloxona en ratones. ¿Qué circuito es?',
+    items:[
+      'La anfetamina aguda activa las neuronas del PVT que proyectan a la cáscara del accumbens (Deutch 1998); esta proyección se recluta durante la búsqueda de alcohol inducida por el contexto (Hamlin 2009).',
+      'La cocaína crónica aumentó las sinapsis silentes en esta vía, y su interrupción redujo el consumo de cocaína (Neumann 2016).',
+      'Morfina: tras naloxona en ratones con exposición crónica se activa la vía, y su silenciamiento redujo el síndrome de abstinencia y la aversión de lugar; la morfina potenció la transmisión excitatoria entre el PVT y las neuronas espinosas medianas con receptores D2 (Zhu 2016). Su inhibición quimiogenética impidió recuperar recuerdos asociados a morfina (Keyes 2020).',
+      'Resultados contradictorios: inhibir PVT → accumbens aumentó la búsqueda de cocaína inducida por señales (Wunsch 2017), y activar PVT → cáscara redujo la búsqueda de heroína en ratas con restricción de alimento (Chisholm 2021).'],
+    nota:'El capítulo señala que el papel de esta vía es complejo y a veces controvertido.' },
+  { id:'amy', cls:'eff', x1:370, y1:190, x2:428, y2:190, t:'PVT → amígdala central',
+    q:'Esta vía es necesaria para el condicionamiento del miedo y para asociar la recompensa de la morfina con señales ambientales, y en un modelo de dependencia a cocaína actúa por señalización del receptor CRF-1. ¿Qué circuito es?',
+    items:[
+      'Necesaria para el condicionamiento del miedo y para asociar la recompensa de la morfina con señales ambientales (Keyes 2020).',
+      'En un modelo de dependencia de cocaína, la vía orexina hipotalámica → pPVT → amígdala central fue esencial para inducir la búsqueda de cocaína, y esa conducta dependió de la activación de la amígdala central por señalización del receptor 1 del factor liberador de corticotropina (Matzeu y Martin-Fardon 2021b).',
+      'La inhibición pPVT → amígdala central redujo la búsqueda de cocaína.'],
+    nota:'El PVT también proyecta a la amígdala basolateral.' },
+  { id:'bnst', cls:'eff', x1:366, y1:232, x2:446, y2:292, t:'PVT → BNST y otras proyecciones',
+    items:[
+      'El PVT proyecta además al núcleo de la estría terminal (BNST), a la amígdala basolateral y a la corteza prefrontal.',
+      'El capítulo indica que hacen falta más estudios sobre las conexiones del PVT con el BNST y el locus coeruleus en el contexto de las adicciones.'],
+    nota:'No hay manipulaciones funcionales de esta conexión descritas en el capítulo.' }
+];
+(function(){
+  const g = $('#edges');
+  EDGES.forEach(e => {
+    const mk = e.cls === 'aff' ? 'arrA' : 'arrE';
+    g.insertAdjacentHTML('beforeend',
+      '<g class="edge ' + e.cls + '" data-e="' + e.id + '" tabindex="0" role="button" aria-label="' + e.t + '">' +
+      '<line class="hit" x1="' + e.x1 + '" y1="' + e.y1 + '" x2="' + e.x2 + '" y2="' + e.y2 + '"/>' +
+      '<line class="vis" x1="' + e.x1 + '" y1="' + e.y1 + '" x2="' + e.x2 + '" y2="' + e.y2 + '" marker-end="url(#' + mk + ')"/></g>');
+  });
+  function pickEdge(id){
+    const e = EDGES.find(x => x.id === id);
+    $$('.edge').forEach(el => el.classList.toggle('sel', el.dataset.e === id));
+    $('#circDetail').innerHTML =
+      '<h4>' + e.t + '</h4><ul>' + e.items.map(i => '<li>' + i + '</li>').join('') + '</ul>' +
+      (e.nota ? '<p class="hint">' + e.nota + '</p>' : '') +
+      '<button class="btn" id="circBtn">Ver el PVT en el esquema de núcleos</button>';
+    $('#circBtn').onclick = () => { setMode(false); highlight(['PVT'], true); showDetail('PVT'); goModel(); };
+  }
+  $$('.edge').forEach(el => {
+    el.addEventListener('click', () => pickEdge(el.dataset.e));
+    el.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); pickEdge(el.dataset.e); } });
+  });
+})();
+function circQ(e){
+  const others = EDGES.filter(x => x !== e).map(x => x.t);
+  return { text: e.q, correct: e.t, opts: shuffle([e.t, ...shuffle(others).slice(0, 3)]), exp: e.t + ': ' + e.items[0] };
+}
+
+/* ---------- Autoevaluación ---------- */
+const shuffle = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
+const Q = [
+  { q: (d, id) => '¿Qué núcleo recibe aferencias de: «' + d.aff + '»?', a: (id, d) => id + ' — ' + d.n },
+  { q: (d, id) => 'Una lesión que produce «' + d.def + '» afecta a qué núcleo?', a: (id, d) => id + ' — ' + d.n, skip: id => !N[id].spec },
+  { q: (d, id) => '¿Hacia dónde proyecta el núcleo ' + id + '?', a: (id, d) => d.eff, skip: id => id === 'VIM' },
+  { q: (d, id) => '¿Cuál es la irrigación principal del núcleo ' + id + '?', a: (id, d) => d.art, skip: id => id === 'PVT' || id === 'VIM' },
+  { q: (d, id) => '¿Qué núcleo es blanco o se relaciona con esta terapéutica: «' + d.ther + '»?', a: (id, d) => id + ' — ' + d.n, need: 'ther' }
+];
+const TOTAL = 10;
+let qs = [], qi = 0, score = 0;
+
+function best(){ try { return +localStorage.getItem('talamo_best') || 0; } catch(e){ return 0; } }
+function saveBest(p){ try { if (p > best()) localStorage.setItem('talamo_best', p); } catch(e){} }
+
+function startQuiz(){
+  qi = 0; score = 0;
+  qs = shuffle(IDS).slice(0, TOTAL - 4).map((id, i) => {
+    const d = N[id]; let t = Q[i % Q.length];
+    if ((t.need && !d[t.need]) || (t.skip && t.skip(id))) t = Q[0];
+    const correct = t.a(id, d);
+    const others = [...new Set(IDS.filter(k => k !== id && !(t.skip && t.skip(k))).map(k => t.a(k, N[k])))].filter(x => x !== correct);
+    return { text: t.q(d, id), correct, opts: shuffle([correct, ...shuffle(others).slice(0, 3)]),
+             exp: id + ' — ' + d.n + '. Aferencias: ' + d.aff + '. Eferencias: ' + d.eff + '. Irrigación: ' + d.art + '.' + (d.ther ? ' Terapéutica: ' + d.ther : '') };
+  });
+  qs = shuffle(qs.concat(shuffle(ARTT).slice(0, 2).map(terrQ), shuffle(EDGES.filter(e => e.q)).slice(0, 1).map(circQ), shuffle(ILN).slice(0, 1).map(ilnQ)));
+  showQ();
+}
+
+function showQ(){
+  const box = $('#quiz');
+  if (qi >= qs.length){
+    const pct = Math.round(score / qs.length * 100);
+    const prev = best();
+    saveBest(pct);
+    box.innerHTML = '<div class="score">' + score + ' / ' + qs.length + ' (' + pct + '%)</div>' +
+      '<p>' + (pct >= 80 ? '¡Excelente dominio del tálamo!' : pct >= 50 ? 'Buen avance; repasa la tabla maestra.' : 'Repasa la tabla y el esquema, y vuelve a intentarlo.') + '</p>' +
+      '<p class="qmeta">Mejor resultado guardado en este navegador: ' + Math.max(prev, pct) + '%</p>' +
+      '<button class="btn" id="again">Reintentar</button>';
+    $('#again').onclick = startQuiz;
+    return;
+  }
+  const q = qs[qi];
+  box.innerHTML = '<div class="qmeta">Pregunta ' + (qi + 1) + ' de ' + qs.length + (best() ? ' · Mejor: ' + best() + '%' : '') + '</div><div class="qtext"></div><div id="opts"></div><div class="fb" id="fb"></div>' +
+    '<button class="btn" id="next" style="display:none">' + (qi === qs.length - 1 ? 'Ver resultado' : 'Siguiente ➔') + '</button>';
+  box.querySelector('.qtext').textContent = q.text;
+  q.opts.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = opt;
+    b.onclick = () => {
+      const good = opt === q.correct;
+      if (good) score++;
+      box.querySelectorAll('.opt').forEach(x => { x.disabled = true; if (x.textContent === q.correct) x.classList.add('ok'); });
+      if (!good) b.classList.add('bad');
+      const fb = box.querySelector('#fb');
+      fb.style.display = 'block';
+      fb.textContent = (good ? '✔ Correcto. ' : '✘ Incorrecto. ') + q.exp;
+      const nx = box.querySelector('#next'); nx.style.display = 'inline-block';
+      nx.onclick = () => { qi++; showQ(); };
+    };
+    box.querySelector('#opts').appendChild(b);
+  });
+}
+
+/* ---------- Cronología (Alhesain et al., 2025) ---------- */
+const TL = [
+  { k:'4–5 sem', sub:'Vesículas y diencéfalo', t:'4–5 semanas: vesículas encefálicas y diencéfalo', ids:[],
+    li:['A las 4 semanas el sistema nervioso central se divide en tres vesículas: prosencéfalo, mesencéfalo y rombencéfalo (Marcuse et al.); la semana 3 corresponde a la formación del tubo neural (StatPearls).',
+        'Hacia la semana 5 el prosencéfalo se divide en telencéfalo (hemisferios cerebrales, amígdala y ganglios basales) y diencéfalo, que origina el tálamo y el hipotálamo.',
+        'Las neuronas talámicas nacen en la zona ventricular alrededor del tercer ventrículo y migran lateralmente a lo largo de fibras gliales radiales; las primeras generadas ocupan la posición más lateral.',
+        'El desarrollo y la diferenciación del tálamo preceden a los del telencéfalo.'] },
+  { k:'8 PCW', sub:'Límites moleculares', t:'8 PCW: tálamo ovoide con límites definidos por factores de transcripción', ids:[],
+    li:['El tálamo es una estructura ovoide dorsoanterior a la flexura mesencefálica.',
+        'SHH marca la ZLI (frontera p2 | p3); ZIC4 marca todo p2 incluido el epitálamo; GBX2 y FOXP2 quedan confinados al tálamo; SP8 marca el prétálamo.',
+        'La expresión en el manto es casi homogénea, y las fibras talamocorticales ya invaden la subplaca cortical.'] },
+  { k:'10 PCW', sub:'Gradientes regionales', t:'10 PCW: forma de haba y gradientes regionales, aún sin núcleos', ids:[],
+    li:['El tálamo se alarga dorsoventralmente y adopta forma de haba.',
+        'GBX2 se restringe a zonas dorsales posteriores y cercanas al tercer ventrículo; FOXP2 es más fuerte en posterior y medial; CALB1 ocupa las zonas laterales complementarias.',
+        'Todavía no se identifican núcleos definidos ni hay neuronas GAD67+ dentro del tálamo.'] },
+  { k:'14–15 PCW', sub:'Núcleos reconocibles', t:'14–15 PCW: emergen los núcleos', ids:['CM','CGL','PUL','CGM'],
+    li:['Cada núcleo se distingue por su combinación de factores: por ejemplo CM–pF con FOXP2 muy alto y GBX2 ausente, y el CGL con SP8 y ZIC4.',
+        'El CGL ocupa una posición más dorsal y lateral que en el adulto; el pulvinar, de desarrollo tardío, lo desplaza gradualmente en sentido ventrolateral.',
+        'Interneuronas SOX14+/GAD67+ de origen pretectal y mesencefálico invaden la parte posterior del tálamo.'] },
+  { k:'16 PCW', sub:'Maduración desigual', t:'16 PCW: maduración desigual y neurogénesis prolongada', ids:['CM','DM','PUL'],
+    li:['Las interneuronas del CM–pF expresan GAD67 precozmente, mientras las del CGL aún no; el DM y el pulvinar medial siguen sin esas células.',
+        'Se había descrito la neurogénesis talámica como completa hacia las 15 PCW, pero KI67 persiste en la zona ventricular a las 12 y 15 PCW (puede reflejar también gliogénesis).',
+        'En humanos, la aparición de núcleos distintos es relativamente más rápida que en el ratón.'] }
+];
+(function(){
+  const box = $('#tl'), info = $('#tlinfo');
+  TL.forEach(s => {
+    const c = document.createElement('div');
+    c.className = 'tlc'; c.tabIndex = 0;
+    c.innerHTML = '<b>' + s.k + '</b><br><small>' + s.sub + '</small>';
+    const open = () => {
+      box.querySelectorAll('.tlc').forEach(x => x.classList.remove('sel'));
+      c.classList.add('sel');
+      info.innerHTML = '<strong>' + s.t + '</strong><ul>' + s.li.map(x => '<li>' + x + '</li>').join('') + '</ul>' +
+        (s.ids.length ? '<button class="btn" id="tlBtn">Ver núcleos mencionados en el esquema</button>' : '');
+      if (s.ids.length) $('#tlBtn').onclick = () => { setMode(false); highlight(s.ids, true); showDetail(s.ids[0]); goModel(); };
+    };
+    c.onclick = open;
+    c.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } };
+    box.appendChild(c);
+  });
+})();
+
+/* ---------- Modos de disparo ---------- */
+function spikes(mode){
+  const W = 560, H = 80, base = 62, h = 46;
+  let d = '';
+  const add = x => { d += 'M' + x + ' ' + base + ' L' + x + ' ' + (base - h) + ' '; };
+  if (mode === 'tonic'){ for (let x = 14; x < W; x += 20) add(x); }
+  else { for (let g = 0; g < 3; g++){ const x0 = 40 + g * 185; for (let k = 0; k < 4; k++) add(x0 + k * 9); } }
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Trazado ilustrativo" style="background:#fff;border:1px solid #bfdbfe;border-radius:8px;margin:.5rem 0">' +
+    '<line x1="0" y1="' + base + '" x2="' + W + '" y2="' + base + '" stroke="#94a3b8"/>' +
+    '<path d="' + d + '" stroke="#1e3a8a" stroke-width="2.5" fill="none"/></svg>';
+}
+const MODE = {
+  burst: { t:'Modo ráfaga (burst)', li:[
+    'Ocurre con gran hiperpolarización, típica de la somnolencia y el sueño, y depende del estado de los canales de calcio tipo T del soma y las dendritas.',
+    'Una leve despolarización abre el canal tipo T; la entrada de Ca²⁺ dispara una ráfaga de potenciales de acción. Luego el canal se inactiva de forma lenta (100 ms o más), por lo que la neurona dispara pocas veces por segundo, y necesita hiperpolarización para recuperarse.',
+    'No refleja con fidelidad la actividad de sus aferencias: durante el sueño la mayoría de las neuronas talámicas está en ráfaga y bloquea la transmisión desde los núcleos específicos.',
+    'Aun así, una célula en ráfaga es más propensa a disparar con solo una leve despolarización, lo que la hace un detector sensible del cambio.'] },
+  tonic: { t:'Modo tónico', li:[
+    'La neurona está más despolarizada: una despolarización adicional produce un tren de potenciales de acción cuya frecuencia es proporcional a la magnitud de la entrada.',
+    'Se sostiene sobre todo con canales de sodio y potasio dependientes de voltaje; el canal de calcio tipo T participa menos.',
+    'Transmite las aferencias con fidelidad: por ejemplo, la sensibilidad facial lleva a las neuronas del VPM a este modo.',
+    'En conjunto, ambos modos funcionan como un sistema que regula la especificidad de la información que sale del tálamo.'] }
+};
+function setMode2(m){
+  $('#mBurst').className = 'btn' + (m === 'burst' ? '' : ' alt');
+  $('#mTonic').className = 'btn' + (m === 'tonic' ? '' : ' alt');
+  const x = MODE[m];
+  $('#modeBox').innerHTML = '<strong>' + x.t + '</strong>' + spikes(m) + '<ul>' + x.li.map(l => '<li>' + l + '</li>').join('') + '</ul>';
+}
+$('#mBurst').onclick = () => setMode2('burst');
+$('#mTonic').onclick = () => setMode2('tonic');
+setMode2('burst');
+
+startQuiz();
+</script>
+</body>
+</html>
