@@ -9,6 +9,8 @@ Simuladores interactivos para la enseñanza de la Biología del Desarrollo, que 
 | Segmentación holoblástica radial en el erizo de mar | `simulaciones/segmentacion-erizo-de-mar.html` |
 | Embriología comparada de vertebrados | `simulaciones/embriologia-comparada-vertebrados.html` |
 | Morfógenos en la embriogénesis humana | `simulaciones/morfogenos-embriogenesis-humana.html` |
+| Modelo del tubo neural | `simulaciones/modelo-tubo-neural.html` |
+| Modelo de estudio del tálamo | `simulaciones/talamo-modelo-guia.html` |
 
 ## Cómo usarlas
 
